@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>678857035593-b2d8nfji01nbmo37l10mosimu3ad8i4i.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.678857035593-b2d8nfji01nbmo37l10mosimu3ad8i4i</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDfpFz_tWla87XEhz44JSsE7f_XG7Emb8Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>678857035593</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.shubhamchauhan.CliqueFeed</string>
+	<key>PROJECT_ID</key>
+	<string>cliquefeed</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cliquefeed.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:678857035593:ios:b7bf3106d401e806</string>
+	<key>DATABASE_URL</key>
+	<string>https://cliquefeed.firebaseio.com</string>
+</dict>
+</plist>
