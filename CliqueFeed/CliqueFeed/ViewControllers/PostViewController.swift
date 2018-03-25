@@ -26,7 +26,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var imgCounter = 0
     var locManager = CLLocationManager()
     var currentLocation: CLLocation!
-    
+    var postCounter = 0
    
     
     override func viewDidLoad() {
@@ -117,8 +117,13 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                                    "longitude" : self.currentLocation.coordinate.longitude,
                                                    "geoTagLocation" : self.locationField.text! ]
                     
-                    
-                    self.databaseRef.child("posts").child(self.userId!).setValue(postInfo)
+                    if(self.databaseRef.child("posts").child(self.userId!) != nil){
+                    self.databaseRef.child("posts").child(self.userId!).child(String(self.postCounter)).setValue(postInfo)
+                        self.postCounter += 1
+                        
+                    }else{
+                      self.databaseRef.child("posts").child(self.userId!).child("0").setValue(postInfo)
+                    }
                 }
                 
                 

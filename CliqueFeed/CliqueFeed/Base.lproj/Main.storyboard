@@ -200,7 +200,7 @@
                                 <rect key="frame" x="0.0" y="13" width="375" height="731"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="postCell" rowHeight="500" id="x4d-Zf-wJX">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="500" id="x4d-Zf-wJX" customClass="FeedCell" customModule="CliqueFeed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="500"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x4d-Zf-wJX" id="DLZ-7D-cWl">
@@ -322,6 +322,13 @@
                                                 <constraint firstItem="33r-48-elo" firstAttribute="top" secondItem="ITm-EC-S4G" secondAttribute="bottom" constant="5" id="zlE-F6-8dT"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="feedImage" destination="DLZ-7D-cWl" id="yuY-cv-sXZ"/>
+                                            <outlet property="feedPostUser" destination="Nr9-Hc-Y0q" id="T8F-AD-crz"/>
+                                            <outlet property="feedPostUserImg" destination="kB6-O2-bLe" id="gbT-Qo-t0P"/>
+                                            <outlet property="lastComment" destination="GNX-cP-KTf" id="Mda-B0-aMc"/>
+                                            <outlet property="lastCommentUserIMg" destination="Z4M-k0-zJN" id="nLV-tY-Clo"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -344,6 +351,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ftR-oy-z02" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="991.20000000000005" y="-282.4587706146927"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FOy-y0-EqD">
+            <objects>
+                <viewController id="Din-Qg-Sdx" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cpA-uD-kRK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="O8I-be-nMa"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GPs-Ma-VXS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1791" y="-343"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="wlT-y1-ZGP">
