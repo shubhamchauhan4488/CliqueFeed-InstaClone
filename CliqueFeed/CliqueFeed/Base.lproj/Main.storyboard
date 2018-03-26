@@ -323,7 +323,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="feedImage" destination="DLZ-7D-cWl" id="yuY-cv-sXZ"/>
+                                            <outlet property="feedImage" destination="2N7-tH-ynv" id="vjD-yf-cIg"/>
                                             <outlet property="feedPostUser" destination="Nr9-Hc-Y0q" id="T8F-AD-crz"/>
                                             <outlet property="feedPostUserImg" destination="kB6-O2-bLe" id="gbT-Qo-t0P"/>
                                             <outlet property="lastComment" destination="GNX-cP-KTf" id="Mda-B0-aMc"/>
@@ -558,7 +558,4 @@
         <image name="instalCam2" width="512" height="512"/>
         <image name="locationImg" width="648" height="365"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="Ldm-eb-Wdw"/>
-    </inferredMetricsTieBreakers>
 </document>

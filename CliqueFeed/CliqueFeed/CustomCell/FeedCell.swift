@@ -9,9 +9,10 @@
 import UIKit
 
 class FeedCell: UITableViewCell {
-
+    @IBOutlet weak var feedImage: UIImageView!
+    
     @IBOutlet weak var feedPostUserImg: UIImageView!
-    @IBOutlet weak var feedImage: UIView!
+
     @IBOutlet weak var feedPostUser: UILabel!
     
     @IBOutlet weak var lastComment: UILabel!

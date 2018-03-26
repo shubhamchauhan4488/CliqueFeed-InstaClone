@@ -24,8 +24,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         refDatabase = Database.database().reference()
-     fetchFeed()
+        feeds = []
+        fetchFeed()
+        tableView.reloadData()
     }
     
     func fetchFeed(){
@@ -35,6 +41,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
                     if userid == Auth.auth().currentUser?.uid{
+//                        let name = value["name"] as! String
+//                        let userImageUrl = value["urlImage"] as! String
                         if let followingUsers = value["following"] as? [String:String]{
                             for(_, user) in followingUsers{
                                 self.following.append(user)
@@ -61,7 +69,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                                     let fedd = Feed()
                                                     print("feed created")
                                                     fedd.lastComment = details["comment"] as! String
-                                                    fedd.lastCommentUserImg = details["urlImage"] as! String
+                                                    fedd.feedImage = details["urlImage"] as! String
+                                                    var name : String!
+                                                    var userImageUrl: String!
+                                                        for(k, value) in usersnap{
+                                                            if k == userID{
+                                                                    name = value["name"] as! String
+                                                                    userImageUrl = value["urlImage"] as! String
+                                                            }
+                                                    }
+                                                    fedd.feedPostUser = name
+                                                    fedd.feedPostUserImg = userImageUrl
+                                                    print(fedd.feedImage)
                                                     self.feeds.append(fedd)
                                                     
                                                 }
@@ -69,7 +88,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                         }
                                         
                                     }
-                                    
+                                    self.tableView.reloadData()
                                     
                                 }
                             }
@@ -78,8 +97,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         })
                     }
                 }
-                
-                
+
                 self.refDatabase.removeAllObservers()
                 //print(self.feeds)
             }
@@ -103,12 +121,19 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         
-        cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
+//       cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.lastComment.text = feeds[indexPath.row].lastComment
-        
+        cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
+        cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
+        cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
         
         return cell
         
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 500
         
     }
     
