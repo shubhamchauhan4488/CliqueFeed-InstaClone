@@ -26,7 +26,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var imgCounter = 0
     var locManager = CLLocationManager()
     var currentLocation: CLLocation!
-    var postCounter = 0
+    var postCounter : Int!
+    
    
     
     override func viewDidLoad() {
@@ -35,6 +36,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
         feedStorage = storage.child("feed")
         databaseRef = Database.database().reference()
+        postCounter = 0
 
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -119,7 +121,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     
                     if(self.databaseRef.child("posts").child(self.userId!) != nil){
                     self.databaseRef.child("posts").child(self.userId!).child(String(self.postCounter)).setValue(postInfo)
-                        self.postCounter += 1
+                        self.postCounter =  self.postCounter + 1
                         
                     }else{
                       self.databaseRef.child("posts").child(self.userId!).child("0").setValue(postInfo)

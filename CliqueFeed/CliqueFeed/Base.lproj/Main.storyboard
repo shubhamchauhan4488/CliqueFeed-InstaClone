@@ -558,4 +558,7 @@
         <image name="instalCam2" width="512" height="512"/>
         <image name="locationImg" width="648" height="365"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Ldm-eb-Wdw"/>
+    </inferredMetricsTieBreakers>
 </document>
