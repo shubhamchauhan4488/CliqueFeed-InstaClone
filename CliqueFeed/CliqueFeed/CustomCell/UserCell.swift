@@ -14,6 +14,7 @@ class UserCell : UITableViewCell{
     @IBOutlet weak var userimage: UIImageView!
     @IBOutlet weak var username: UILabel!
     
-    @IBOutlet weak var befriendImg: UIImageView!
+    @IBOutlet weak var followLabel: UILabel!
+    
     var userID : String!
 }

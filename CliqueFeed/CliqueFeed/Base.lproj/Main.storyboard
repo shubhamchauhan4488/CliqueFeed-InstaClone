@@ -46,33 +46,59 @@
                                                         <constraint firstAttribute="height" constant="55" id="RvS-V3-JgK"/>
                                                         <constraint firstAttribute="width" constant="55" id="ZxT-zg-Rzq"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <real key="value" value="27.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsX-V4-SHl">
-                                                    <rect key="frame" x="82" y="14" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsX-V4-SHl">
+                                                    <rect key="frame" x="82" y="14" width="46" height="21"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Label">
+                                                            <attributes>
+                                                                <font key="NSFont" size="18" name="HelveticaNeue-Medium"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iiU-Q0-5uM">
-                                                    <rect key="frame" x="330" y="15.5" width="30" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRk-LY-pGg">
+                                                    <rect key="frame" x="260" y="11" width="100" height="28"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="Zl1-tx-L8n"/>
-                                                        <constraint firstAttribute="width" constant="30" id="f0d-OM-FJn"/>
+                                                        <constraint firstAttribute="height" constant="28" id="i8O-ya-mq5"/>
+                                                        <constraint firstAttribute="width" constant="100" id="pRE-DW-edO"/>
                                                     </constraints>
-                                                </imageView>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Follow">
+                                                            <attributes>
+                                                                <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="kRk-LY-pGg" firstAttribute="centerY" secondItem="5UT-R9-3Wq" secondAttribute="centerY" id="5N1-EG-ge4"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="VsX-V4-SHl" secondAttribute="bottom" constant="4" id="7yo-eA-KVv"/>
-                                                <constraint firstAttribute="trailing" secondItem="iiU-Q0-5uM" secondAttribute="trailing" constant="15" id="VAI-PP-4Qs"/>
+                                                <constraint firstAttribute="trailing" secondItem="kRk-LY-pGg" secondAttribute="trailing" constant="15" id="NFN-On-4nJ"/>
                                                 <constraint firstItem="VsX-V4-SHl" firstAttribute="top" secondItem="5UT-R9-3Wq" secondAttribute="topMargin" constant="3" id="YL5-gw-h3I"/>
-                                                <constraint firstAttribute="bottom" secondItem="iiU-Q0-5uM" secondAttribute="bottom" constant="4" id="o0R-4r-l5T"/>
                                                 <constraint firstItem="VsX-V4-SHl" firstAttribute="leading" secondItem="hPC-4Z-jzE" secondAttribute="trailing" constant="12" id="qgL-h8-xNF"/>
                                                 <constraint firstItem="hPC-4Z-jzE" firstAttribute="centerY" secondItem="5UT-R9-3Wq" secondAttribute="centerY" id="xG8-nH-CBp"/>
                                                 <constraint firstItem="hPC-4Z-jzE" firstAttribute="leading" secondItem="5UT-R9-3Wq" secondAttribute="leading" constant="15" id="yIn-ok-Z41"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="befriendImg" destination="iiU-Q0-5uM" id="2nD-Gs-Upz"/>
+                                            <outlet property="followLabel" destination="kRk-LY-pGg" id="GWV-wg-cpc"/>
                                             <outlet property="userimage" destination="hPC-4Z-jzE" id="g53-YA-aW0"/>
                                             <outlet property="username" destination="VsX-V4-SHl" id="T8I-tf-7q6"/>
                                         </connections>
@@ -99,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20" y="1124"/>
+            <point key="canvasLocation" x="114" y="1124"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Plc-9o-oq1">

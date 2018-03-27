@@ -14,6 +14,7 @@ import FirebaseAuth
 
 class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+
     @IBOutlet weak var tableView: UITableView!
     var users = [User]()
     override func viewDidLoad() {
@@ -73,10 +74,16 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         print(cell.username.text ?? "aksdland")
         cell.username.text = self.users[indexPath.row].name
         cell.userID = self.users[indexPath.row].uid
-        cell.befriendImg.image = UIImage(named : "handshake")
-        cell.befriendImg.isHidden = true
+//        cell.befriendImg.image = UIImage(named : "handshake")
+//        cell.befriendImg.isHidden = true
+        cell.followLabel.text = "Follow"
+        cell.followLabel.layer.cornerRadius = 5
+        cell.followLabel.backgroundColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1)
+        cell.followLabel.textColor = UIColor.white
+        cell.followLabel.layer.borderWidth = 1
+        cell.followLabel.layer.borderColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1).cgColor
+//        cell.followLabel.container
         cell.userimage.downloadImage(from: users[indexPath.row].imagePath!)
-        
         print(cell.userID)
     
         return cell
@@ -112,7 +119,13 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     ref.child("users").child(self.users[indexPath.row].uid).child("followers/\(k)").removeValue()
                     
                         let newcell =  tableView.cellForRow(at: indexPath) as! UserCell
-                        newcell.befriendImg.isHidden = true
+                          newcell.followLabel.text = "Following"
+                          newcell.followLabel.layer.borderWidth = 1
+                          newcell.followLabel.layer.cornerRadius = 5
+                          newcell.followLabel.backgroundColor = UIColor.white
+                          newcell.followLabel.textColor = UIColor.black
+                          newcell.followLabel.layer.borderColor = UIColor.lightGray.cgColor
+                        //                        newcell.befriendImg.isHidden = true
                 }
             }
         }
@@ -126,8 +139,13 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             ref.child("users").child(self.users[indexPath.row].uid).updateChildValues(followers)
             
             let newcell =  tableView.cellForRow(at: indexPath) as! UserCell
-            newcell.befriendImg.isHidden = false
-
+//            newcell.befriendImg.isHidden = false
+              newcell.followLabel.text = "Follow"
+              newcell.followLabel.backgroundColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1)
+              newcell.followLabel.textColor = UIColor.white
+              newcell.followLabel.layer.cornerRadius = 5
+              newcell.followLabel.layer.borderWidth = 1
+              newcell.followLabel.layer.borderColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1).cgColor
             }
                 
         })
