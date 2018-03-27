@@ -239,6 +239,12 @@
                                                         <constraint firstAttribute="width" constant="40" id="429-ne-QQB"/>
                                                         <constraint firstAttribute="height" constant="40" id="K8D-ut-qx0"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="20"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleAspectFit" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="cUX-Kq-76I">
                                                     <rect key="frame" x="10" y="383.5" width="55" height="20"/>
