@@ -17,6 +17,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var postids = [String]()
     var following = [String]()
     var comments = [String]()
+    var commentUserImageUrl : String!
     var counter = 0
     @IBOutlet weak var tableView: UITableView!
     var refDatabase : DatabaseReference!
@@ -31,6 +32,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         refDatabase = Database.database().reference()
         feeds = []
         postids = []
+        following = []
         fetchFeed()
         tableView.reloadData()
          self.navigationController?.navigationBar.isHidden = true
@@ -43,8 +45,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
                     if userid == Auth.auth().currentUser?.uid{
-//                        let name = value["name"] as! String
-//                        let userImageUrl = value["urlImage"] as! String
                               self.following.append((Auth.auth().currentUser?.uid)!)
                         if let followingUsers = value["following"] as? [String:String]{
                             for(_, user) in followingUsers{
@@ -77,10 +77,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                                             if k == userID{
                                                                     name = value["name"] as! String
                                                                     userImageUrl = value["urlImage"] as! String
+                                                                 self.commentUserImageUrl = value["urlImage"] as! String
                                                             }
                                                     }
                                                     fedd.feedPostUser = name
                                                     fedd.feedPostUserImg = userImageUrl
+                                                    fedd.lastCommentUserImg = self.commentUserImageUrl
                                                     self.feeds.append(fedd)
                                                 }
                                             }
@@ -115,7 +117,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
-        
+        cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.delegate = self
 
 
@@ -163,6 +165,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).child("\((Auth.auth().currentUser?.uid)!)").updateChildValues(comments)
         counter = counter + 1
+        
     }
     
     

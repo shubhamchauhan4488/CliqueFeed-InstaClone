@@ -51,9 +51,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(tapGestureRecognizer)
-        
-        
-      
+
     }
 
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -62,9 +60,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
-        
-       
-    
+
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

@@ -16,15 +16,24 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     var feed : Feed!
     var postid : String!
     var refDatabase : DatabaseReference!
+    var uid : String!
+    var comments : [Comment]!
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-         self.navigationController?.navigationBar.isHidden = false
-        print("THIIIsSsssssSSSS here is the feed paassed : \(feed.feedDescription!)")
         tableView.delegate = self
         tableView.dataSource = self
+        print("THIIIsSsssssSSSS here is the feed paassed : \(feed.feedDescription!)")
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        refDatabase = Database.database().reference()
+        self.navigationController?.navigationBar.isHidden = false
+        comments = []
         self.fetchComments()
+       
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -32,27 +41,63 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath)
         
-        cell.textLabel?.text = self.feed.feedDescription
+        cell.textLabel?.text = comments[indexPath.row].postinguserName
+        cell.detailTextLabel?.text = comments[indexPath.row].postingUserComment
+        cell.imageView?.downloadImage(from: comments[indexPath.row].postingUserImg)
+        
         return cell
     }
     
     func fetchComments(){
+        
         self.refDatabase.child("postsWithComments").observeSingleEvent(of: .value, with: { (snap) in
-            print("entered posts in database")
+            print("entered comments in database")
             let postsWithCommentssnap = snap.value as! Dictionary<String, AnyObject>
-            print()
-            let postingUsers = postsWithCommentssnap as! [Dictionary<String,AnyObject>]
-            
-            for (k,userPosts) in postingUsers{
-                print("*****////*****")
-                
-                
+//            print(postsWithCommentssnap)
+            if let posts = postsWithCommentssnap as? Dictionary<String,AnyObject>{
+                print(posts)
+                let postsarray = posts as! Dictionary<String,AnyObject>
+                for (k,v) in postsarray{
+                    print(self.postid)
+                        if k == self.postid{
+                            let postinguserdetails = v as! Dictionary<String,AnyObject>
+                            for (_,ve) in postinguserdetails{
+                                print(ve["uid"])
+                                self.uid = ve["uid"] as! String
+                                self.refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                    let usersnap = snapshot.value as! [String : AnyObject]
+                                    for(k, value) in usersnap{
+                                        if let userid = k as? String{
+                                            if userid == self.uid!{
+                                                print(userid)
+                                                print(self.uid!)
+                                                let com = Comment()
+                                                com.postingUserImg = value["urlImage"] as! String
+                                                com.postinguserName = value["name"] as! String
+                                                com.postingUserComment = ve["comment"] as! String
+                                                
+                                                print(com.postingUserImg)
+                                                print(com.postinguserName)
+                                                self.comments.append(com)
+//                                                print(self.comments)
+                                            }
+                                        }
+                                    }
+                                    print(self.comments.count)
+                                    self.tableView.reloadData()
+                                })
+                                
+                            }
+                        }
+                }
+                self.refDatabase.removeAllObservers()
+            }
         })
     }
 

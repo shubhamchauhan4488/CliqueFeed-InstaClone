@@ -116,13 +116,15 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     ref.child("users").child(uid!).child("following/\(k)").removeValue()
                     ref.child("users").child(self.users[indexPath.row].uid).child("followers/\(k)").removeValue()
                     
+                        
                         let newcell =  tableView.cellForRow(at: indexPath) as! UserCell
-                          newcell.followLabel.text = "Following"
-                          newcell.followLabel.layer.borderWidth = 1
-                          newcell.followLabel.layer.cornerRadius = 5
-                          newcell.followLabel.backgroundColor = UIColor.white
-                          newcell.followLabel.textColor = UIColor.black
-                          newcell.followLabel.layer.borderColor = UIColor.lightGray.cgColor
+                        newcell.followLabel.text = "Follow"
+                        newcell.followLabel.backgroundColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1)
+                        newcell.followLabel.textColor = UIColor.white
+                        newcell.followLabel.layer.cornerRadius = 5
+                        newcell.followLabel.layer.borderWidth = 1
+                        newcell.followLabel.layer.borderColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1).cgColor
+                     
                         //                        newcell.befriendImg.isHidden = true
                 }
             }
@@ -138,12 +140,13 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             let newcell =  tableView.cellForRow(at: indexPath) as! UserCell
 //            newcell.befriendImg.isHidden = false
-              newcell.followLabel.text = "Follow"
-              newcell.followLabel.backgroundColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1)
-              newcell.followLabel.textColor = UIColor.white
-              newcell.followLabel.layer.cornerRadius = 5
-              newcell.followLabel.layer.borderWidth = 1
-              newcell.followLabel.layer.borderColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1).cgColor
+            
+            newcell.followLabel.text = "Following"
+            newcell.followLabel.layer.borderWidth = 1
+            newcell.followLabel.layer.cornerRadius = 5
+            newcell.followLabel.backgroundColor = UIColor.white
+            newcell.followLabel.textColor = UIColor.black
+            newcell.followLabel.layer.borderColor = UIColor.lightGray.cgColor
             }
                 
         })

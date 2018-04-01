@@ -27,5 +27,6 @@ class FeedCell: UITableViewCell {
     
     @IBAction func onPostClick(_ sender: Any) {
         delegate?.feedTableViewCellDidTapPost(self)
+        commentText.text = ""
     }
 }
