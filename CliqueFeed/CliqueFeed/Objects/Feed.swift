@@ -13,11 +13,9 @@ class Feed: NSObject {
     var feedPostUserImg : String!
     var feedImage : String!
     var feedPostUser : String!
-    var lastComment : String!
+    var feedDescription : String!
     var lastCommentUserImg : String!
-    
-    
+    var comments : [String]!
     var uid : String!
-    
 
 }

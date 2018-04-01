@@ -23,6 +23,8 @@
 		8F36A465205B92030028DB71 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A464205B92030028DB71 /* PostModel.swift */; };
 		8F36A467205C6FD10028DB71 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A466205C6FD10028DB71 /* SignUpViewController.swift */; };
 		8F36A469205CCBB60028DB71 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F36A468205CCBB50028DB71 /* GoogleService-Info.plist */; };
+		8FEAD54D206F05EE006B9279 /* FeedTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEAD54C206F05EE006B9279 /* FeedTableViewCellDelegate.swift */; };
+		8FEAD551206F1829006B9279 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEAD550206F1829006B9279 /* CommentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		8F36A464205B92030028DB71 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		8F36A466205C6FD10028DB71 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		8F36A468205CCBB50028DB71 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8FEAD54C206F05EE006B9279 /* FeedTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		8FEAD550206F1829006B9279 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		DC98D8DDCE56FB13DFC2E586 /* Pods-CliqueFeed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CliqueFeed.release.xcconfig"; path = "Pods/Target Support Files/Pods-CliqueFeed/Pods-CliqueFeed.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +81,7 @@
 				8F0F957520636020005F6AE5 /* UsersViewController.swift */,
 				8F202473206574BF00995FE1 /* FeedViewController.swift */,
 				8F20247520657A4D00995FE1 /* PostViewController.swift */,
+				8FEAD550206F1829006B9279 /* CommentViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -86,6 +91,7 @@
 			children = (
 				8F2024532063675500995FE1 /* User.swift */,
 				8F2DF07E2066925C003C5834 /* Feed.swift */,
+				8FEAD54C206F05EE006B9279 /* FeedTableViewCellDelegate.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -278,10 +284,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FEAD551206F1829006B9279 /* CommentViewController.swift in Sources */,
 				8F20247620657A4D00995FE1 /* PostViewController.swift in Sources */,
 				8F2DF07F2066925C003C5834 /* Feed.swift in Sources */,
 				8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */,
 				8F36A465205B92030028DB71 /* PostModel.swift in Sources */,
+				8FEAD54D206F05EE006B9279 /* FeedTableViewCellDelegate.swift in Sources */,
 				8F2DF08120669299003C5834 /* FeedCell.swift in Sources */,
 				8F0F957820636110005F6AE5 /* UserCell.swift in Sources */,
 				8F0F957620636020005F6AE5 /* UsersViewController.swift in Sources */,

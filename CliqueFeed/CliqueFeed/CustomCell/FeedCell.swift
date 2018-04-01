@@ -9,20 +9,23 @@
 import UIKit
 
 class FeedCell: UITableViewCell {
+    
+    let feed = Feed()
     @IBOutlet weak var feedImage: UIImageView!
-    
     @IBOutlet weak var feedPostUserImg: UIImageView!
-
     @IBOutlet weak var feedPostUser: UILabel!
-    
-    @IBOutlet weak var lastComment: UILabel!
+    @IBOutlet weak var feedDescription: UILabel!
     @IBOutlet weak var lastCommentUserIMg: UIImageView!
+    @IBOutlet weak var commentText: UITextField!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    var delegate : FeedTableViewCellDelegate?
+    
+    @IBAction func onCommentClick(_ sender: Any) {
+        delegate?.feedTableViewCellDidTapHeart(self)
     }
-
-
-
+    
+    @IBAction func onPostClick(_ sender: Any) {
+        delegate?.feedTableViewCellDidTapPost(self)
+    }
 }

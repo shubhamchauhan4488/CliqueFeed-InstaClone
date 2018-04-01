@@ -74,8 +74,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         print(cell.username.text ?? "aksdland")
         cell.username.text = self.users[indexPath.row].name
         cell.userID = self.users[indexPath.row].uid
-//        cell.befriendImg.image = UIImage(named : "handshake")
-//        cell.befriendImg.isHidden = true
         cell.followLabel.text = "Follow"
         cell.followLabel.layer.cornerRadius = 5
         cell.followLabel.backgroundColor = UIColor(red: 56/255, green: 151/255, blue: 240/255, alpha: 1)

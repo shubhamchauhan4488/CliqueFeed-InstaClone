@@ -32,6 +32,15 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locManager.requestAlwaysAuthorization()
+        
+        if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+            currentLocation = locManager.location
+            
+        }
+        
         picker.delegate = self
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
         feedStorage = storage.child("feed")
@@ -43,6 +52,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(tapGestureRecognizer)
         
+        
       
     }
 
@@ -53,13 +63,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
         
-        locManager.requestWhenInUseAuthorization()
-        
-        if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-            currentLocation = locManager.location
-            
-        }
+       
     
     }
     
@@ -115,20 +119,21 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     let postInfo : [String:Any] = ["uid": self.userId!,
                                                    "urlImage": url.absoluteString,
                                                    "comment" : self.commentField.text!,
+                                                   "comments" : [String](),
                                                    "latitude" : self.currentLocation.coordinate.latitude,
                                                    "longitude" : self.currentLocation.coordinate.longitude,
                                                    "geoTagLocation" : self.locationField.text! ]
                     
                     if(self.databaseRef.child("posts").child(self.userId!) != nil){
-                    self.databaseRef.child("posts").child(self.userId!).child(String(self.postCounter)).setValue(postInfo)
+                        var str = self.userId! + String(self.postCounter);
+                        print(type(of: str))
+                        self.databaseRef.child("posts").child(str).setValue(postInfo)
                         self.postCounter =  self.postCounter + 1
                         
                     }else{
-                      self.databaseRef.child("posts").child(self.userId!).child("0").setValue(postInfo)
+                      self.databaseRef.child("posts").child("0").setValue(postInfo)
                     }
                 }
-                
-                
             })
         })
         uploadTask.resume()
