@@ -22,7 +22,7 @@ class FeedCell: UITableViewCell {
     var delegate : FeedTableViewCellDelegate?
     
     @IBAction func onCommentClick(_ sender: Any) {
-        delegate?.feedTableViewCellDidTapHeart(self)
+        delegate?.feedTableViewCellDidTapComment(self)
     }
     
     @IBAction func onPostClick(_ sender: Any) {

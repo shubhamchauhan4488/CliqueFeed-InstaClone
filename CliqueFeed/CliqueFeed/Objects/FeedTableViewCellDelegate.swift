@@ -8,6 +8,6 @@
 
 import Foundation
 protocol FeedTableViewCellDelegate : class {
-    func feedTableViewCellDidTapHeart(_ sender: FeedCell)
+    func feedTableViewCellDidTapComment(_ sender: FeedCell)
     func feedTableViewCellDidTapPost(_ sender: FeedCell)
 }

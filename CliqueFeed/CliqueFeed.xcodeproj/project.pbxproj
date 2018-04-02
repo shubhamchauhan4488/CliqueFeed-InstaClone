@@ -16,6 +16,7 @@
 		8F2DF07F2066925C003C5834 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DF07E2066925C003C5834 /* Feed.swift */; };
 		8F2DF08120669299003C5834 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DF08020669299003C5834 /* FeedCell.swift */; };
 		8F314AFD2070F785001E4953 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F314AFC2070F785001E4953 /* SearchViewController.swift */; };
+		8F314AFF2071CBF0001E4953 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F314AFE2071CBF0001E4953 /* Location.swift */; };
 		8F36A451205B4FDF0028DB71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A450205B4FDF0028DB71 /* AppDelegate.swift */; };
 		8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A452205B4FDF0028DB71 /* LoginViewController.swift */; };
 		8F36A456205B4FDF0028DB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F36A454205B4FDF0028DB71 /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 		8F2DF07E2066925C003C5834 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		8F2DF08020669299003C5834 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		8F314AFC2070F785001E4953 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		8F314AFE2071CBF0001E4953 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8F36A44D205B4FDF0028DB71 /* CliqueFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CliqueFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F36A450205B4FDF0028DB71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F36A452205B4FDF0028DB71 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				8F2DF07E2066925C003C5834 /* Feed.swift */,
 				8FEAD54C206F05EE006B9279 /* FeedTableViewCellDelegate.swift */,
 				8FEAD55220709829006B9279 /* Comment.swift */,
+				8F314AFE2071CBF0001E4953 /* Location.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CliqueFeed/Pods-CliqueFeed-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Fusuma/Fusuma.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -243,6 +247,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fusuma.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -298,6 +303,7 @@
 				8F2DF07F2066925C003C5834 /* Feed.swift in Sources */,
 				8FEAD55320709829006B9279 /* Comment.swift in Sources */,
 				8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */,
+				8F314AFF2071CBF0001E4953 /* Location.swift in Sources */,
 				8F36A465205B92030028DB71 /* PostModel.swift in Sources */,
 				8FEAD54D206F05EE006B9279 /* FeedTableViewCellDelegate.swift in Sources */,
 				8F2DF08120669299003C5834 /* FeedCell.swift in Sources */,

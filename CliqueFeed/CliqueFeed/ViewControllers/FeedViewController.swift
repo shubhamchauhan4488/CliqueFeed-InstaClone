@@ -129,7 +129,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     //Conforming to FeedTableViewCelldelegate
-    func feedTableViewCellDidTapHeart(_ sender: FeedCell) {
+    func feedTableViewCellDidTapComment(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         print("Comm", sender, tappedIndexPath)
         
@@ -145,9 +145,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func feedTableViewCellDidTapPost(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
-        print("Comm", sender, tappedIndexPath)
-        
-      
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
     

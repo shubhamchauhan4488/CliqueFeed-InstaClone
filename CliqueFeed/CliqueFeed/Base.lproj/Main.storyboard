@@ -372,13 +372,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add a comment" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ea3-B9-wVK">
-                                <rect key="frame" x="20" y="312" width="335" height="30"/>
+                                <rect key="frame" x="20" y="332" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="instalCam2" translatesAutoresizingMaskIntoConstraints="NO" id="Pmr-2I-yXQ">
-                                <rect key="frame" x="20" y="64" width="335" height="200"/>
+                                <rect key="frame" x="20" y="84" width="335" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="tgV-v1-kQY"/>
                                 </constraints>
@@ -386,24 +386,24 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.clipsToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ATm-eU-3Ul">
-                                <rect key="frame" x="65" y="274" width="290" height="30"/>
+                                <rect key="frame" x="65" y="294" width="290" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locationImg" translatesAutoresizingMaskIntoConstraints="NO" id="T12-qY-ucj">
-                                <rect key="frame" x="20" y="269" width="25" height="38"/>
+                                <rect key="frame" x="20" y="289" width="25" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="OCQ-a7-RUn"/>
                                     <constraint firstAttribute="height" constant="38" id="wfI-JU-Hpe"/>
                                 </constraints>
                             </imageView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObC-aT-hoA">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="New Post" id="Lkw-db-Aax">
                                         <barButtonItem key="rightBarButtonItem" title="Save" id="q7W-EB-Zxy">
@@ -424,7 +424,7 @@
                             <constraint firstItem="nXe-Ac-mvQ" firstAttribute="trailing" secondItem="Pmr-2I-yXQ" secondAttribute="trailing" constant="20" id="Uke-RE-5cL"/>
                             <constraint firstItem="ATm-eU-3Ul" firstAttribute="leading" secondItem="T12-qY-ucj" secondAttribute="trailing" constant="20" id="VZA-n3-aIs"/>
                             <constraint firstItem="T12-qY-ucj" firstAttribute="leading" secondItem="nXe-Ac-mvQ" secondAttribute="leading" constant="20" id="Y4t-bl-1Z6"/>
-                            <constraint firstItem="ObC-aT-hoA" firstAttribute="top" secondItem="keD-Va-HiC" secondAttribute="top" id="fTd-Fe-QeK"/>
+                            <constraint firstItem="ObC-aT-hoA" firstAttribute="top" secondItem="keD-Va-HiC" secondAttribute="top" constant="20" id="fTd-Fe-QeK"/>
                             <constraint firstItem="Pmr-2I-yXQ" firstAttribute="leading" secondItem="nXe-Ac-mvQ" secondAttribute="leading" constant="20" id="hPl-ad-rDj"/>
                             <constraint firstItem="nXe-Ac-mvQ" firstAttribute="trailing" secondItem="ea3-B9-wVK" secondAttribute="trailing" constant="20" id="oWG-DD-Mwm"/>
                             <constraint firstItem="ATm-eU-3Ul" firstAttribute="top" secondItem="Pmr-2I-yXQ" secondAttribute="bottom" constant="10" id="qlM-o0-ppQ"/>
@@ -450,7 +450,7 @@
         <!--Feed View Controller-->
         <scene sceneID="HoK-vl-erU">
             <objects>
-                <viewController id="AFW-N6-xri" customClass="FeedViewController" customModule="CliqueFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="feedViewController" id="AFW-N6-xri" customClass="FeedViewController" customModule="CliqueFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="def-pX-3xU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="751"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -867,10 +867,10 @@
             </objects>
             <point key="canvasLocation" x="-776.5" y="899.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Search View Controller-->
         <scene sceneID="TSw-Nj-gf8">
             <objects>
-                <viewController id="wdq-3b-hJ9" sceneMemberID="viewController">
+                <viewController id="wdq-3b-hJ9" customClass="SearchViewController" customModule="CliqueFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Cj-9h-D3b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -899,6 +899,9 @@
                         <viewLayoutGuide key="safeArea" id="lRx-Zg-8Pp"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" selectedImage="Search" id="i1w-ue-W5Z"/>
+                    <connections>
+                        <outlet property="myMapView" destination="l54-YN-zX9" id="Yy4-FI-qTo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jhn-Rm-kDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
