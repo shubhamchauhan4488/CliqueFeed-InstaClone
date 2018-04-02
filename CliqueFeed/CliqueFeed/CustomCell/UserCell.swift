@@ -17,4 +17,5 @@ class UserCell : UITableViewCell{
     @IBOutlet weak var followLabel: UILabel!
     
     var userID : String!
+    var followFlag = false
 }

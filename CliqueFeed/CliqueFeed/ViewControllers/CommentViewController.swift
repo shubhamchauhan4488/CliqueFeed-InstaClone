@@ -16,6 +16,7 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     var feed : Feed!
     var postid : String!
     var refDatabase : DatabaseReference!
+    var ref : DatabaseReference!
     var uid : String!
     var comments : [Comment]!
     
@@ -30,6 +31,7 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         refDatabase = Database.database().reference()
+        ref = Database.database().reference()
         self.navigationController?.navigationBar.isHidden = false
         comments = []
         self.fetchComments()
@@ -56,7 +58,7 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func fetchComments(){
         
-        self.refDatabase.child("postsWithComments").observeSingleEvent(of: .value, with: { (snap) in
+    self.refDatabase.child("postsWithComments").observeSingleEvent(of: .value, with: { (snap) in
             print("entered comments in database")
             let postsWithCommentssnap = snap.value as! Dictionary<String, AnyObject>
 //            print(postsWithCommentssnap)
@@ -68,13 +70,17 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
                         if k == self.postid{
                             let postinguserdetails = v as! Dictionary<String,AnyObject>
                             for (_,ve) in postinguserdetails{
+                                print("/////*******/////")
                                 print(ve["uid"])
                                 self.uid = ve["uid"] as! String
-                                self.refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                
+                                
+                                self.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
                                     let usersnap = snapshot.value as! [String : AnyObject]
                                     for(k, value) in usersnap{
                                         if let userid = k as? String{
-                                            if userid == self.uid!{
+                                            if self.uid! == userid{
+                                                print(":::::::::::::")
                                                 print(userid)
                                                 print(self.uid!)
                                                 let com = Comment()

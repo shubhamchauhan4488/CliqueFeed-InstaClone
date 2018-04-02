@@ -140,7 +140,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Present Second View
            navigationController?.pushViewController(secondViewController, animated: true)
         }
-     
     }
     
     func feedTableViewCellDidTapPost(_ sender: FeedCell) {
