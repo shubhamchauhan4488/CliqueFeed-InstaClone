@@ -12,13 +12,16 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class CommentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     var feed : Feed!
     var postid : String!
     var refDatabase : DatabaseReference!
     var ref : DatabaseReference!
     var uid : String!
-    var comments : [Comment]!
+    var comments : [Comment] = []
+    //var users  [user]()
+    
+    var userMeta : [UserIntermediate] = []
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -34,8 +37,9 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
         ref = Database.database().reference()
         self.navigationController?.navigationBar.isHidden = false
         comments = []
+        //users = []
         self.fetchComments()
-       
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -58,56 +62,44 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func fetchComments(){
         
-    self.refDatabase.child("postsWithComments").observeSingleEvent(of: .value, with: { (snap) in
+        self.refDatabase.child("postsWithComments").observeSingleEvent(of: .value, with: { (snap) in
             print("entered comments in database")
             let postsWithCommentssnap = snap.value as! Dictionary<String, AnyObject>
-//            print(postsWithCommentssnap)
+            //            print(postsWithCommentssnap)
             if let posts = postsWithCommentssnap as? Dictionary<String,AnyObject>{
-                print(posts)
                 let postsarray = posts as! Dictionary<String,AnyObject>
                 for (k,v) in postsarray{
-                    print(self.postid)
-                        if k == self.postid{
-                            let postinguserdetails = v as! Dictionary<String,AnyObject>
-                            for (_,ve) in postinguserdetails{
-                                print("/////*******/////")
-                                print(ve["uid"])
-                                self.uid = ve["uid"] as! String
-                                
-                                
-                                self.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-                                    let usersnap = snapshot.value as! [String : AnyObject]
-                                    for(k, value) in usersnap{
-                                        if let userid = k as? String{
-                                            if self.uid! == userid{
-                                                print(":::::::::::::")
-                                                print(userid)
-                                                print(self.uid!)
-                                                let com = Comment()
-                                                com.postingUserImg = value["urlImage"] as! String
-                                                com.postinguserName = value["name"] as! String
-                                                com.postingUserComment = ve["comment"] as! String
-                                                
-                                                print(com.postingUserImg)
-                                                print(com.postinguserName)
-                                                self.comments.append(com)
-//                                                print(self.comments)
-                                            }
-                                        }
-                                    }
-                                    print(self.comments.count)
-                                    self.tableView.reloadData()
-                                })
-                                
+                    if k == self.postid{
+                        let postinguserdetails = v as! Dictionary<String,AnyObject>
+                        for (_,ve) in postinguserdetails{
+                            if let uid = ve["uid"] as? String, let comment = ve["comment"] as? String {
+                                let userObj = UserIntermediate(uid: uid, comment: comment)
+                                self.userMeta.append(userObj)
                             }
                         }
+                    }
                 }
-                self.refDatabase.removeAllObservers()
+            }
+            self.refDatabase.removeAllObservers()
+        })
+        
+        self.refDatabase.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let usersnap = snapshot.value as? [String : AnyObject]{
+                
+                for user in self.userMeta {
+                    let userkeys = usersnap.keys.filter({ (id) -> Bool in
+                        id == user.uid
+                    })
+                    let newComment = Comment(postingUserImg: usersnap[userkeys[0]]!["urlImage"] as! String, postinguserName: usersnap[userkeys[0]]!["name"] as! String, postingUserComment: user.comment)
+                    self.comments.append(newComment)
+                }
+                self.tableView.reloadData()
             }
         })
+        
     }
-
     
-
-
+    
+    
+    
 }

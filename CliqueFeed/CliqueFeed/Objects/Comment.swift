@@ -9,7 +9,14 @@
 import Foundation
 
 class Comment {
-    var postingUserImg : String!
-    var postinguserName : String!
-    var postingUserComment : String!
+    var postingUserImg : String
+    var postinguserName : String
+    var postingUserComment : String
+    
+    
+    init(postingUserImg: String, postinguserName: String, postingUserComment : String){
+        self.postingUserImg = postingUserImg
+        self.postinguserName = postinguserName
+        self.postingUserComment = postingUserComment
+    }
 }

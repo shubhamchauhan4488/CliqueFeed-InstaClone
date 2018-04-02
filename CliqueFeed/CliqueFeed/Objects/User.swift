@@ -13,3 +13,14 @@ class User: NSObject{
     var uid : String!
     var imagePath : String!
 }
+
+class UserIntermediate : NSObject{
+    
+    var uid : String
+    var comment : String
+    
+    init(uid : String, comment : String){
+        self.uid  = uid
+        self.comment = comment
+    }
+}

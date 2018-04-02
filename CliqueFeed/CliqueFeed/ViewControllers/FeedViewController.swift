@@ -88,14 +88,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                             }
                                         }
                                     self.tableView.reloadData()
-                                
                             }
                             print(self.feeds)
                             print(self.postids)
                         })
                     }
                 }
-
                 self.refDatabase.removeAllObservers()
                 //print(self.feeds)
             }
@@ -146,9 +144,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
-    
+        let timeInterval = NSDate().timeIntervalSince1970
+        print(timeInterval)
+        print(type(of: timeInterval))
         let comments = ["comment" : cell.commentText.text!,
                         "uid" : (Auth.auth().currentUser?.uid)!]
+        
         print(postids.count)
         print(postids)
   
