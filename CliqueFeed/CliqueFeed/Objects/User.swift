@@ -18,9 +18,11 @@ class UserIntermediate : NSObject{
     
     var uid : String
     var comment : String
+    var timeStamp : Double
     
-    init(uid : String, comment : String){
+    init(uid : String, comment : String, timeStamp : Double){
         self.uid  = uid
         self.comment = comment
+        self.timeStamp = timeStamp
     }
 }

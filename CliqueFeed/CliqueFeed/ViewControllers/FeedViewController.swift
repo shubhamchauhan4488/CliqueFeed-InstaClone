@@ -148,7 +148,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         print(timeInterval)
         print(type(of: timeInterval))
         let comments = ["comment" : cell.commentText.text!,
-                        "uid" : (Auth.auth().currentUser?.uid)!]
+                        "uid" : (Auth.auth().currentUser?.uid)!,
+                        "timestamp" : timeInterval] as [String : Any]
         
         print(postids.count)
         print(postids)
