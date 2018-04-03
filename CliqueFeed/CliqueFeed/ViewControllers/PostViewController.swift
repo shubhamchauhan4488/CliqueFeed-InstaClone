@@ -128,13 +128,15 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     if self.commentField.text == nil{
                         self.commentField.text = ""
                     }
+                    let timeInterval = NSDate().timeIntervalSince1970
                     let postInfo : [String:Any] = ["uid": self.userId!,
                                                    "urlImage": url.absoluteString,
                                                    "comment" : self.commentField.text!,
                                                    "comments" : [String](),
                                                    "latitude" : self.currentLocation.coordinate.latitude,
                                                    "longitude" : self.currentLocation.coordinate.longitude,
-                                                   "geoTagLocation" : self.locationField.text! ]
+                                                   "geoTagLocation" : self.locationField.text!,
+                                                    "timestamp" : timeInterval]
                     
                       if(self.databaseRef.child("posts").child(self.userId!) != nil){
                         var str = self.userId! + String(self.postCounter);

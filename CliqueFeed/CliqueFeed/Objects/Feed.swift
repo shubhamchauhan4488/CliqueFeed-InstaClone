@@ -17,5 +17,6 @@ class Feed: NSObject {
     var lastCommentUserImg : String!
     var comments : [String]!
     var uid : String!
+    var timeStamp : Double!
 
 }

@@ -69,7 +69,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                                     self.postids.append(k)
                                                     let fedd = Feed()
                                                     fedd.feedDescription = details["comment"] as! String
-
+                                                    fedd.timeStamp = details["timestamp"] as! Double
                                                     fedd.feedImage = details["urlImage"] as! String
                                                     var name : String!
                                                     var userImageUrl: String!
@@ -111,11 +111,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         
 //       cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
+        let date = Date()
+        let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
+        
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
+        cell.timePosted.text = x
         cell.delegate = self
 
 

@@ -17,7 +17,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var feedDescription: UILabel!
     @IBOutlet weak var lastCommentUserIMg: UIImageView!
     @IBOutlet weak var commentText: UITextField!
-    
+    @IBOutlet weak var timePosted: UILabel!
     
     var delegate : FeedTableViewCellDelegate?
     
