@@ -11,8 +11,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Avenir.ttc">
+            <string>Avenir-Book</string>
+        </array>
         <array key="AvenirNext.ttc">
             <string>AvenirNext-DemiBold</string>
+            <string>AvenirNext-Medium</string>
             <string>AvenirNext-Regular</string>
         </array>
     </customFonts>
@@ -27,11 +31,11 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8qf-Rs-bat">
                                 <rect key="frame" x="0.0" y="20" width="375" height="40"/>
-                                <color key="backgroundColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.3435894691780822" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ne8-g8-StA"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -60,11 +64,11 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsX-V4-SHl">
-                                                    <rect key="frame" x="82" y="14" width="46" height="21"/>
+                                                    <rect key="frame" x="82" y="14" width="44.5" height="21"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Label">
                                                             <attributes>
-                                                                <font key="NSFont" size="18" name="HelveticaNeue-Medium"/>
+                                                                <font key="NSFont" size="18" name="Avenir-Medium"/>
                                                             </attributes>
                                                         </fragment>
                                                     </attributedString>
@@ -124,7 +128,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" id="zF5-AT-Iwp"/>
+                    <tabBarItem key="tabBarItem" title="" image="heart-1" selectedImage="heart-1" id="zF5-AT-Iwp"/>
                     <connections>
                         <outlet property="tableView" destination="N8b-0P-3Yh" id="QgX-ed-egt"/>
                     </connections>
@@ -154,7 +158,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgP-gI-Krd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgP-gI-Krd">
                                 <rect key="frame" x="15" y="184" width="100" height="19.5"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                 <nil key="textColor"/>
@@ -350,7 +354,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6oR-4B-xCa"/>
                     </view>
-                    <navigationItem key="navigationItem" id="wp6-QF-teZ"/>
+                    <navigationItem key="navigationItem" id="wp6-QF-teZ">
+                        <barButtonItem key="rightBarButtonItem" title="LogOut" id="w7M-1V-8SB">
+                            <connections>
+                                <action selector="onLogoutClick:" destination="Aqi-7r-wgg" id="nLc-Ez-6FN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="name" destination="hgP-gI-Krd" id="Fsc-ze-Kmd"/>
                         <outlet property="profileImg" destination="Ovw-LS-HxH" id="0IQ-Ui-a8F"/>
@@ -432,9 +442,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nXe-Ac-mvQ"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Photo" springLoaded="YES" id="89V-es-sWy">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-7"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="" image="addpost" selectedImage="addpost" springLoaded="YES" id="89V-es-sWy"/>
                     <connections>
                         <outlet property="commentField" destination="ea3-B9-wVK" id="mk7-f9-yH3"/>
                         <outlet property="locationField" destination="ATm-eU-3Ul" id="HGr-ZE-xHz"/>
@@ -454,7 +462,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HCF-Ha-cTt">
-                                <rect key="frame" x="0.0" y="57" width="375" height="687"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="680"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="500" id="x4d-Zf-wJX" customClass="FeedCell" customModule="CliqueFeed" customModuleProvider="target">
@@ -560,19 +568,20 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add Your Comment" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="H5c-nV-svk">
-                                                    <rect key="frame" x="38" y="436" width="288" height="25"/>
+                                                    <rect key="frame" x="38" y="436" width="286" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="gLW-Cj-moi"/>
                                                     </constraints>
                                                     <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W86-LS-aA8">
-                                                    <rect key="frame" x="336" y="436" width="31" height="30"/>
+                                                    <rect key="frame" x="334" y="436" width="33" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="G8V-N1-ZNg"/>
                                                     </constraints>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                     <state key="normal" title="Post"/>
                                                     <connections>
                                                         <action selector="onPostClick:" destination="x4d-Zf-wJX" eventType="touchUpInside" id="xAG-e6-GDx"/>
@@ -625,7 +634,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="HCF-Ha-cTt" firstAttribute="trailing" secondItem="tAK-Y2-AoH" secondAttribute="trailing" id="1vo-FP-wmS"/>
-                            <constraint firstItem="HCF-Ha-cTt" firstAttribute="top" secondItem="tAK-Y2-AoH" secondAttribute="top" constant="-7" id="Btl-GJ-Bjx"/>
+                            <constraint firstItem="HCF-Ha-cTt" firstAttribute="top" secondItem="tAK-Y2-AoH" secondAttribute="top" id="Btl-GJ-Bjx"/>
                             <constraint firstItem="tAK-Y2-AoH" firstAttribute="bottom" secondItem="HCF-Ha-cTt" secondAttribute="bottom" constant="7" id="FEC-0a-I0k"/>
                             <constraint firstItem="HCF-Ha-cTt" firstAttribute="leading" secondItem="tAK-Y2-AoH" secondAttribute="leading" id="Keh-D5-Bom"/>
                         </constraints>
@@ -661,21 +670,21 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z5z-4z-tik">
-                                                    <rect key="frame" x="51" y="5" width="33.5" height="20.5"/>
+                                                    <rect key="frame" x="52" y="-1" width="33" height="23.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tC2-5a-3Jy">
-                                                    <rect key="frame" x="51" y="25.5" width="44" height="14.5"/>
+                                                    <rect key="frame" x="52" y="22.5" width="58.5" height="23.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="Home" id="fcI-zJ-NBI">
-                                                    <rect key="frame" x="15" y="10" width="21" height="23"/>
+                                                    <rect key="frame" x="15" y="9" width="22" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -705,12 +714,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GPs-Ma-VXS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2569" y="-342"/>
+            <point key="canvasLocation" x="2564" y="51"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="wlT-y1-ZGP">
             <objects>
-                <viewController id="Mns-pL-l54" customClass="LoginViewController" customModule="CliqueFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" id="Mns-pL-l54" customClass="LoginViewController" customModule="CliqueFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rXX-Kg-m3R">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -879,6 +888,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DkW-Aa-FKz">
                                 <rect key="frame" x="20" y="20" width="335" height="98"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                 <state key="normal" title="Find Nearby Friends"/>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="l54-YN-zX9">
@@ -900,7 +910,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lRx-Zg-8Pp"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" selectedImage="Search" id="i1w-ue-W5Z"/>
+                    <tabBarItem key="tabBarItem" title="" image="search" selectedImage="search" id="i1w-ue-W5Z"/>
                     <connections>
                         <outlet property="myMapView" destination="l54-YN-zX9" id="Yy4-FI-qTo"/>
                     </connections>
@@ -971,12 +981,13 @@
     </scenes>
     <resources>
         <image name="Comment Icon" width="43" height="41"/>
-        <image name="Home" width="21" height="23"/>
+        <image name="Home" width="22" height="25"/>
         <image name="Like Icon" width="46" height="41"/>
-        <image name="Photo" width="22" height="23"/>
         <image name="Profile" width="20" height="21"/>
-        <image name="Search" width="23" height="22"/>
+        <image name="addpost" width="22" height="22"/>
+        <image name="heart-1" width="22" height="20"/>
         <image name="instalCam2" width="512" height="512"/>
         <image name="locationImg" width="648" height="365"/>
+        <image name="search" width="20" height="20"/>
     </resources>
 </document>

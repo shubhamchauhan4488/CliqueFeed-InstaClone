@@ -104,12 +104,16 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
    
             }
 
+            if self.nearByFriendsDetailsArray.count == 0{
+                print("No friends to display")
+            }else{
             let coord = CLLocationCoordinate2DMake(self.nearByFriendsDetailsArray[0].location.coordinate.latitude, self.nearByFriendsDetailsArray[0].location.coordinate.longitude)
             let span = MKCoordinateSpanMake(0.001, 0.001)
             let regionA = MKCoordinateRegionMake(coord, span)
             self.myMapView.setRegion(regionA, animated:true)
             self.myMapView.isZoomEnabled = true
             self.myMapView.isRotateEnabled = true
+            }
         })
     }
     

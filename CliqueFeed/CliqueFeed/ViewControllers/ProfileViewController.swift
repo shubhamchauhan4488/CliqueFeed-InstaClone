@@ -151,5 +151,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
+    @IBAction func onLogoutClick(_ sender: Any) {
+        try! Auth.auth().signOut()
+        
+    
+            navigationController?.popViewController(animated: true)
+        
+        
+    }
+    
+    
+    
     
 }
