@@ -15,11 +15,14 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var loginButtn: UIButton!
+    
     var locManager : CLLocationManager!
     var currentLocation : CLLocation!
     var databaseRef : DatabaseReference!
     var lat : Double!
     var long : Double!
+    
     
     
     override func viewDidLoad() {
@@ -30,8 +33,29 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
         locManager.desiredAccuracy = kCLLocationAccuracyBest
         locManager.requestWhenInUseAuthorization()
         locManager.startUpdatingLocation()
-        email.text = "shubhamchauhan@gmail.com"
-        password.text = "123456"
+        //email.text = "shubhamchauhan@gmail.com"
+        //password.text = "123456"
+        if(email.text != "" && password.text != "" )
+        {
+            loginButtn.isEnabled = true
+            loginButtn.setTitleColor(UIColor.white, for: UIControlState.normal)
+            loginButtn.backgroundColor = UIColor(red:24/255, green:144/255, blue:248/255, alpha: 1)
+            loginButtn.layer.cornerRadius = 5
+            loginButtn.layer.borderWidth = 1
+            loginButtn.layer.borderColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha: 1).cgColor
+        }
+        else
+        {
+            loginButtn.isEnabled = false
+            loginButtn.setTitleColor(UIColor.gray, for: UIControlState.normal)
+            loginButtn.backgroundColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha: 1)
+            loginButtn.layer.cornerRadius = 5
+            loginButtn.layer.borderWidth = 1
+            loginButtn.layer.borderColor = UIColor(red:180/255, green:205/255, blue:239/255, alpha: 1).cgColor
+        }
+        setupAddTargetIsNotEmptyTextFields()
+        
+        
     }
     
     @IBAction func onLoginPress(_ sender: Any) {
@@ -39,10 +63,18 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
         if(email.text != "" && password.text != "" )
         {
             Auth.auth().signIn(withEmail: email.text!, password: password.text!) { (user, error) in
-                
-                if let u = user{
-                    print("user exists")
+                if let error = error
+                {
+                    let alert = UIAlertController(title: "Error Message", message: "Email or Password you've entered is incorrect", preferredStyle: UIAlertControllerStyle.alert)
+                    // add the actions (buttons)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                     
+                    // show the alert
+                    self.present(alert, animated: true, completion: nil)
+                }
+                if let u = user{
+                    UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+                    UserDefaults.standard.synchronize()
                     if let lastLocation = self.currentLocation {
                         let geocoder = CLGeocoder()
                         geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
@@ -77,6 +109,38 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
             present(alertBox, animated:true)
             
         }
+    }
+    func setupAddTargetIsNotEmptyTextFields(){
+
+        email.addTarget(self, action: #selector(textFieldsIsNotEmpty),
+                             for: .editingChanged)
+        password.addTarget(self, action: #selector(textFieldsIsNotEmpty),
+                                for: .editingChanged)
+    }
+    @objc func textFieldsIsNotEmpty(sender: UITextField)
+    {
+        sender.text = sender.text?.trimmingCharacters(in: .whitespaces)
+        guard
+            let email = email.text, !email.isEmpty,
+            let password = password.text, !password.isEmpty
+            
+            else
+        {
+            self.loginButtn.isEnabled = false
+            loginButtn.setTitleColor(UIColor.gray, for: UIControlState.normal)
+            loginButtn.backgroundColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha: 1)
+            loginButtn.layer.cornerRadius = 5
+            loginButtn.layer.borderWidth = 1
+            loginButtn.layer.borderColor = UIColor(red:180/255, green:205/255, blue:239/255, alpha: 1).cgColor
+            return
+        }
+        // enable okButton if all conditions are met
+        loginButtn.isEnabled = true
+        loginButtn.setTitleColor(UIColor.white, for: UIControlState.normal)
+        loginButtn.backgroundColor = UIColor(red:24/255, green:144/255, blue:248/255, alpha: 1)
+        loginButtn.layer.cornerRadius = 5
+        loginButtn.layer.borderWidth = 1
+        loginButtn.layer.borderColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha: 1).cgColor
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

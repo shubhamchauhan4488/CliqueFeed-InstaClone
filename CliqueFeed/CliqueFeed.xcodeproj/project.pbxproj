@@ -18,6 +18,9 @@
 		8F314AFD2070F785001E4953 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F314AFC2070F785001E4953 /* SearchViewController.swift */; };
 		8F314AFF2071CBF0001E4953 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F314AFE2071CBF0001E4953 /* Location.swift */; };
 		8F314B01207323C5001E4953 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F314B00207323C4001E4953 /* Assets.xcassets */; };
+		8F314B0520733C69001E4953 /* user-add-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F314B0220733C67001E4953 /* user-add-icon.png */; };
+		8F314B0620733C69001E4953 /* instagram-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F314B0320733C68001E4953 /* instagram-logo.png */; };
+		8F314B0720733C69001E4953 /* circle-instagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F314B0420733C69001E4953 /* circle-instagram.png */; };
 		8F36A451205B4FDF0028DB71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A450205B4FDF0028DB71 /* AppDelegate.swift */; };
 		8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A452205B4FDF0028DB71 /* LoginViewController.swift */; };
 		8F36A456205B4FDF0028DB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F36A454205B4FDF0028DB71 /* Main.storyboard */; };
@@ -44,6 +47,9 @@
 		8F314AFC2070F785001E4953 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8F314AFE2071CBF0001E4953 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8F314B00207323C4001E4953 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8F314B0220733C67001E4953 /* user-add-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-add-icon.png"; sourceTree = "<group>"; };
+		8F314B0320733C68001E4953 /* instagram-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instagram-logo.png"; sourceTree = "<group>"; };
+		8F314B0420733C69001E4953 /* circle-instagram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-instagram.png"; sourceTree = "<group>"; };
 		8F36A44D205B4FDF0028DB71 /* CliqueFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CliqueFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F36A450205B4FDF0028DB71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F36A452205B4FDF0028DB71 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +141,9 @@
 				8F36A450205B4FDF0028DB71 /* AppDelegate.swift */,
 				8F314B00207323C4001E4953 /* Assets.xcassets */,
 				8F36A454205B4FDF0028DB71 /* Main.storyboard */,
+				8F314B0220733C67001E4953 /* user-add-icon.png */,
+				8F314B0420733C69001E4953 /* circle-instagram.png */,
+				8F314B0320733C68001E4953 /* instagram-logo.png */,
 				8F36A459205B4FDF0028DB71 /* LaunchScreen.storyboard */,
 				8F36A468205CCBB50028DB71 /* GoogleService-Info.plist */,
 				8F36A45C205B4FDF0028DB71 /* Info.plist */,
@@ -223,7 +232,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F36A45B205B4FDF0028DB71 /* LaunchScreen.storyboard in Resources */,
+				8F314B0620733C69001E4953 /* instagram-logo.png in Resources */,
 				8F36A469205CCBB60028DB71 /* GoogleService-Info.plist in Resources */,
+				8F314B0520733C69001E4953 /* user-add-icon.png in Resources */,
+				8F314B0720733C69001E4953 /* circle-instagram.png in Resources */,
 				8F314B01207323C5001E4953 /* Assets.xcassets in Resources */,
 				8F36A456205B4FDF0028DB71 /* Main.storyboard in Resources */,
 			);
