@@ -13,9 +13,49 @@ class UserCell : UITableViewCell{
     
     @IBOutlet weak var userimage: UIImageView!
     @IBOutlet weak var username: UILabel!
-    
-    @IBOutlet weak var followLabel: UILabel!
-    
+    @IBOutlet weak var followUnfollowBtn: UIButton!
+    @IBOutlet weak var view: UIView!
+    weak var delegate : UserTableViewCellProtocol?
+    @IBAction func followUnfollowButton(_ sender: UIButton) {
+        delegate?.userTableViewCellDidTapFollowUnfollow(sender.tag)
+    }
     var userID : String!
     var followFlag = false
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        view.layer.shadowOffset = CGSize(width:0,height: 3.0)
+        view.layer.shadowRadius = 3.0
+        view.layer.shadowOpacity = 0.6
+        view.layer.shadowColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+        view.layer.cornerRadius = 10
+        //view.backgroundColor = UIColor.white
+//        view.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+//        view.layer.borderWidth = 2
+        userimage.layer.borderWidth = 2
+        userimage.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+        
+    }
+    
+    func configure(username : String, imageURL : String, userID : String, isFollowing : Bool){
+        self.username.text = username
+        self.userimage.downloadImage(from: imageURL)
+        self.userID = userID
+        if isFollowing{
+            followUnfollowBtn.imageView?.image = UIImage(named : "Following_icon")
+        }
+        else{
+            followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
+        }
+        
+    }
+    
+//     func configure(username : String, imageURL : String, userID : String){
+//        self.username.text = username
+//        self.userimage.downloadImage(from: imageURL)
+//        self.userID = userID
+//
+//
+//    }
 }
