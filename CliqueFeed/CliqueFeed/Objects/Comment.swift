@@ -9,16 +9,16 @@
 import Foundation
 
 class Comment {
-    var postingUserImg : String
-    var postinguserName : String
-    var postingUserComment : String
+    var commentingUserImage : String
+    var commentingUsername : String
+    var comment : String
     var timeStamp : Double
     
     
-    init(postingUserImg: String, postinguserName: String, postingUserComment : String, timeStamp: Double){
-        self.postingUserImg = postingUserImg
-        self.postinguserName = postinguserName
-        self.postingUserComment = postingUserComment
+    init(commentingUserImage: String, commentingUsername: String, comment : String, timeStamp: Double){
+        self.commentingUserImage = commentingUserImage
+        self.commentingUsername = commentingUsername
+        self.comment = comment
         self.timeStamp = timeStamp
     }
 }

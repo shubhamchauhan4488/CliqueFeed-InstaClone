@@ -141,20 +141,21 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                       if(self.databaseRef.child("posts").child(self.userId!) != nil){
                         var str = self.userId! + String(self.postCounter);
                         print(type(of: str))
-                        self.databaseRef.child("posts").child(str).setValue(postInfo)
+                        self.databaseRef.child("posts").childByAutoId().setValue(postInfo)
                         self.postCounter =  self.postCounter + 1
                         self.userDefaults.set(self.postCounter, forKey: "postcounter")
+                        let alert = UIAlertController(title: "Successfull", message: "Image has been posted", preferredStyle: .actionSheet)
+                                            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                                            alert.addAction(okAction)
+                                            self.present(alert, animated: true)
+                        self.postImage.image = UIImage(named : "instalCam2")
+                        self.commentField.text = ""
+                        self.locationField.text = ""
                    
                     }else{
                         self.databaseRef.child("posts").child("0").setValue(postInfo)
                     }
                 }
-//                else{
-//                    let alert = UIAlertController(title: "No Image", message: "No Image Selected", preferredStyle: .alert)
-//                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//                    alert.addAction(okAction)
-//                    self.present(alert, animated: true)
-//                }
             })
         })
         uploadTask.resume()

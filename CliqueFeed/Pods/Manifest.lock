@@ -1,4 +1,6 @@
 PODS:
+  - AnimatableReload (0.1.0)
+  - DKLoginButton (4.0.3)
   - Firebase/Auth (4.10.1):
     - Firebase/Core
     - FirebaseAuth (= 4.4.4)
@@ -50,15 +52,21 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - SkyFloatingLabelTextField (3.4.0)
 
 DEPENDENCIES:
+  - AnimatableReload
+  - DKLoginButton
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
   - Fusuma
+  - SkyFloatingLabelTextField (~> 3.0)
 
 SPEC CHECKSUMS:
+  AnimatableReload: dcef76a16258b82bf845225012aa8f3b1aa7df6c
+  DKLoginButton: ec80ac7a41cfd875e936c83f76efbb7734af30c8
   Firebase: 92c6ba593e32db0defde464a9adc981d5cb49f97
   FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
   FirebaseAuth: d040bb7a9db6dfc29d0e7ec82d48be51352b2581
@@ -71,7 +79,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
 
-PODFILE CHECKSUM: d24ee96d692f9b2cdf8f07c9c22f3a3a166aedac
+PODFILE CHECKSUM: b72f5e9a3b52c133511a5460779e0d5c7bc0bd8e
 
 COCOAPODS: 1.4.0

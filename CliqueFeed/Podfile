@@ -11,5 +11,8 @@ target 'CliqueFeed' do
    pod 'Firebase/Database'
    pod 'Firebase/Storage'
    pod 'Fusuma'
+   pod 'SkyFloatingLabelTextField', '~> 3.0'
+   pod 'DKLoginButton'
+   pod 'AnimatableReload'
 	
 end

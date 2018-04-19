@@ -13,7 +13,6 @@ import FirebaseAuth
 
 class CommentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var feed : Feed!
     var postid : String!
     var refDatabase : DatabaseReference!
     var ref : DatabaseReference!
@@ -28,8 +27,6 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        print("THIIIsSsssssSSSS here is the feed paassed : \(feed.feedDescription!)")
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,8 +35,7 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.isHidden = false
         comments = []
         //users = []
-        self.fetchComments()
-        
+        self.fetchCommentDetails()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,67 +47,89 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentCell{
         
-        cell.textLabel?.text = comments[indexPath.row].postinguserName
+                
         let date = Date()
+        //Calculating the date offset from the current date
         let x = date.offset(from: Date(timeIntervalSince1970: comments[indexPath.row].timeStamp))
-        let str = "\nPosted :\(x) ago"
-        let yourAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
-        let yourOtherAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
-        let partOne = NSMutableAttributedString(string: comments[indexPath.row].postingUserComment, attributes: yourAttributes)
-        let partTwo = NSMutableAttributedString(string: str, attributes: yourOtherAttributes)
-        let combination = NSMutableAttributedString()
-        combination.append(partOne)
-        combination.append(partTwo)
-        cell.detailTextLabel?.attributedText = combination
+        let str = "Posted : \(x) ago"
+            
+        //Method to set the attributes of the cell elements programatically
+//        let yourAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+//        let yourOtherAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
+//        let partOne = NSMutableAttributedString(string: comments[indexPath.row].postingUserComment, attributes: yourAttributes)
+//        let partTwo = NSMutableAttributedString(string: str, attributes: yourOtherAttributes)
+//        let combination = NSMutableAttributedString()
+//        combination.append(partOne)
+//        combination.append(partTwo)
+//        cell.detailTextLabel?.attributedText = combination
 //        cell.imageView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        cell.imageView?.downloadImage(from: comments[indexPath.row].postingUserImg)
-        
+        cell.commentingUserImage.downloadImage(from: comments[indexPath.row].commentingUserImage)
+        cell.commentingUsername.text = comments[indexPath.row].commentingUsername
+        cell.comment.text = comments[indexPath.row].comment
+        cell.commentTimeDifference.text = str
         return cell
+        }else{
+            return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
     
     
-    func fetchComments(){
+    func fetchCommentDetails(){
         
         self.refDatabase.child("postsWithComments").observeSingleEvent(of: .value, with: { (snap) in
             print("entered comments in database")
-            let postsWithCommentssnap = snap.value as! Dictionary<String, AnyObject>
-            //            print(postsWithCommentssnap)
+            if let postsWithCommentssnap = snap.value as? Dictionary<String, AnyObject>{
+                        print(postsWithCommentssnap)
             if let posts = postsWithCommentssnap as? Dictionary<String,AnyObject>{
+//                print("----------")
+//                print(posts)
                 let postsarray = posts as! Dictionary<String,AnyObject>
+                print(postsarray)
                 for (k,v) in postsarray{
-                    if k == self.postid{
+                    if k == self.postid!{
+                        print("Value of k \(k)")
+                        print("Value of postid \(self.postid!)")
                         let postinguserdetails = v as! Dictionary<String,AnyObject>
                         for (_,ve) in postinguserdetails{
                             if let uid = ve["uid"] as? String, let comment = ve["comment"] as? String, let timestamp = ve["timestamp"] as? Double {
                                 let userObj = UserIntermediate(uid: uid, comment: comment, timeStamp : timestamp)
                                 self.userMeta.append(userObj)
+                                print(self.userMeta)
                             }
                         }
                     }
                 }
             }
-            self.refDatabase.removeAllObservers()
+        }
+           //Fetching the user details who posted thier comments
+           self.fetchuserdeatils()
         })
-        
+    }
+    
+    func fetchuserdeatils(){
         self.refDatabase.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             if let usersnap = snapshot.value as? [String : AnyObject]{
-                
+                print("%%%%%%%%%%%%%%%inside usser snap%%%%%%%%%%%%%%%%")
                 for user in self.userMeta {
                     let userkeys = usersnap.keys.filter({ (id) -> Bool in
                         id == user.uid
                     })
-                    let newComment = Comment(postingUserImg: usersnap[userkeys[0]]!["urlImage"] as! String, postinguserName: usersnap[userkeys[0]]!["name"] as! String, postingUserComment: user.comment, timeStamp: user.timeStamp)
+                    let newComment = Comment(commentingUserImage: usersnap[userkeys[0]]!["urlImage"] as! String, commentingUsername: usersnap[userkeys[0]]!["name"] as! String, comment: user.comment, timeStamp: user.timeStamp)
                     self.comments.append(newComment)
                 }
+                 self.comments = self.comments.sorted(by: { $0.timeStamp < $1.timeStamp })
                 self.tableView.reloadData()
             }
         })
+         self.refDatabase.removeAllObservers()
         
     }
-    
-    
     
     
 }

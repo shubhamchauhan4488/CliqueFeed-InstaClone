@@ -12,6 +12,8 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
+
+    
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var name: UILabel!
@@ -23,7 +25,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var newname : String!
     var userImageUrl: String!
     var commentUserImageUrl: String!
-    
+    var metaFeeds = [feedIntermediate]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,59 +33,81 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         
     }
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
+        
         refDatabase = Database.database().reference()
         feeds = []
-        fetchFeed()
         postids = []
-        
+        metaFeeds = []
+        fetchFeed()
+        profileImg.layer.borderWidth = 2
+        profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         tableView.reloadData()
         
     }
     
     func fetchFeed(){
         
-        self.refDatabase.child("posts").observeSingleEvent(of: .value, with: { (snap) in
-            print("entered posts in database")
+        self.refDatabase.child("posts").observe(.value, with: { (snap) in
+//            print("entered posts in database")
             let postsnap = snap.value as! Dictionary<String, AnyObject>
             for (k,userPosts) in postsnap{
-                print("*****////*****")
+//                print("*****////*****")
                 if let details = userPosts as? Dictionary<String, AnyObject>{
                     if let userID = details["uid"] as? String{
                         if userID == Auth.auth().currentUser?.uid{
-                            self.postids.append(k)
-                            let fedd = Feed()
-                            fedd.feedDescription = details["comment"] as! String
-                            fedd.feedImage = details["urlImage"] as! String
-                            self.refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-                                let usersnap = snapshot.value as! [String : AnyObject]
-                                for(k, value) in usersnap{
-                                    if k == userID{
-                                        self.newname = value["name"] as! String
-                                        self.userImageUrl = value["urlImage"] as! String
-                                        self.name.text = self.newname!
-                                        self.profileImg.downloadImage(from: self.userImageUrl)
-                                        self.commentUserImageUrl = value["urlImage"] as! String
-                                        self.navigationItem.title = value["email"] as! String
-                                    }
-                                }
-                                fedd.feedPostUser = self.newname
-                                fedd.feedPostUserImg = self.userImageUrl
-                                fedd.lastCommentUserImg = self.commentUserImageUrl
-                                self.feeds.append(fedd)
-                                print(self.feeds.count)
-                                self.tableView.reloadData()
-                            })
+                            
+                            let metafeed = feedIntermediate(feedImage: details["urlImage"] as! String, feedDescription: details["comment"] as! String, timeStamp: details["timestamp"] as! Double, id: k)
+                            self.metaFeeds.append(metafeed)
+                            
                         }
                     }
                 }
-                //
             }
-        })
-        self.refDatabase.removeAllObservers()
-        //print(self.feeds)
+                
+            })
+        
+                            
+                            self.refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                let usersnap = snapshot.value as! [String : AnyObject]
+                                var id : String!
+                                
+                                for(k, value) in usersnap{
+                                    if k == Auth.auth().currentUser?.uid{
+                                        self.newname = value["name"] as! String
+                                        self.userImageUrl = value["urlImage"] as! String
+                                        
+                                        self.profileImg.downloadImage(from: self.userImageUrl)
+                                        self.name.text = self.newname!
+                                        
+                                        self.commentUserImageUrl = value["urlImage"] as! String
+                                        self.navigationItem.title = value["email"] as! String
+                                        
+                                    }
+                                }
+                                
+                                for metafeed in self.metaFeeds{
+                                    print("iam in metafeed")
+                                let fedd = Feed(feedPostUserImg: self.userImageUrl, feedImage: metafeed.feedImage, feedPostUser: self.newname, feedDescription: metafeed.feedDescription, lastCommentUserImg: self.commentUserImageUrl, timeStamp: metafeed.timeStamp, id: metafeed.postid)
+                                self.feeds.append(fedd)
+                                }
+                                self.sortfeeds()
+                                self.tableView.reloadData()
+                            })
+        
+        
+    }
+ 
+    func sortfeeds(){
+        self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
+        print(self.feeds)
+        self.postids = []
+        for i in 0..<self.feeds.count{
+            self.postids.append(self.feeds[i].uid)
+        }
+        print(self.postids)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,7 +142,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
             // Pass Data
-            secondViewController.feed = feeds[tappedIndexPath.row]
+//            secondViewController.feed = feeds[tappedIndexPath.row]
             secondViewController.postid = self.postids[tappedIndexPath.row]
             // Present Second View
             navigationController?.pushViewController(secondViewController, animated: true)
@@ -128,26 +152,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func feedTableViewCellDidTapPost(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
-        print("Comm", sender, tappedIndexPath)
-        
-        
+
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
-        
+        let timeInterval = NSDate().timeIntervalSince1970
         let comments = ["comment" : cell.commentText.text!,
-                        "uid" : (Auth.auth().currentUser?.uid)!]
-        print(postids.count)
-        print(postids)
+                        "uid" : (Auth.auth().currentUser?.uid)!,
+                        "timestamp" : timeInterval] as [String : Any]
+       
+        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         
-        //        var reversedpostids = [String]()
-        //        for arrayIndex in stride(from: self.postids.count - 1, through: 0, by: -1) {
-        //            reversedpostids.append(self.postids[arrayIndex])
-        //        }
-        //        print(reversedpostids)
-        //        let newindex = postids.count - tappedIndexPath.row
-        
-        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).child("\((Auth.auth().currentUser?.uid)!)").updateChildValues(comments)
-        counter = counter + 1
     }
     
     
@@ -155,7 +169,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         try! Auth.auth().signOut()
         
     
-            navigationController?.popViewController(animated: true)
+           // self.navigationController?.popViewController(animated: true)
+       // self.tabBarController?.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
         
         
     }

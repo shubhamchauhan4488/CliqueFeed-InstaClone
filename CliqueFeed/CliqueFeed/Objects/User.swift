@@ -26,3 +26,6 @@ class UserIntermediate : NSObject{
         self.timeStamp = timeStamp
     }
 }
+
+
+

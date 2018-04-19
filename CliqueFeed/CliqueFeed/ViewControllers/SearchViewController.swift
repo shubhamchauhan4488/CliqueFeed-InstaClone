@@ -12,23 +12,22 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class SearchViewController: UIViewController, MKMapViewDelegate {
-
+    
     var locManager : CLLocationManager!
     var currentLocation : CLLocation!
     var following = [String]()
     var refDatabase : DatabaseReference!
-  
+    
     var locs : [Location] = []
     var pins = [MKPointAnnotation]()
     var distances : [CLLocationDistance] = []
     var nearByFriendsDetailsArray : [Location] = []
     
     var numberOfNearByFriends  = 3
-
+    
     @IBOutlet weak var myMapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
-   
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,14 +36,16 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
         pins = []
         locs = []
         nearByFriendsDetailsArray = []
-        fetchUsers()
+        let allAnnotations = self.myMapView.annotations
+        self.myMapView.removeAnnotations(allAnnotations)
+        
         myMapView.delegate = self
         myMapView.mapType = .standard
     }
     
     func fetchUsers(){
         
-        refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        refDatabase.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
@@ -57,12 +58,20 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
                                 print("users appended in following")
                             }
                         }
-    
+                        
                     }
                 }
             }
+        })
+        fetchNearbyFriends()
+    }
+    
+    func fetchNearbyFriends(){
+        refDatabase.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+            let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
+                    print(self.following.count)
                     for element in 0..<self.following.count{
                         if userid == self.following[element]{
                             let lat = value["latitude"] as? Double
@@ -73,15 +82,17 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
                             let newFriendObject = Location(distance: distance, location: loc, locTitle: title!)
                             self.nearByFriendsDetailsArray.append(newFriendObject)
                             print("*********")
-                            print(loc)
+                            //                            print(loc)
                             print(distance)
                             self.distances.append(distance)
-                           
+                            
                         }
                     }
                 }
                 
             }
+            
+            //Sorting the array of object ON ditance parameter
             self.nearByFriendsDetailsArray = self.nearByFriendsDetailsArray.sorted(by: { (first, second) -> Bool in
                 first.distance < second.distance
             })
@@ -91,32 +102,46 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
                 print(e.distance)
             }
             
+            //Checking if the friends are less than 3 then map should display them and not crash
             if self.nearByFriendsDetailsArray.count < 3{
                 self.numberOfNearByFriends = self.nearByFriendsDetailsArray.count
+            }else{
+                //Finding nearnest 3 friends
+                self.numberOfNearByFriends = 3
             }
             
             
+            //Adding pins to map for nearby frinds
+            let allAnnotations = self.myMapView.annotations
+            self.myMapView.removeAnnotations(allAnnotations)
             for index in 0..<self.numberOfNearByFriends{
-                 let dropPin = MKPointAnnotation()
-                 dropPin.coordinate = self.nearByFriendsDetailsArray[index].location.coordinate
-                 dropPin.title = self.nearByFriendsDetailsArray[index].locTitle
-                 self.myMapView.addAnnotation(dropPin)
-   
+                let dropPin = MKPointAnnotation()
+                dropPin.coordinate = self.nearByFriendsDetailsArray[index].location.coordinate
+                dropPin.title = self.nearByFriendsDetailsArray[index].locTitle
+                print("_________THESE ARE YOUR NEARBY FRIENDS VISIBLE ON MAP_______________")
+                print(dropPin.title)
+                self.myMapView.addAnnotation(dropPin)
+                
             }
-
+            
+            
+            //Setting the region and span of the map to a location near to the location of the first friend
             if self.nearByFriendsDetailsArray.count == 0{
                 print("No friends to display")
             }else{
-            let coord = CLLocationCoordinate2DMake(self.nearByFriendsDetailsArray[0].location.coordinate.latitude, self.nearByFriendsDetailsArray[0].location.coordinate.longitude)
-            let span = MKCoordinateSpanMake(0.001, 0.001)
-            let regionA = MKCoordinateRegionMake(coord, span)
-            self.myMapView.setRegion(regionA, animated:true)
-            self.myMapView.isZoomEnabled = true
-            self.myMapView.isRotateEnabled = true
+                let coord = CLLocationCoordinate2DMake(self.nearByFriendsDetailsArray[0].location.coordinate.latitude, self.nearByFriendsDetailsArray[0].location.coordinate.longitude)
+                let span = MKCoordinateSpanMake(0.005, 0.005)
+                let regionA = MKCoordinateRegionMake(coord, span)
+                self.myMapView.setRegion(regionA, animated:true)
+                self.myMapView.isZoomEnabled = true
+                self.myMapView.isRotateEnabled = true
             }
         })
     }
     
-  
-
+    @IBAction func onFindNearbyFriendsPress(_ sender: Any) {
+        fetchUsers()
+    }
+    
+    
 }

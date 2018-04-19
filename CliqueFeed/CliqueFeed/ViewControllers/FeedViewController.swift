@@ -11,6 +11,7 @@ import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
 
+
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
 
     var feeds = [Feed]()
@@ -34,14 +35,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         postids = []
         following = []
         fetchFeed()
-        tableView.reloadData()
+//        tableView.showLoader()
+//        tableView.reloadData()
          self.navigationController?.navigationBar.isHidden = true
     }
     
     func fetchFeed(){
         
-        refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            let usersnap = snapshot.value as! [String : AnyObject]
+    refDatabase.child("users").observe(.value, with: { (snapshot) in
+        let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
                     if userid == Auth.auth().currentUser?.uid{
@@ -52,50 +54,49 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                 print("users appended in following")
                             }
                         }
-                  
-                        
-                        self.refDatabase.child("posts").observeSingleEvent(of: .value, with: { (snap) in
+
+                        self.refDatabase.child("posts").observe(.value, with: { (snap) in
+ 
                             print("entered posts in database")
-                            let postsnap = snap.value as! Dictionary<String, AnyObject>
-                            
-                            for (k,userPosts) in postsnap{
-                                    print("*****////*****")
-         
+                            if let postsnap = snap.value as? Dictionary<String, AnyObject>{
+                            print(postsnap)
+                            for (ke,userPosts) in postsnap{
+//                                    print("*****////*****")
                                         if let details = userPosts as? Dictionary<String, AnyObject>{
                                             if let userID = details["uid"] as? String{
                                                 print(self.following)
                                                 if self.following.contains(userID) {
-                                                    print(userID)
-                                                    self.postids.append(k)
-                                                    let fedd = Feed()
-                                                    fedd.feedDescription = details["comment"] as! String
-                                                    fedd.timeStamp = details["timestamp"] as! Double
-                                                    fedd.feedImage = details["urlImage"] as! String
+//                                                    print(userID)
+                                                    
                                                     var name : String!
                                                     var userImageUrl: String!
+                                                    var id : String!
                                                         for(k, value) in usersnap{
                                                             if k == userID{
                                                                     name = value["name"] as! String
                                                                     userImageUrl = value["urlImage"] as! String
-                                                                 self.commentUserImageUrl = value["urlImage"] as! String
+                                                                    id = ke
+                                                                    self.commentUserImageUrl = value["urlImage"] as! String
                                                             }
                                                     }
-                                                    fedd.feedPostUser = name
-                                                    fedd.feedPostUserImg = userImageUrl
-                                                    fedd.lastCommentUserImg = self.commentUserImageUrl
+                                                    let fedd = Feed(feedPostUserImg: userImageUrl, feedImage: details["urlImage"] as! String, feedPostUser: name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.commentUserImageUrl, timeStamp: details["timestamp"] as! Double,id: id)
                                                     self.feeds.append(fedd)
                                                 }
                                             }
                                         }
-                                    self.tableView.reloadData()
+                                self.tableView.reloadData()
+//                                self.tableView.hideLoader()
                             }
-                            print(self.feeds)
+                        }
+                            print("^^^^^^^^^^^^")
+                            self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
+                            for i in 0..<self.feeds.count{
+                                self.postids.append(self.feeds[i].uid)
+                            }
                             print(self.postids)
                         })
                     }
                 }
-                self.refDatabase.removeAllObservers()
-                //print(self.feeds)
             }
         })
     }
@@ -110,62 +111,55 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         
-//       cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
-        let date = Date()
-        let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
         
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
+        //Image added using extension
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
+        
+        
+        //Getting the difference between current date and timestamp with the help of Date extension
+        //WHY if we place this above getting cell.feedDescription.text it is giving error?
+        let date = Date()
+        print("%%%%%%%%%%%%%%%----------%%%%%%%%%%%%")
+
+        let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
         cell.timePosted.text = x
         cell.delegate = self
-
-
         return cell
     }
     
+    //Fixing cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 500
     }
     
-    //Conforming to FeedTableViewCelldelegate
+    //Conforming to FeedTableViewCelldelegate : On Comment Tap
     func feedTableViewCellDidTapComment(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         print("Comm", sender, tappedIndexPath)
         
         if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
             // Pass Data
-            secondViewController.feed = feeds[tappedIndexPath.row]
+//            secondViewController.feed = feeds[tappedIndexPath.row]
             secondViewController.postid = self.postids[tappedIndexPath.row]
             // Present Second View
            navigationController?.pushViewController(secondViewController, animated: true)
         }
     }
     
+    //Conforming to FeedTableViewCelldelegate : On Post Tap
     func feedTableViewCellDidTapPost(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
         let timeInterval = NSDate().timeIntervalSince1970
-        print(timeInterval)
-        print(type(of: timeInterval))
         let comments = ["comment" : cell.commentText.text!,
                         "uid" : (Auth.auth().currentUser?.uid)!,
                         "timestamp" : timeInterval] as [String : Any]
-        
-        print(postids.count)
-        print(postids)
-  
-//        var reversedpostids = [String]()
-//        for arrayIndex in stride(from: self.postids.count - 1, through: 0, by: -1) {
-//            reversedpostids.append(self.postids[arrayIndex])
-//        }
-//        print(reversedpostids)
-//        let newindex = postids.count - tappedIndexPath.row
-        
-        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).child("\((Auth.auth().currentUser?.uid)!)").updateChildValues(comments)
+        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         counter = counter + 1
         
     }

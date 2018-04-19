@@ -14,4 +14,10 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var commentingUsername: UILabel!
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var commentTimeDifference: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    commentingUserImage.layer.borderWidth = 2
+    commentingUserImage.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+    }
 }
