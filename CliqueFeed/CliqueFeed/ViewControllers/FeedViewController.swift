@@ -13,10 +13,11 @@ import FirebaseAuth
 
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
-
+    
     var feeds = [Feed]()
     var postids = [String]()
     var following = [String]()
+    var feedUsers = [User]()
     var comments = [String]()
     var commentUserImageUrl : String!
     var counter = 0
@@ -27,78 +28,94 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        let key = "esf32rradasdwd"
+        let following = ["following/\(key)" : Auth.auth().currentUser?.uid]
+         refDatabase = Database.database().reference()
+        refDatabase.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(following)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         refDatabase = Database.database().reference()
-        feeds = []
         postids = []
+        feeds = []
+       
         following = []
+         feedUsers = []
         fetchFeed()
-//        tableView.showLoader()
-//        tableView.reloadData()
-         self.navigationController?.navigationBar.isHidden = true
+       
+        //        tableView.showLoader()
+        //        tableView.reloadData()
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func fetchFeed(){
-        
-    refDatabase.child("users").observe(.value, with: { (snapshot) in
-        let usersnap = snapshot.value as! [String : AnyObject]
+
+        refDatabase.child("users").observe(.value, with: { (snapshot) in
+            self.postids = []
+            self.feeds = []
+
+             self.following = []
+            let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
                     if userid == Auth.auth().currentUser?.uid{
-                              self.following.append((Auth.auth().currentUser?.uid)!)
+                        self.following.append((Auth.auth().currentUser?.uid)!)
                         if let followingUsers = value["following"] as? [String:String]{
-                            for(_, user) in followingUsers{
-                                self.following.append(user)
-                                print("users appended in following")
+                            self.feedUsers = []
+                            for(_, userid) in followingUsers{
+                                self.following.append(userid)
+                               
+                                for(k, v) in usersnap{
+                                    if userid == k {
+                                        print("Appending \(v["name"])")
+                                        let user = User(name : v["name"] as! String, uid:  userid, imagePath : v["urlImage"] as! String)
+                                        print(user)
+                                        self.feedUsers.append(user)
+//                                        print("************")
+                                        print(self.feedUsers)
+                                    }
+                                }
                             }
                         }
-
-                        self.refDatabase.child("posts").observe(.value, with: { (snap) in
- 
-                            print("entered posts in database")
-                            if let postsnap = snap.value as? Dictionary<String, AnyObject>{
-                            print(postsnap)
-                            for (ke,userPosts) in postsnap{
-//                                    print("*****////*****")
-                                        if let details = userPosts as? Dictionary<String, AnyObject>{
-                                            if let userID = details["uid"] as? String{
-                                                print(self.following)
-                                                if self.following.contains(userID) {
-//                                                    print(userID)
-                                                    
-                                                    var name : String!
-                                                    var userImageUrl: String!
-                                                    var id : String!
-                                                        for(k, value) in usersnap{
-                                                            if k == userID{
-                                                                    name = value["name"] as! String
-                                                                    userImageUrl = value["urlImage"] as! String
-                                                                    id = ke
-                                                                    self.commentUserImageUrl = value["urlImage"] as! String
-                                                            }
-                                                    }
-                                                    let fedd = Feed(feedPostUserImg: userImageUrl, feedImage: details["urlImage"] as! String, feedPostUser: name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.commentUserImageUrl, timeStamp: details["timestamp"] as! Double,id: id)
-                                                    self.feeds.append(fedd)
-                                                }
-                                            }
-                                        }
-                                self.tableView.reloadData()
-//                                self.tableView.hideLoader()
-                            }
-                        }
-                            print("^^^^^^^^^^^^")
-                            self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
-                            for i in 0..<self.feeds.count{
-                                self.postids.append(self.feeds[i].uid)
-                            }
-                            print(self.postids)
-                        })
                     }
                 }
             }
         })
+ 
+        
+        self.refDatabase.child("posts").observe(.value, with: { (snap) in
+
+                if let postsnap = snap.value as? Dictionary<String, AnyObject>{
+                        for (ke,userPosts) in postsnap{
+                        if let details = userPosts as? Dictionary<String, AnyObject>{
+                            print(self.feedUsers)
+//                                let filterfeedusers = self.feedUsers.filter({ (user) -> Bool  in
+//                                    user.uid == details["uid"] as! String
+//                                })
+                            for i in self.feedUsers{
+                                if i.uid == details["uid"] as! String
+    
+//                                if(filterfeedusers[0].uid == details["uid"] as! String )
+                                {
+                                print("Found the users with IDs")
+//                                    print(filterfeedusers[0].name)
+                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: i.imagePath, timeStamp: details["timestamp"] as! Double,id: ke)
+                                self.feeds.append(fedd)
+                                }
+                            }
+                            }
+                           
+                    }
+                    print("^^^^^^^^^^^^")
+                    self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
+                    for i in 0..<self.feeds.count{
+                        self.postids.append(self.feeds[i].uid)
+                    }
+                    print(self.postids)
+                    self.tableView.reloadData()
+            }})
+       
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -123,8 +140,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         //Getting the difference between current date and timestamp with the help of Date extension
         //WHY if we place this above getting cell.feedDescription.text it is giving error?
         let date = Date()
-        print("%%%%%%%%%%%%%%%----------%%%%%%%%%%%%")
-
         let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
         cell.timePosted.text = x
         cell.delegate = self
@@ -143,10 +158,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
             // Pass Data
-//            secondViewController.feed = feeds[tappedIndexPath.row]
+            //            secondViewController.feed = feeds[tappedIndexPath.row]
             secondViewController.postid = self.postids[tappedIndexPath.row]
             // Present Second View
-           navigationController?.pushViewController(secondViewController, animated: true)
+            navigationController?.pushViewController(secondViewController, animated: true)
         }
     }
     

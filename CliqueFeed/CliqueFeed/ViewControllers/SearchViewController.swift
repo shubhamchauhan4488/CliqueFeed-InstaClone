@@ -58,7 +58,6 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
                                 print("users appended in following")
                             }
                         }
-                        
                     }
                 }
             }
@@ -121,7 +120,6 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
                 print("_________THESE ARE YOUR NEARBY FRIENDS VISIBLE ON MAP_______________")
                 print(dropPin.title)
                 self.myMapView.addAnnotation(dropPin)
-                
             }
             
             

@@ -71,7 +71,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             }
                         }
                         print("_________________+++++++++++++++++++______________")
-                        print(self.followingUserids)
+//                        print(self.followingUserids)
                     }
                     
                 }
@@ -224,7 +224,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 let newcell =  self.tableView.cellForRow(at: IndexPath(row: tag, section: 0)) as! UserCell
                                 newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
                             }
-                            
                         }else{
                             if value as! String == self.users[tag].uid{
                                 

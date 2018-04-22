@@ -148,7 +148,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                                             alert.addAction(okAction)
                                             self.present(alert, animated: true)
-                        self.postImage.image = UIImage(named : "instalCam2")
+                        self.postImage.image = UIImage(named : "cam")
                         self.commentField.text = ""
                         self.locationField.text = ""
                    
