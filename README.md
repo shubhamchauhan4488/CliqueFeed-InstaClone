@@ -6,6 +6,6 @@
   <li>The application enables the user to follow/unfollow other users, add a post, display the posts of him and his friends, comment on any post and to view his nearby friends.</li>
 </ul>
 </p>
-<img src="CliqueFeedScreenshot2.png" />
 <img src="CliqueFeedScreenshot1.png" />
+<img src="CliqueFeedScreenshot2.png" />
 
