@@ -5,5 +5,7 @@
   <li>The application uses pods to import third party libraries for animation and validations.</li>
   <li>The application enables the user to follow/unfollow other users, add a post, display the posts of him and his friends, comment on any post and to view his nearby friends.</li>
 </ul>
-<p>
-  
+</p>
+<img src="CliqueFeedScreenshot2.png" />
+<img src="CliqueFeedScreenshot1.png" />
+
