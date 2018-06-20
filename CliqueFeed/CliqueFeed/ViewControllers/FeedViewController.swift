@@ -20,18 +20,28 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var feedUsers = [User]()
     var comments = [String]()
     var commentUserImageUrl : String!
+    var currentUserImagePath = String()
     var counter = 0
     @IBOutlet weak var tableView: UITableView!
     var refDatabase : DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Adding tap gesture recognizer anywhere on the screen
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:    #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
         tableView.delegate = self
         tableView.dataSource = self
         let key = "esf32rradasdwd"
         let following = ["following/\(key)" : Auth.auth().currentUser?.uid]
          refDatabase = Database.database().reference()
         refDatabase.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(following)
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        view.endEditing(true);
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,13 +104,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                                    user.uid == details["uid"] as! String
 //                                })
                             for i in self.feedUsers{
+                              
+                                if i.uid == Auth.auth().currentUser?.uid{
+                                    self.currentUserImagePath = i.imagePath
+                                }
                                 if i.uid == details["uid"] as! String
     
 //                                if(filterfeedusers[0].uid == details["uid"] as! String )
                                 {
                                 print("Found the users with IDs")
 //                                    print(filterfeedusers[0].name)
-                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: i.imagePath, timeStamp: details["timestamp"] as! Double,id: ke)
+                                    let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.currentUserImagePath, timeStamp: details["timestamp"] as! Double,id: ke)
                                 self.feeds.append(fedd)
                                 }
                             }
@@ -134,6 +148,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         //Image added using extension
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
+        print(feeds[indexPath.row].feedImage);
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         
         
@@ -148,7 +163,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Fixing cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 500
+        return 450
     }
     
     //Conforming to FeedTableViewCelldelegate : On Comment Tap

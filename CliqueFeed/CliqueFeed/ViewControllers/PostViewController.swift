@@ -26,13 +26,15 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var feedStorage : StorageReference!
     var databaseRef : DatabaseReference!
     let userId =  Auth.auth().currentUser?.uid
-    var imgCounter = 0
     var locManager = CLLocationManager()
     var currentLocation: CLLocation!
     var postCounter = Int()
     var userDefaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
         
         locManager = CLLocationManager()
         locManager.delegate = self
@@ -62,6 +64,11 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }else{
             postCounter = userDefaults.integer(forKey: "postcounter")
         }
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        commentField.resignFirstResponder()
+        locationField.resignFirstResponder()
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -108,9 +115,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func onPost(_ sender: Any) {
-        
-        let imageRef = self.feedStorage.child(userId!).child("\(imgCounter).jpg")
-        imgCounter += 1
+        let num = Double(arc4random_uniform(999999999) + 1)
+        let imageRef = self.feedStorage.child(userId!).child("\(num).jpg")
+   
         //Downgrading the image selected by the user and putting in 'data' variable
         let data = UIImageJPEGRepresentation(self.postImage.image!, 0.5 )
         
@@ -127,6 +134,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 if let url = url{
                     if self.commentField.text == nil{
                         self.commentField.text = ""
+                        return
                     }
                     let timeInterval = NSDate().timeIntervalSince1970
                     let postInfo : [String:Any] = ["uid": self.userId!,
@@ -139,8 +147,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                                     "timestamp" : timeInterval]
                     
                       if(self.databaseRef.child("posts").child(self.userId!) != nil){
-                        var str = self.userId! + String(self.postCounter);
-                        print(type(of: str))
+                       
+//                        print(type(of: str))
                         self.databaseRef.child("posts").childByAutoId().setValue(postInfo)
                         self.postCounter =  self.postCounter + 1
                         self.userDefaults.set(self.postCounter, forKey: "postcounter")

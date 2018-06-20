@@ -26,7 +26,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mySwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
         databaseRef = Database.database().reference()
         locManager = CLLocationManager()
         locManager.delegate = self
@@ -56,6 +57,10 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
             password.text = userDefault.string(forKey: "password")
         }
 
+    }
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        password.resignFirstResponder()
+        email.resignFirstResponder()
     }
     
     @IBAction func onLoginPress(_ button: DKTransitionButton) {
@@ -115,6 +120,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
             present(alertBox, animated:true)
             
         }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

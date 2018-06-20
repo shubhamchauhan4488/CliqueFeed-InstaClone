@@ -271,21 +271,50 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
 }
 
+let imageCache = NSCache<AnyObject, AnyObject>();
 extension UIImageView{
     func downloadImage(from imgurl : String){
+        
+        //check cache for the image first
+        if let cachedImage = imageCache.object(forKey: imgurl as AnyObject) as? UIImage
+        {
+            self.image = cachedImage
+            return;
+        }
+        
         let urlRequest = URLRequest(url: URL(string: imgurl)!)
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if(error != nil){
                 print(error!)
                 return
             }
-            //Whenever u have to update the UI u have to do it in main thread, otherwise it will crash
+            //Whenever u have to update the UI u have to do it in main thread, otherwise it will crash/
             DispatchQueue.main.async {
-                self.image = UIImage(data : data!)
+                
+                if let downloadedImage = UIImage(data : data!){
+                    imageCache.setObject(downloadedImage, forKey: imgurl as AnyObject)
+                self.image = downloadedImage
+                }
             }
-        }
-        task.resume()
+        }.resume()
     }
 }
+
+//extension UIImageView{
+//    func downloadImage(from imgurl : String){
+//        let urlRequest = URLRequest(url: URL(string: imgurl)!)
+//        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+//            if(error != nil){
+//                print(error!)
+//                return
+//            }
+//            //Whenever u have to update the UI u have to do it in main thread, otherwise it will crash
+//            DispatchQueue.main.async {
+//                self.image = UIImage(data : data!)
+//            }
+//        }
+//        task.resume()
+//    }
+//}
 
 

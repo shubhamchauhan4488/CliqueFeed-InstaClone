@@ -28,10 +28,16 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:    #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         picker.delegate = self
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
         userStorage = storage.child("users")
         databaseRef = Database.database().reference()
+    }
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        view.endEditing(true);
     }
 
     @IBAction func onEmailTextChanged(_ sender: Any) {
