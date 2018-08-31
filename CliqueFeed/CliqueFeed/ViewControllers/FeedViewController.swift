@@ -10,7 +10,7 @@ import UIKit
 import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
-
+import FaveButton
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
     
@@ -23,8 +23,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentUserImagePath = String()
     var counter = 0
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var likeButton: FaveButton!
     var refDatabase : DatabaseReference!
-    
+    let faveButton = FaveButton(
+        frame: CGRect(x:200, y:200, width: 44, height: 44),
+        faveIconNormal: UIImage(named: "heart")
+    )
     override func viewDidLoad() {
         super.viewDidLoad()
         //Adding tap gesture recognizer anywhere on the screen
@@ -32,6 +36,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
+       
+        faveButton.delegate = self
+       
         tableView.delegate = self
         tableView.dataSource = self
         let key = "esf32rradasdwd"
@@ -142,6 +149,21 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         
+        cell.feedView.addSubview(faveButton)
+        
+        faveButton.translatesAutoresizingMaskIntoConstraints = false
+        // 2
+        faveButton.leadingAnchor.constraint(
+            equalTo: cell.feedView.leadingAnchor).isActive = true
+        faveButton.trailingAnchor.constraint(
+            equalTo: cell.feedView.trailingAnchor).isActive = true
+        faveButton.bottomAnchor.constraint(
+            equalTo: cell.feedView.bottomAnchor,
+            constant: -20).isActive = true
+        // 3
+        faveButton.heightAnchor.constraint(
+            equalTo: cell.feedView.heightAnchor,
+            multiplier: 0.65).isActive = true
         
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser

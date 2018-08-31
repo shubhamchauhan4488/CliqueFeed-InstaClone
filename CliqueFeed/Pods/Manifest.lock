@@ -1,6 +1,17 @@
 PODS:
   - AnimatableReload (0.1.0)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
   - DKLoginButton (4.0.3)
+  - FaveButton (2.0.3)
+  - FBSDKCoreKit (4.31.1):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.31.1):
+    - FBSDKCoreKit
   - Firebase/Auth (4.10.1):
     - Firebase/Core
     - FirebaseAuth (= 4.4.4)
@@ -57,6 +68,8 @@ PODS:
 DEPENDENCIES:
   - AnimatableReload
   - DKLoginButton
+  - FaveButton (~> 2.0.3)
+  - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -66,7 +79,11 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AnimatableReload: dcef76a16258b82bf845225012aa8f3b1aa7df6c
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   DKLoginButton: ec80ac7a41cfd875e936c83f76efbb7734af30c8
+  FaveButton: cfcbc5e73da159c4f916613da5687357b5bb4783
+  FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
+  FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
   Firebase: 92c6ba593e32db0defde464a9adc981d5cb49f97
   FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
   FirebaseAuth: d040bb7a9db6dfc29d0e7ec82d48be51352b2581
@@ -81,6 +98,6 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
 
-PODFILE CHECKSUM: b72f5e9a3b52c133511a5460779e0d5c7bc0bd8e
+PODFILE CHECKSUM: 118210b05a6ba769f44f71b6f60ea71370913beb
 
 COCOAPODS: 1.4.0
