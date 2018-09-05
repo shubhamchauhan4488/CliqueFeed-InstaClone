@@ -107,10 +107,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
               
                 cell.configure(username: self.filteredUsers[indexPath.row].name, imageURL: filteredUsers[indexPath.row].imagePath!, userID: self.filteredUsers[indexPath.row].uid, isFollowing: followingUserids.contains(filteredUsers[indexPath.row].uid))
             }else{
-                //            UIViewPropertyAnimator(duration: 3.0, curve: .easeIn) {
-                //                }.startAnimation()
-                //            cell.username.text = self.users[indexPath.row].name
-                //            cell.userID = self.users[indexPath.row].uid
+    
                 cell.configure(username: self.users[indexPath.row].name, imageURL: users[indexPath.row].imagePath!, userID: self.users[indexPath.row].uid, isFollowing: followingUserids.contains(users[indexPath.row].uid))
                 
                 //            print("=============================")
@@ -148,52 +145,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //        AnimatableReload.reload(tableView: self.tableView, animationDirection: "up")
     }
     
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        let uid = Auth.auth().currentUser?.uid
-    //        let ref = Database.database().reference()
-    //        let key = ref.child("users").childByAutoId().key
-    //        var isFollower = false
-    //
-    //        ref.child("users").child(uid!).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with:
-    //         { (snapshot) in
-    //
-    //            if let following = snapshot.value as? [String : AnyObject] {
-    //                for(k, value) in following{
-    //                    if value as! String == self.users[indexPath.row].uid{
-    //
-    //                    isFollower = true
-    //                    print("IAM INSIDE UN FOLLOW METHOD")
-    //                    ref.child("users").child(uid!).child("following/\(k)").removeValue()
-    //                    ref.child("users").child(self.users[indexPath.row].uid).child("followers/\(k)").removeValue()
-    //
-    //
-    //                    let newcell =  tableView.cellForRow(at: indexPath) as! UserCell
-    //                    newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
-    //                }
-    //            }
-    //        }
-    //
-    //        if  !isFollower {
-    //
-    //            let following = ["following/\(key)" : self.users[indexPath.row].uid]
-    //            let followers = ["followers/\(key)" : uid]
-    //
-    //            ref.child("users").child(uid!).updateChildValues(following)
-    //            ref.child("users").child(self.users[indexPath.row].uid).updateChildValues(followers)
-    //
-    //            let newcell =  tableView.cellForRow(at: indexPath) as! UserCell
-    //            newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Following_icon")
-    ////            newcell.followLabel.text = "Following"
-    ////            newcell.followLabel.layer.borderWidth = 1
-    ////            newcell.followLabel.layer.cornerRadius = 5
-    ////            newcell.followLabel.backgroundColor = UIColor.white
-    ////            newcell.followLabel.textColor = UIColor.black
-    ////            newcell.followLabel.layer.borderColor = UIColor.lightGray.cgColor
-    //            }
-    //
-    //        })
-    //        ref.removeAllObservers()
-    //    }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
          tableView.setContentOffset(.zero, animated: true)

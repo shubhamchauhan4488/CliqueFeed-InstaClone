@@ -71,8 +71,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         refDatabase.child("users").observe(.value, with: { (snapshot) in
             self.postids = []
             self.feeds = []
-
-             self.following = []
+            self.following = []
             let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{

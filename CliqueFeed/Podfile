@@ -16,5 +16,5 @@ target 'CliqueFeed' do
    pod 'AnimatableReload'
    pod 'FaveButton', '~> 2.0.3'
    pod 'FBSDKLoginKit'
-	
+   pod 'GoogleSignIn'
 end

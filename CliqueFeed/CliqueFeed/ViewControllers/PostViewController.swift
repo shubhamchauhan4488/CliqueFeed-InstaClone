@@ -101,7 +101,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
                 if error == nil {
                     let firstLocation = placemarks?[0]
-                    print(placemarks)
+//                    print(placemarks)
                     self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
                 }
                 else {
