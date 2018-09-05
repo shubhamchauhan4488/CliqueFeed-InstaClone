@@ -49,14 +49,12 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                 }
                 else {
                     // The error message will only disappear when we reset it to nil or empty string
-                    
                     email.errorMessage = ""
                 }
             }
         }
         if email.text == "" {
             email.errorMessage = ""
-            
         }
     }
     
@@ -116,7 +114,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -150,10 +147,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                 //If user is successfully created on firebase
                 if let user = user
                 {
-//                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-//                    changeRequest?.displayName = self.name.text
-//                    changeRequest?.commitChanges(completion: nil)
-                    
+
                     let imageRef = self.userStorage.child("\(user.uid).jpg")
                     //Downgrading the image selected by the user and putting in 'data' variable
                     let data = UIImageJPEGRepresentation(self.profileImage.image!, 0.5 )
