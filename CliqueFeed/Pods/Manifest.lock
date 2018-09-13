@@ -68,7 +68,9 @@ PODS:
   - GTMSessionFetcher/Core (1.1.14)
   - GTMSessionFetcher/Full (1.1.14):
     - GTMSessionFetcher/Core (= 1.1.14)
+  - IQKeyboardManagerSwift (5.0.8)
   - leveldb-library (1.20)
+  - ListPlaceholder (1.2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -87,6 +89,8 @@ DEPENDENCIES:
   - Firebase/Storage
   - Fusuma
   - GoogleSignIn
+  - IQKeyboardManagerSwift
+  - ListPlaceholder
   - SkyFloatingLabelTextField (~> 3.0)
 
 SPEC CHECKSUMS:
@@ -108,10 +112,12 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
+  IQKeyboardManagerSwift: 2e7dc7f98c111458c1ea2b373f893e8cf95e2b97
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  ListPlaceholder: 48227c2f1ff0cd2f75c8e2bb26b5a45a29cf1d4c
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
 
-PODFILE CHECKSUM: eddd5b05bdf96c64e57b88029dd4f9f41d9958e5
+PODFILE CHECKSUM: da3cfc0e3b8a34777435f8319468778e8a74c8c6
 
 COCOAPODS: 1.4.0

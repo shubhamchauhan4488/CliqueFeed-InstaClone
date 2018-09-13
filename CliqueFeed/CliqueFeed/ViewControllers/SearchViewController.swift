@@ -17,15 +17,14 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     var currentLocation : CLLocation!
     var following = [String]()
     var refDatabase : DatabaseReference!
-    
     var locs : [Location] = []
     var pins = [MKPointAnnotation]()
     var distances : [CLLocationDistance] = []
     var nearByFriendsDetailsArray : [Location] = []
-    
     var numberOfNearByFriends  = 3
     
     @IBOutlet weak var myMapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -38,7 +37,6 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
         nearByFriendsDetailsArray = []
         let allAnnotations = self.myMapView.annotations
         self.myMapView.removeAnnotations(allAnnotations)
-        
         myMapView.delegate = self
         myMapView.mapType = .standard
     }
@@ -73,6 +71,8 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
                     print(self.following.count)
                     for element in 0..<self.following.count{
                         if userid == self.following[element]{
+                            
+                            
                             let lat = value["latitude"] as? Double
                             let long = value["longitude"] as? Double
                             let title = value["name"] as? String
@@ -140,6 +140,5 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     @IBAction func onFindNearbyFriendsPress(_ sender: Any) {
         fetchUsers()
     }
-    
     
 }

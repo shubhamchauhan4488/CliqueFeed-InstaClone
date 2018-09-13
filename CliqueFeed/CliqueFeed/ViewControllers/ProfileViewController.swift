@@ -14,7 +14,6 @@ import GoogleSignIn
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
     
-    
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var name: UILabel!
@@ -23,83 +22,92 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var postids = [String]()
     var comments = [String]()
     var counter = 0
+    var likesCount = 0
     var newname : String!
     var userImageUrl: String!
     var commentUserImageUrl: String!
     var metaFeeds = [feedIntermediate]()
+    var user = User()
+    typealias fetchUserPosts = () -> ()
+    typealias getPostsData = () -> ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
+        profileImg.layer.borderWidth = 2
+        profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
-        
-        refDatabase = Database.database().reference()
-        feeds = []
-        postids = []
+
         metaFeeds = []
-        fetchFeed()
-        profileImg.layer.borderWidth = 2
-        profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
-        tableView.reloadData()
-        
+        refDatabase = Database.database().reference()
+        fetchFeed {
+            self.fetchUserPosts{
+                self.tableView.remembersLastFocusedIndexPath = true
+                self.tableView.reloadData()
+            }
+        }
     }
     
-    func fetchFeed(){
+    func fetchFeed(completed : @escaping fetchUserPosts){
         
+        refDatabase.child("users").observe(.value, with: { (snapshot) in
+            
+            // self.feeds = []
+            //            self.following = []
+            let usersnap = snapshot.value as! [String : AnyObject]
+            for(id, value) in usersnap{
+                if let userid = id as? String{
+                    if userid == Auth.auth().currentUser?.uid{
+                        print("Cuurent user id:", userid)
+                        self.user = User(name : value["name"] as! String, uid:  userid, imagePath : value["urlImage"] as! String)
+                        self.profileImg.downloadImage(from: self.user.imagePath)
+                        self.name.text = self.user.name!
+                    }
+                }
+                
+            }
+            completed()
+        })
+        refDatabase.child("users").removeAllObservers()
+    }
+    
+    
+    func fetchUserPosts(completed : @escaping getPostsData){
         self.refDatabase.child("posts").observe(.value, with: { (snap) in
-            //            print("entered posts in database")
-            let postsnap = snap.value as! Dictionary<String, AnyObject>
-            for (k,userPosts) in postsnap{
-                //                print("*****////*****")
-                if let details = userPosts as? Dictionary<String, AnyObject>{
-                    if let userID = details["uid"] as? String{
-                        if userID == Auth.auth().currentUser?.uid{
-                            
-                            let metafeed = feedIntermediate(feedImage: details["urlImage"] as! String, feedDescription: details["comment"] as! String, timeStamp: details["timestamp"] as! Double, id: k)
-                            self.metaFeeds.append(metafeed)
-                            
+            
+            self.feeds = []
+            self.postids = []
+            if let postsnap = snap.value as? Dictionary<String, AnyObject>{
+                for (ke,userPosts) in postsnap{
+                    if let details = userPosts as? Dictionary<String, AnyObject>{
+                        let currentUserId = Auth.auth().currentUser?.uid
+                        if currentUserId == details["uid"] as! String
+                        {
+                            let fedd = Feed(feedPostUserImg:  self.user.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: self.user.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.user.imagePath,likes : details["likes"] as! Int, isLiked: true, timeStamp: details["timestamp"] as! Double,id: ke)
+                            self.feeds.append(fedd)
+                            //                                  print("Appending new feed" , self.feeds)
                         }
                     }
                 }
-            }
-            
-        })
-        
-        
-        self.refDatabase.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            let usersnap = snapshot.value as! [String : AnyObject]
-            var id : String!
-            
-            for(k, value) in usersnap{
-                if k == Auth.auth().currentUser?.uid{
-                    self.newname = value["name"] as! String
-                    self.userImageUrl = value["urlImage"] as! String
-                    
-                    self.profileImg.downloadImage(from: self.userImageUrl)
-                    self.name.text = self.newname!
-                    
-                    self.commentUserImageUrl = value["urlImage"] as! String
-                    self.navigationItem.title = value["email"] as! String
-                    
+                
+                print("^^^^^^^^^^^^")
+                print("Feeds : ", self.feeds)
+                self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
+                for i in 0..<self.feeds.count{
+                    self.postids.append(self.feeds[i].uid)
                 }
+                print(self.postids)
             }
-            
-            for metafeed in self.metaFeeds{
-//                print("iam in metafeed")
-                let fedd = Feed(feedPostUserImg: self.userImageUrl, feedImage: metafeed.feedImage, feedPostUser: self.newname, feedDescription: metafeed.feedDescription, lastCommentUserImg: self.commentUserImageUrl, timeStamp: metafeed.timeStamp, id: metafeed.postid)
-                self.feeds.append(fedd)
-            }
-            self.sortfeeds()
-            self.tableView.reloadData()
+            completed()
         })
-        
         
     }
+    
     
     func sortfeeds(){
         self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
@@ -121,12 +129,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        
+        print("Feeds : ", self.feeds)
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
+        cell.likes.text = String(feeds[indexPath.row].likes)
         let date = Date()
         print("%%%%%%%%%%%%%%%----------%%%%%%%%%%%%")
         
@@ -146,12 +155,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         print("Comm", sender, tappedIndexPath)
         
-        if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
+        if let commentViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
             // Pass Data
-            //            secondViewController.feed = feeds[tappedIndexPath.row]
-            secondViewController.postid = self.postids[tappedIndexPath.row]
+            // secondViewController.feed = feeds[tappedIndexPath.row]
+            commentViewController.postid = self.postids[tappedIndexPath.row]
             // Present Second View
-            navigationController?.pushViewController(secondViewController, animated: true)
+            navigationController?.pushViewController(commentViewController, animated: true)
         }
         
     }
@@ -176,15 +185,67 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         do {
             try firebaseAuth.signOut()
             GIDSignIn.sharedInstance().signOut()
-            self.dismiss(animated: true, completion: nil)
+            
+            //Grabbing the nearrest tabBarController and then its nearest navController then poping
+            tabBarController?.navigationController?.popToRootViewController(animated: true)
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }
-        
-       
     }
     
+    func feedTableViewCellDidTapLike(_ sender: FeedCell) {
+        
+        guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+        let index = IndexPath(row: tappedIndexPath.row, section: 0)
+        let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
+        
+        //Getting the likes from the UI
+        if let like = cell.likes.text {
+            likesCount = Int(like)!
+        }else{
+            print("Zero likes")
+        }
+        print("POST IDs :",self.postids)
+        self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).child("likedBy").observeSingleEvent(of :.value, with: { (snap) in
+            var idFound = false
+            //If the user has already liked the image : decrease like on that post by one
+            if let likedBysnap = snap.value as? [String : String]{
+                
+                var key = String()
+                for (k,id) in likedBysnap{
+                    if id == Auth.auth().currentUser?.uid {
+                        idFound  = true
+                        key = k
+                    }
+                }
+                if(idFound == true){
+                    self.postDislike(indexRow : tappedIndexPath.row, key : key)
+                }else{
+                    self.postLike(indexRow : tappedIndexPath.row)
+                }
+            }
+          
+            self.fetchFeed {
+                self.tableView.remembersLastFocusedIndexPath = true
+                self.tableView.reloadData()
+            }
+        })
+    }
     
+    func postLike(indexRow : Int){
+        self.likesCount = self.likesCount + 1;
+        let likes = ["likes" : self.likesCount]
+        self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
+        let key = self.refDatabase.child("posts").childByAutoId().key
+        let likedBy = ["likedBy/\(key)" : Auth.auth().currentUser?.uid]
+        self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likedBy)
+    }
     
-    
+    func postDislike(indexRow : Int, key : String){
+        self.likesCount = self.likesCount - 1;
+        let likes = ["likes" : self.likesCount]
+        self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
+        self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
+    }
+
 }

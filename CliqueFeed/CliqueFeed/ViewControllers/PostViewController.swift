@@ -14,39 +14,33 @@ import CoreLocation
 import Fusuma
 
 class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, FusumaDelegate {
-   
-    
     
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var commentField: UITextField!
-    
     @IBOutlet weak var locationField: UITextField!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     let picker = UIImagePickerController()
     var feedStorage : StorageReference!
     var databaseRef : DatabaseReference!
     let userId =  Auth.auth().currentUser?.uid
     var locManager = CLLocationManager()
-    var currentLocation: CLLocation!
-    var postCounter = Int()
-    var userDefaults = UserDefaults.standard
+    var currentLocation : CLLocation!
+    var postInfo = [String : Any]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
-        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        commentField.text = ""
+        locationField.text = ""
         
         locManager = CLLocationManager()
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBest
         locManager.requestWhenInUseAuthorization()
         locManager.startUpdatingLocation()
-        
-        //        if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
-        //            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-        //            currentLocation = locManager.location
-        //
-        //        }
         
         picker.delegate = self
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
@@ -55,20 +49,44 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(tapGestureRecognizer)
-        
+        saveButton.isEnabled = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        if (userDefaults.bool(forKey: "postcounter")) == false{
-            userDefaults.set(0, forKey: "postcounter")
+    //Calling instagram-like 3rd party library to add/capture image
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        
+        print(image)
+        self.postImage.image = image
+        
+        if let lastLocation = self.currentLocation {
+            let geocoder = CLGeocoder()
+            
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
+                if error == nil {
+                    let firstLocation = placemarks?[0]
+                    self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
+                }
+                else {
+                    // An error occurred during geocoding.
+                    print("error while geocoding")
+                }
+            })
         }else{
-            postCounter = userDefaults.integer(forKey: "postcounter")
+            let alert = UIAlertController(title: "Error", message: "Couldn't fetch Location", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true)
         }
     }
     
-    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        commentField.resignFirstResponder()
-        locationField.resignFirstResponder()
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
+    }
+    
+    func fusumaVideoCompleted(withFileURL fileURL: URL) {
+    }
+    
+    func fusumaCameraRollUnauthorized() {
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -79,143 +97,114 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         fusuma.cropHeightRatio = 1 // Height-to-width ratio. The default value is 1, which means a squared-size photo.
         //fusuma.allowMultipleSelection = true // You can select multiple photos from the camera roll. The default value is false.
         self.present(fusuma, animated: true, completion: nil)
-        //        let tappedImage = tapGestureRecognizer.view as! UIImageView
-//        picker.allowsEditing = true
-//        picker.sourceType = .photoLibrary
-//        present(picker, animated: true, completion: nil)
-        
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerEditedImage] as? UIImage
-        {
-            self.postImage.image = image
-        }
-        
-        if let lastLocation = self.currentLocation {
-            print(currentLocation.coordinate.latitude)
-            print(currentLocation.coordinate.longitude)
-            let geocoder = CLGeocoder()
-            
-            // Look up the location and pass it to the completion handler
-            geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
-                if error == nil {
-                    let firstLocation = placemarks?[0]
-//                    print(placemarks)
-                    self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
-                }
-                else {
-                    // An error occurred during geocoding.
-                    print("error while geocoding")
-                }
-            })
-        }
-        
-        self.dismiss(animated: true, completion: nil)
-    }
     
+    
+    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    //
+    //        //Getting the image from info and storing in postImage.image
+    //        if let image = info[UIImagePickerControllerEditedImage] as? UIImage
+    //        {
+    //            self.postImage.image = image
+    //        }
+    //
+    //        if let lastLocation = self.currentLocation {
+    //
+    //            let geocoder = CLGeocoder()
+    //
+    //            // Look up the location and pass it to the completion handler to get the detailed Placemark
+    //            geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
+    //                if error == nil {
+    //                    let firstLocation = placemarks?[0]
+    //                    self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
+    //                }
+    //                else {
+    //                    // An error occurred during geocoding.
+    //                    print("error while geocoding")
+    //                }
+    //            })
+    //        }
+    //        self.dismiss(animated: true, completion: nil)
+    //    }
+    
+    
+    //MARK :- On Save click
     @IBAction func onPost(_ sender: Any) {
-        let num = Double(arc4random_uniform(999999999) + 1)
-        let imageRef = self.feedStorage.child(userId!).child("\(num).jpg")
-   
-        //Downgrading the image selected by the user and putting in 'data' variable
-        let data = UIImageJPEGRepresentation(self.postImage.image!, 0.5 )
         
-        //Putting the image on the 'unique' reference created on Firebase inside Users folder
-        let uploadTask = imageRef.putData(data!, metadata: nil, completion: { (metadata, err) in
-            if let err = err {
-                print(err.localizedDescription)
-            }
-            imageRef.downloadURL(completion: { (url, er) in
-                if let er = er {
-                    print(er.localizedDescription)
+        //Checking whether all the info is entered by the user, to prevent bogus/irrelevant posts
+        if(self.postImage.image != UIImage(named: "cam") && self.commentField.text != "" && self.locationField.text != ""){
+            
+            //Disabling the Save btn while saving to Firebase
+            saveButton.isEnabled = false
+            let imageRef = self.feedStorage.child(userId!).child("\(userId!).jpg")
+            
+            //Downgrading the image selected by the user and putting in 'data' variable
+            let data = UIImageJPEGRepresentation(self.postImage.image!, 0.5 )
+            
+            //Putting the image on the 'unique' reference created on Firebase inside Users folder
+            let uploadTask = imageRef.putData(data!, metadata: nil, completion: { (metadata, err) in
+                if let err = err {
+                    print("Image Upload task Error : ", err.localizedDescription)
                 }
                 
-                if let url = url{
-                    if self.commentField.text == nil{
-                        self.commentField.text = ""
-                        return
+                //Image was uploaded successfully, getting the url
+                imageRef.downloadURL(completion: { (url, er) in
+                    if let er = er {
+                        print(er.localizedDescription)
                     }
-                    let timeInterval = NSDate().timeIntervalSince1970
-                    let postInfo : [String:Any] = ["uid": self.userId!,
-                                                   "urlImage": url.absoluteString,
-                                                   "comment" : self.commentField.text!,
-                                                   "comments" : [String](),
-                                                   "latitude" : self.currentLocation.coordinate.latitude,
-                                                   "longitude" : self.currentLocation.coordinate.longitude,
-                                                   "geoTagLocation" : self.locationField.text!,
-                                                    "timestamp" : timeInterval]
                     
-                      if(self.databaseRef.child("posts").child(self.userId!) != nil){
-                       
-//                        print(type(of: str))
-                        self.databaseRef.child("posts").childByAutoId().setValue(postInfo)
-                        self.postCounter =  self.postCounter + 1
-                        self.userDefaults.set(self.postCounter, forKey: "postcounter")
-                        let alert = UIAlertController(title: "Successfull", message: "Image has been posted", preferredStyle: .actionSheet)
-                                            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                                            alert.addAction(okAction)
-                                            self.present(alert, animated: true)
+                    //URL fetch success : Save the post to Firebase
+                    if let url = url{
+                        self.uploadPostToFirebase(url : url)
+                        //Reseting everthing to default values to avoid redundant posts
                         self.postImage.image = UIImage(named : "cam")
                         self.commentField.text = ""
                         self.locationField.text = ""
-                   
-                    }else{
-                        self.databaseRef.child("posts").child("0").setValue(postInfo)
+                        self.saveButton.isEnabled = true
                     }
-                }
+                })
             })
-        })
-        uploadTask.resume()
-        
-        if let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "feedViewController") as? FeedViewController {
-            // Present Second View
-            self.navigationController?.pushViewController(secondViewController, animated: true)
+            uploadTask.resume()
         }
-
+        else{
+            let alert = UIAlertController(title: "Incomplete Info for post", message: "No fileds should be left blank", preferredStyle: .actionSheet)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true)
+        }
+    }
+    
+    func uploadPostToFirebase(url : URL){
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        let timeInterval = NSDate().timeIntervalSince1970
+        //        let key = "KDSALNjksdLSJNF27B3DF"
+        let randomUserID = "LLSADKNNukabwdd27ekbq"
+        let likedBy = ["KDSALNjksdLSJNF27B3DF" : randomUserID]
+        //Creating postInfo object and saving to Firebase
+        self.postInfo  = ["uid": self.userId!,
+                          "urlImage": url.absoluteString,
+                          "comment" : self.commentField.text!,
+                          "comments" : [String](),
+                          "latitude" : self.currentLocation.coordinate.latitude,
+                          "longitude" : self.currentLocation.coordinate.longitude,
+                          "geoTagLocation" : self.locationField.text!,
+                          "likes" : 0,
+                          "likedBy": likedBy,
+                          "timestamp" : timeInterval]
         
+        self.databaseRef.child("posts").childByAutoId().setValue(self.postInfo)
+        
+        //Once the post is successful on FIREBASE, it will trigger the FeedViewController as the data has changed and the feeds tableview will be reloaded automatically
+        let alert = UIAlertController(title: "Successfull", message: "Image has been posted", preferredStyle: .actionSheet)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
+        UIApplication.shared.endIgnoringInteractionEvents()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let i = locations.count - 1
         currentLocation = manager.location  
     }
-    
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
-        
-            self.postImage.image = image
-        
-        if let lastLocation = self.currentLocation {
-            print(currentLocation.coordinate.latitude)
-            print(currentLocation.coordinate.longitude)
-            let geocoder = CLGeocoder()
-            
-            // Look up the location and pass it to the completion handler
-            geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
-                if error == nil {
-                    let firstLocation = placemarks?[0]
-                    print(placemarks)
-                    self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
-                }
-                else {
-                    // An error occurred during geocoding.
-                    print("error while geocoding")
-                }
-            })
-        }
-    }
-    
-    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
-        
-    }
-    
-    func fusumaVideoCompleted(withFileURL fileURL: URL) {
-        
-    }
-    
-    func fusumaCameraRollUnauthorized() {
-        
-    }
-    
     
 }

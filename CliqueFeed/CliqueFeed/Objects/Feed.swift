@@ -18,8 +18,10 @@ class Feed: NSObject {
     var comments : [String]!
     var uid : String!
     var timeStamp : Double!
+    var likes : Int!
+    var isLiked : Bool!
     
-    init(feedPostUserImg : String, feedImage : String,feedPostUser : String,feedDescription : String,lastCommentUserImg : String,timeStamp : Double, id: String){
+    init(feedPostUserImg : String, feedImage : String,feedPostUser : String,feedDescription : String,lastCommentUserImg : String,likes : Int, isLiked : Bool, timeStamp : Double, id: String){
         self.feedPostUserImg = feedPostUserImg
         self.feedImage = feedImage
         self.feedPostUser = feedPostUser
@@ -27,6 +29,8 @@ class Feed: NSObject {
         self.lastCommentUserImg = lastCommentUserImg
         self.timeStamp = timeStamp
         self.uid = id
+        self.likes = likes
+        self.isLiked = isLiked
     }
 }
 

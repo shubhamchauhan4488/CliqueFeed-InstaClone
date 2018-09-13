@@ -11,6 +11,7 @@ import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
 import FaveButton
+import ListPlaceholder
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
     
@@ -22,56 +23,51 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var commentUserImageUrl : String!
     var currentUserImagePath = String()
     var counter = 0
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var likeButton: FaveButton!
+    var likesCount = 0
     var refDatabase : DatabaseReference!
     let faveButton = FaveButton(
         frame: CGRect(x:200, y:200, width: 44, height: 44),
         faveIconNormal: UIImage(named: "heart")
     )
+    typealias downloadData = () -> ()
+    
+    @IBOutlet weak var tableView: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Adding tap gesture recognizer anywhere on the screen
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:    #selector(self.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
         
-       
         faveButton.delegate = self
-       
+        
         tableView.delegate = self
         tableView.dataSource = self
         let key = "esf32rradasdwd"
         let following = ["following/\(key)" : Auth.auth().currentUser?.uid]
-         refDatabase = Database.database().reference()
+        refDatabase = Database.database().reference()
         refDatabase.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(following)
-    }
-    
-    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        view.endEditing(true);
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
+        print("vWA : " ,feeds)
+        
+        self.postids = []
+        self.following = []
         refDatabase = Database.database().reference()
-        postids = []
-        feeds = []
-       
-        following = []
-         feedUsers = []
-        fetchFeed()
-       
-        //        tableView.showLoader()
-        //        tableView.reloadData()
+        
+        fetchFeed {
+            print("after : " ,self.feeds)
+            self.tableView.remembersLastFocusedIndexPath = true
+            self.tableView.reloadData()
+        }
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    func fetchFeed(){
-
+    
+    func fetchFeed(completed : @escaping downloadData){
+        
         refDatabase.child("users").observe(.value, with: { (snapshot) in
-            self.postids = []
-            self.feeds = []
-            self.following = []
+            
             let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
@@ -81,15 +77,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                             self.feedUsers = []
                             for(_, userid) in followingUsers{
                                 self.following.append(userid)
-                               
+                                
                                 for(k, v) in usersnap{
                                     if userid == k {
-                                        print("Appending \(v["name"])")
+                                        //print("Appending \(v["name"])")
                                         let user = User(name : v["name"] as! String, uid:  userid, imagePath : v["urlImage"] as! String)
-                                        print(user)
+                                        //print(user)
                                         self.feedUsers.append(user)
-//                                        print("************")
-                                        print(self.feedUsers)
+                                        //                                        print("************")
+                                        print("feedUsers : ",self.feedUsers)
                                     }
                                 }
                             }
@@ -98,81 +94,93 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         })
- 
         
         self.refDatabase.child("posts").observe(.value, with: { (snap) in
-
-                if let postsnap = snap.value as? Dictionary<String, AnyObject>{
-                        for (ke,userPosts) in postsnap{
-                        if let details = userPosts as? Dictionary<String, AnyObject>{
-                            print(self.feedUsers)
-//                                let filterfeedusers = self.feedUsers.filter({ (user) -> Bool  in
-//                                    user.uid == details["uid"] as! String
-//                                })
-                            for i in self.feedUsers{
-                              
-                                if i.uid == Auth.auth().currentUser?.uid{
-                                    self.currentUserImagePath = i.imagePath
+            
+            
+            //Since we are observing posts, this block will be called whenever we try to access its childs. So we clear feeds array as it will be loaded again from the databse
+            self.feeds = []
+            self.postids = []
+            if let postsnap = snap.value as? Dictionary<String, AnyObject>{
+                
+                for (ke,userPosts) in postsnap{
+                    if let details = userPosts as? Dictionary<String, AnyObject>{
+                        print("FEEDUSERS: " ,self.feedUsers)
+                        
+                        
+                        
+                        for i in self.feedUsers{
+                            var isLiked = false
+                            if i.uid == Auth.auth().currentUser?.uid{
+                                self.currentUserImagePath = i.imagePath
+                            }
+                            if i.uid == details["uid"] as? String
+                            {
+                                
+                                if let likedByDict = details["likedBy"] as? Dictionary<String, AnyObject>{
+                                    for (_ , likedByUserId) in likedByDict{
+                                        if likedByUserId as? String == Auth.auth().currentUser?.uid{
+                                            isLiked = true
+                                            
+                                        }
+                                    }
                                 }
-                                if i.uid == details["uid"] as! String
-    
-//                                if(filterfeedusers[0].uid == details["uid"] as! String )
-                                {
-                                print("Found the users with IDs")
-//                                    print(filterfeedusers[0].name)
-                                    let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.currentUserImagePath, timeStamp: details["timestamp"] as! Double,id: ke)
+                                print("isLiked : ", isLiked)
+                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.currentUserImagePath,likes : details["likes"] as! Int,isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke)
                                 self.feeds.append(fedd)
-                                }
                             }
-                            }
-                           
+                        }
                     }
-                    print("^^^^^^^^^^^^")
-                    self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
-                    for i in 0..<self.feeds.count{
-                        self.postids.append(self.feeds[i].uid)
-                    }
-                    print(self.postids)
-                    self.tableView.reloadData()
-            }})
-       
+                }
+                print("^^^^^^^^^^^^")
+                self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
+                for i in 0..<self.feeds.count{
+                    self.postids.append(self.feeds[i].uid)
+                }
+                print(self.postids)
+            }
+            print("Before : " ,self.feeds)
+            completed()
+        }
+            
+        )
+        
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(feeds.count)
         return feeds.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        
+        faveButton.imageView?.image = UIImage(named : "Comment Icon")
         cell.feedView.addSubview(faveButton)
-        
+     
         faveButton.translatesAutoresizingMaskIntoConstraints = false
-        // 2
-        faveButton.leadingAnchor.constraint(
-            equalTo: cell.feedView.leadingAnchor).isActive = true
-        faveButton.trailingAnchor.constraint(
-            equalTo: cell.feedView.trailingAnchor).isActive = true
-        faveButton.bottomAnchor.constraint(
-            equalTo: cell.feedView.bottomAnchor,
-            constant: -20).isActive = true
-        // 3
-        faveButton.heightAnchor.constraint(
-            equalTo: cell.feedView.heightAnchor,
-            multiplier: 0.65).isActive = true
+        faveButton.leadingAnchor.constraint(equalTo: cell.feedView.leadingAnchor,constant : 20).isActive = true
+        //        faveButton.trailingAnchor.constraint(equalTo: cell.feedView.trailingAnchor).isActive = true
+        faveButton.bottomAnchor.constraint(equalTo: cell.separatorView.bottomAnchor,constant: -10).isActive = true
+        faveButton.topAnchor.constraint(equalTo: cell.feedImage.bottomAnchor , constant: 10).isActive = true
+        //                faveButton.heightAnchor.constraint(equalTo: cell.feedView.heightAnchor,multiplier: 0.45).isActive = true
+        
+        
+        print("configure cell : " ,feeds)
         
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         //Image added using extension
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
-        print(feeds[indexPath.row].feedImage);
+        //print(feeds[indexPath.row].feedImage);
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
-        
-        
+        cell.likes.text = String(feeds[indexPath.row].likes)
+        if(feeds[indexPath.row].isLiked){
+            cell.feedLikeButton.isSelected = true
+            cell.likedByYouLabel.isHidden = false
+        }else{
+            cell.likedByYouLabel.isHidden = true
+        }
         //Getting the difference between current date and timestamp with the help of Date extension
         //WHY if we place this above getting cell.feedDescription.text it is giving error?
         let date = Date()
@@ -181,6 +189,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.delegate = self
         return cell
     }
+    
+    
     
     //Fixing cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -192,12 +202,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         print("Comm", sender, tappedIndexPath)
         
-        if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
-            // Pass Data
-            //            secondViewController.feed = feeds[tappedIndexPath.row]
-            secondViewController.postid = self.postids[tappedIndexPath.row]
+        if let commentViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
+            commentViewController.postid = self.postids[tappedIndexPath.row]
             // Present Second View
-            navigationController?.pushViewController(secondViewController, animated: true)
+            navigationController?.pushViewController(commentViewController, animated: true)
         }
     }
     
@@ -212,11 +220,65 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         "timestamp" : timeInterval] as [String : Any]
         refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         counter = counter + 1
-        
     }
     
+    func feedTableViewCellDidTapLike(_ sender: FeedCell) {
+        
+        guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+        let index = IndexPath(row: tappedIndexPath.row, section: 0)
+        let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
+        
+        //Getting the likes from the UI
+        if let like = cell.likes.text {
+            likesCount = Int(like)!
+        }else{
+            print("Zero likes")
+        }
+        
+        self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).child("likedBy").observeSingleEvent(of :.value, with: { (snap) in
+            var idFound = false
+            //If the user has already liked the image : decrease like on that post by one
+            if let likedBysnap = snap.value as? [String : String]{
+                
+                var key = String()
+                for (k,id) in likedBysnap{
+                    if id == Auth.auth().currentUser?.uid {
+                        idFound  = true
+                        key = k
+                    }
+                }
+                if(idFound == true){
+                    //                    cell.feedLikeButton.imageView?.image = UIImage(named: "Like Icon")
+                    self.postDislike(indexRow : tappedIndexPath.row, key : key)
+                }else{
+                    
+                    self.postLike(indexRow : tappedIndexPath.row, cell : cell)
+                }
+            }
+            self.feeds = []
+            self.fetchFeed {
+                self.tableView.remembersLastFocusedIndexPath = true
+                self.tableView.reloadData()
+            }
+        })
+    }
     
+    func postLike(indexRow : Int, cell : FeedCell){
+        self.likesCount = self.likesCount + 1;
+        let likes = ["likes" : self.likesCount]
+        self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
+        let key = self.refDatabase.child("posts").childByAutoId().key
+        let likedBy = ["likedBy/\(key)" : Auth.auth().currentUser?.uid]
+        self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likedBy)
+        //        cell.feedLikeButton.imageView?.image = UIImage(named: "likeRedImage")
+    }
     
+    func postDislike(indexRow : Int, key : String){
+        self.likesCount = self.likesCount - 1;
+        let likes = ["likes" : self.likesCount]
+        self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
+        self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
+    }
 }
 
 

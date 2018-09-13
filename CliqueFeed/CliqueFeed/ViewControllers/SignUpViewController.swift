@@ -28,23 +28,18 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:    #selector(self.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        
         picker.delegate = self
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
         userStorage = storage.child("users")
         databaseRef = Database.database().reference()
     }
-    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        view.endEditing(true);
-    }
-
+    
     @IBAction func onEmailTextChanged(_ sender: Any) {
         
         if email.isEditing{
             if let text = email.text {
-                if(text.characters.count < 3 || !(text.contains("@")) || !(text.contains(".com"))) {                
+                if(text.count < 3 || !(text.contains("@")) || !(text.contains(".com"))) {
                     email.errorMessage = "Invalid Email"
                 }
                 else {
@@ -64,7 +59,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         if name.isEditing{
             if let text = name.text {
-                if(text.characters.count < 2 ) {
+                if(text.count < 2 ) {
                     name.errorMessage = "Enter more than one character"
                 }
                 else {
@@ -119,67 +114,92 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage
         {
-        self.profileImage.image = image
-        self.nxtBtn.isHidden = false
+            self.profileImage.image = image
+            self.nxtBtn.isHidden = false
         }
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onNextPress(_ sender: UIButton) {
         //checking if any field is empty
-        guard name.text != "", email.text != "", password.text != "", confirmPassword.text != "" else
+        if ( name.text != "" && email.text != "" && password.text != "" && confirmPassword.text != "" && profileImage.image != UIImage(named: "cam"))
         {
-            return
+            //checking if passwords entered match
+            if(password.text == confirmPassword.text)
+            {
+                //Creating user via firebase
+                Auth.auth().createUser(withEmail: email.text!, password: password.text!, completion: { (user, error) in
+                    
+                    //catching the error
+                    if let error = error
+                    {
+                        print(error.localizedDescription)
+                    }
+                    
+                    //If user is successfully created on firebase
+                    if let user = user
+                    {
+                        
+                        let imageRef = self.userStorage.child("\(user.uid).jpg")
+                        //Downgrading the image selected by the user and putting in 'data' variable
+                        let data = UIImageJPEGRepresentation(self.profileImage.image!, 0.5 )
+                        
+                        //Putting the image on the 'unique' reference created on Firebase inside Users folder
+                        let uploadTask = imageRef.putData(data!, metadata: nil, completion: { (metadata, err) in
+                            if let err = err {
+                                print(err.localizedDescription)
+                            }
+                            imageRef.downloadURL(completion: { (url, er) in
+                                if let er = er {
+                                    print(er.localizedDescription)
+                                }
+                                
+                                if let url = url{
+                                    
+                                    self.uploadUserToFirebase(url : url)
+                                }
+                                
+                            })
+                        })
+                        uploadTask.resume()
+                    }
+                })
+            }
+        }
+        else
+        {
+            let alert = UIAlertController(title: "Account creation failure", message: "All details Mandatory", preferredStyle: .actionSheet)
+            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true)
         }
         
-        //checking if passwords entered match
-        if(password.text == confirmPassword.text)
-        {
-            //Creating user via firebase
-            Auth.auth().createUser(withEmail: email.text!, password: password.text!, completion: { (user, error) in
-                
-                //catching the error
-                if let error = error
-                {
-                    print(error.localizedDescription)
-                }
-                
-                //If user is successfully created on firebase
-                if let user = user
-                {
-
-                    let imageRef = self.userStorage.child("\(user.uid).jpg")
-                    //Downgrading the image selected by the user and putting in 'data' variable
-                    let data = UIImageJPEGRepresentation(self.profileImage.image!, 0.5 )
-                    
-                    //Putting the image on the 'unique' reference created on Firebase inside Users folder
-                    let uploadTask = imageRef.putData(data!, metadata: nil, completion: { (metadata, err) in
-                        if let err = err {
-                            print(err.localizedDescription)
-                        }
-                        imageRef.downloadURL(completion: { (url, er) in
-                            if let er = er {
-                                print(er.localizedDescription)
-                            }
-                            
-                            if let url = url{
-                                let userInfo : [String:Any] = ["uid": user.uid,
-                                                               "name" : self.name.text!,
-                                                               "email" : self.email.text!,
-                                                               "password" : self.password.text!,
-                                                               "urlImage": url.absoluteString]
-                                
-                                self.databaseRef.child("users").child(user.uid).setValue(userInfo)
-                            }
-                            
-                            
-                        })
-                    })
-                    uploadTask.resume()
-                    
-                }
-            })
+        
+    }
+    
+    func uploadUserToFirebase(url : URL ){
+        
+        //Creating postInfo object and saving to Firebase
+        let userInfo : [String:Any] = ["uid": Auth.auth().currentUser!.uid,
+                                       "name" : name.text!,
+                                       "email" : email.text!,
+                                       "password" : password.text!,
+                                       "urlImage": url.absoluteString]
+        
+        
+        self.databaseRef.child("users").child(Auth.auth().currentUser!.uid).setValue(userInfo)
+        
+        let alert = UIAlertController(title: "Successfull", message: "Account successfully created! Login Now", preferredStyle: .actionSheet)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (alertAction) in
+            self.navigationController?.popToRootViewController(animated: true)
         }
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
+        
+    }
+    
+    @IBAction func onLoginPress(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
 }

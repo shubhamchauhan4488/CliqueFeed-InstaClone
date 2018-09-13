@@ -17,4 +17,6 @@ target 'CliqueFeed' do
    pod 'FaveButton', '~> 2.0.3'
    pod 'FBSDKLoginKit'
    pod 'GoogleSignIn'
+   pod 'IQKeyboardManagerSwift'
+   pod 'ListPlaceholder'
 end

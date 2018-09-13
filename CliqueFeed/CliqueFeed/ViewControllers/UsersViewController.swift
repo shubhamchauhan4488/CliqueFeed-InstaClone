@@ -33,11 +33,12 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         isSearchActive = false
         tableView.setContentOffset(.zero, animated: true)
         retrieveData()
+        //        AnimatableReload.reload(tableView: self.tableView, animationDirection: "up")
     }
     
     
     func retrieveData(){
-        followingUserids = []
+        
         let ref = Database.database().reference()
         print("ENTERED retrieve data FUNCTION")
         
@@ -53,7 +54,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         if(uid != Auth.auth().currentUser?.uid){
                             let userToShow = User()
                             if let name = value["name"] as? String, let imagePath = value["urlImage"] as? String{
-                                print("ENTERED")
                                 userToShow.name = name
                                 userToShow.imagePath = imagePath
                                 userToShow.uid = uid
@@ -63,29 +63,28 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         }else{
                             print("---------")
                             print("ENTERED ELSE")
+                            print("Current user :",Auth.auth().currentUser?.uid)
+                            
                             if let followingUsers = value["following"] as? [String:String]{
+                                self.followingUserids = []
                                 for(_, user) in followingUsers{
                                     self.followingUserids.append(user)
-                                    print("users appended in following")
+                                    print("followingUserids :", self.followingUserids)
                                 }
                             }
                         }
                         print("_________________+++++++++++++++++++______________")
-//                        print(self.followingUserids)
+                        //                        print(self.followingUserids)
                     }
                     
                 }
-//                self.tableView.setContentOffset(.zero, animated: true)
-                AnimatableReload.reload(tableView: self.tableView, animationDirection: "up")
+                self.tableView.reloadData()
+                //                AnimatableReload.reload(tableView: self.tableView, animationDirection: "up")
             }
         }) { (error) in
             print(error)
         }
-        ref.removeAllObservers()
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,20 +103,17 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.tag = indexPath.row
             cell.followUnfollowBtn.tag = indexPath.row
             if isSearchActive{
-              
+                
                 cell.configure(username: self.filteredUsers[indexPath.row].name, imageURL: filteredUsers[indexPath.row].imagePath!, userID: self.filteredUsers[indexPath.row].uid, isFollowing: followingUserids.contains(filteredUsers[indexPath.row].uid))
             }else{
-    
+                
                 cell.configure(username: self.users[indexPath.row].name, imageURL: users[indexPath.row].imagePath!, userID: self.users[indexPath.row].uid, isFollowing: followingUserids.contains(users[indexPath.row].uid))
                 
-                //            print("=============================")
-                //            print(followingUserids);
             }
-            //            cell.userimage.downloadImage(from: users[indexPath.row].imagePath!)
             return cell
             
         }else {
-            print("There is some error")
+            print("Unable to load TableView")
             return UITableViewCell()
         }
     }
@@ -140,16 +136,13 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             filteredUsers = users.filter({$0.name.lowercased().range(of: searchItem) != nil})
             print("@@@@@@@@@@@@ USERS IS FILTERED @@@@@@@@@@@@@@")
         }
-//        tableView.setContentOffset(.zero, animated: true)
         retrieveData()
-//        AnimatableReload.reload(tableView: self.tableView, animationDirection: "up")
     }
     
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-         tableView.setContentOffset(.zero, animated: true)
-         retrieveData()
-//         AnimatableReload.reload(tableView: self.tableView, animationDirection: "up")
+        tableView.setContentOffset(.zero, animated: true)
+        retrieveData()
     }
     
     func userTableViewCellDidTapFollowUnfollow(_ tag: Int) {
@@ -174,6 +167,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 
                                 let newcell =  self.tableView.cellForRow(at: IndexPath(row: tag, section: 0)) as! UserCell
                                 newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
+                                
                             }
                         }else{
                             if value as! String == self.users[tag].uid{
@@ -182,17 +176,16 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 print("IAM INSIDE UN FOLLOW METHOD")
                                 ref.child("users").child(uid!).child("following/\(k)").removeValue()
                                 ref.child("users").child(self.users[tag].uid).child("followers/\(k)").removeValue()
-                                //                            self.followingUserids.remove(at: tag)
                                 
                                 let newcell =  self.tableView.cellForRow(at: IndexPath(row: tag, section: 0)) as! UserCell
                                 newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
+                                
                             }
                         }
                     }
                 }
                 
                 if  !isFollower {
-                    
                     
                     if self.isSearchActive{
                         let following = ["following/\(key)" : self.filteredUsers[tag].uid]
@@ -213,11 +206,11 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         
                         let newcell =  self.tableView.cellForRow(at: IndexPath(row: tag, section: 0)) as! UserCell
                         newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Following_icon")
+                        
                     }
                 }
-                
+                self.retrieveData()
         })
-        ref.removeAllObservers()
     }
     
 }
@@ -244,10 +237,10 @@ extension UIImageView{
                 
                 if let downloadedImage = UIImage(data : data!){
                     imageCache.setObject(downloadedImage, forKey: imgurl as AnyObject)
-                self.image = downloadedImage
+                    self.image = downloadedImage
                 }
             }
-        }.resume()
+            }.resume()
     }
 }
 

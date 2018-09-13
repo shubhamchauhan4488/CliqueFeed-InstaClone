@@ -19,6 +19,12 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     @IBOutlet weak var signUpStack: UIStackView!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var loginButton: DKTransitionButton!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mySwitch: UISwitch!
+    
+    let customFbLoginButton = UIButton()
+    let googleSignInButton = UIButton()
     var locManager : CLLocationManager!
     var currentLocation : CLLocation!
     var databaseRef : DatabaseReference!
@@ -32,15 +38,10 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     var googleUserName = ""
     var googleUserEmail = ""
     var googleUserImageURL = ""
+    var currentUserId = String()
     
-    @IBOutlet weak var loginButton: DKTransitionButton!
-
-    
-    @IBOutlet weak var mySwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
-        self.view.addGestureRecognizer(tapGesture)
         databaseRef = Database.database().reference()
         locManager = CLLocationManager()
         locManager.delegate = self
@@ -48,8 +49,11 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         locManager.requestWhenInUseAuthorization()
         locManager.startUpdatingLocation()
         
+        self.navigationController?.navigationBar.isHidden = true
+        
+        //Setting up FB sign in button
         setupFacebookLoginButton()
-  
+        
         //Step 2: Setting up google sign in button
         setupGoogleLoginButton()
         
@@ -57,7 +61,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         //Step 4: To setup the URl in project - info - urltypes as reverse_client_id from googleService-info.plist
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
-
+        
     }
     
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
@@ -65,12 +69,11 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     }
     
     fileprivate func setupFacebookLoginButton(){
-        let customFbLoginButton = UIButton()
+        
         customFbLoginButton.backgroundColor = UIColor(red: 255/255, green: 47/255, blue: 146/255, alpha: 1)
         customFbLoginButton.setTitle("Login with Facebook", for: .normal)
         customFbLoginButton.setTitleColor(.white, for: .normal)
         customFbLoginButton.titleLabel?.font = UIFont(name: "Avenir Book", size: 17)
-        customFbLoginButton.imageView?.image = UIImage(named : "edit")
         customFbLoginButton.showsTouchWhenHighlighted = true
         customFbLoginButton.layer.cornerRadius = 20
         
@@ -88,19 +91,16 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         let trailingConstraint1 = NSLayoutConstraint(item: customFbLoginButton, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: -20)
         
         view.addConstraints([xCenterConstraint, yCenterConstraint, leadingConstraint1, trailingConstraint1])
-        
         customFbLoginButton.addTarget(self, action: #selector(handleCustomFBLoginClick), for: .touchUpInside)
         
     }
     
     fileprivate func setupGoogleLoginButton() {
         
-        let googleSignInButton = UIButton()
         googleSignInButton.backgroundColor = UIColor(red: 255/255, green: 47/255, blue: 146/255, alpha: 1)
         googleSignInButton.setTitle("Login with Google", for: .normal)
         googleSignInButton.setTitleColor(.white, for: .normal)
         googleSignInButton.titleLabel?.font = UIFont(name: "Avenir Book", size: 17)
-        googleSignInButton.imageView?.image = UIImage(named : "edit")
         googleSignInButton.showsTouchWhenHighlighted = true
         googleSignInButton.layer.cornerRadius = 20
         
@@ -116,7 +116,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         googleSignInButton.addTarget(self, action: #selector(handleCustomGoogleLoginClick), for: .touchUpInside)
         
     }
-
+    
     @objc func handleCustomGoogleLoginClick(){
         GIDSignIn.sharedInstance().signIn()
     }
@@ -127,6 +127,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             let geocoder = CLGeocoder()
             geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
                 if error == nil {
+                    
                     let firstLocation = placemarks?[0]
                     
                     let userDetails = [ "latitude" : self.lat!,
@@ -139,7 +140,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                     
                     
                     self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(userDetails);
-                    
                 }
                 else {
                     // An error occurred during geocoding.
@@ -147,8 +147,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                 }
             })
         }
-    
-        
     }
     
     //GIDSignInDelegate method
@@ -175,62 +173,36 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             self.googleUserEmail = googleCurrentUser.profile.email
             self.googleUserImageURL = googleCurrentUser.profile.imageURL(withDimension: 120).absoluteString
             self.setUserDetailsAfterGoogleLogin()
-            self.performSegue(withIdentifier: "loginToUsers", sender: self)
+            if let homeTabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarViewController") as? UITabBarController {
+                self.navigationController?.pushViewController(homeTabBarViewController, animated: true)
+            }
+            self.googleSignInButton.isUserInteractionEnabled = false
         }
-    
+        
     }
     
     
-    //Anytime by-chance you land up on login page and you had already logged in, so clicking on G btn will not ask for sign in
-//    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-//
-//        if((GIDSignIn.sharedInstance().currentUser) != nil)
-//        {
-//            //Signing into Firebase Auth with google credentials
-//
-//            //Get a Google ID token and Google access token from the GIDAuthentication object and exchange them for a Firebase credential
-//            guard let googleCurrentUser = GIDSignIn.sharedInstance().currentUser else {return}
-//            guard let authentication = googleCurrentUser.authentication else { return }
-//            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-//                                                           accessToken: authentication.accessToken)
-//            //authenticate with Firebase using the credential:
-//            Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
-//                if let err = error {
-//                    print("Failed to create Firebase user with credentials from Google: ", err)
-//                    return
-//                }
-//                self.googleUserName = googleCurrentUser.profile.name
-//                self.googleUserEmail = googleCurrentUser.profile.email
-//                self.googleUserImageURL = googleCurrentUser.profile.imageURL(withDimension: 120).absoluteString
-//                self.setUserDetailsAfterGoogleLogin()
-//
-//                self.performSegue(withIdentifier: "loginToUsers", sender: self)
-//            }
-//
-//        }
-//    }
-
     //MARK :- Handles click on custom FB btn and assigns read permissions and signs in
     @objc func handleCustomFBLoginClick(){
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, err) in
             if err != nil {
-                print("Login Failed : ", err)
+                print("Login Failed : ", err!.localizedDescription)
             }
             self.signInWithFB();
         }
     }
     
-//    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-//
-//    }
-//
-//    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-//        if error != nil {
-//            print(error.localizedDescription)
-//            return
-//        }
-//        showEmailAddress();
-//    }
+    //    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+    //
+    //    }
+    //
+    //    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+    //        if error != nil {
+    //            print(error.localizedDescription)
+    //            return
+    //        }
+    //        showEmailAddress();
+    //    }
     
     func signInWithFB(){
         let accessToken = FBSDKAccessToken.current();
@@ -241,13 +213,15 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         
         Auth.auth().signIn(with: credential) { (user, err) in
             if err != nil {
-                print("Failed to login : ", err)
+                print("Failed to login : ", err!.localizedDescription)
                 return
             }
             print("Successfully signed in")
-            if let user = user{
+            if user != nil{
                 self.setUserDetailsAfterFBLogin();
-                self.performSegue(withIdentifier: "loginToUsers", sender: self)
+                if let homeTabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarViewController") as? UITabBarController {
+                    self.navigationController?.pushViewController(homeTabBarViewController, animated: true)
+                }
             }else{
                 print("No user found")
                 let alertBox = UIAlertController(title: "Error", message: err?.localizedDescription, preferredStyle:.alert)
@@ -261,7 +235,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         //Creating graph request to get the ID, Name and Email
         FBSDKGraphRequest(graphPath: "/me", parameters: ["fields" : "id, name, email " ]).start { (connection, result, err) in
             if err != nil {
-                print("Failed to start graph request : ", err)
+                print("Failed to start graph request : ", err!.localizedDescription)
                 return
             }
             if  let res = result as? Dictionary<String, Any>{
@@ -279,18 +253,24 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                 if let email = res["email"] as? String {
                     self.FBUserEmail = email
                 }
-  
+                
             }
             
         }
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
-
-        print(userDefault.bool(forKey: "username"))
-
-        print(userDefault.value(forKey: "username"))
+        
+        view.bringSubview(toFront: loginButton)
+        //        loginButton.isUserInteractionEnabled = true
+        googleSignInButton.isUserInteractionEnabled = true
+        customFbLoginButton.isUserInteractionEnabled = true
+        
+        if Auth.auth().currentUser?.uid != nil {
+            currentUserId = (Auth.auth().currentUser?.uid)!
+        }else{
+            currentUserId = ""
+        }
         
         if(userDefault.value(forKey: "username") == nil)
         {
@@ -304,37 +284,36 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         }else{
             password.text = userDefault.string(forKey: "password")
         }
-
-    }
-    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        password.resignFirstResponder()
-        email.resignFirstResponder()
+        
     }
     
+    
     @IBAction func onLoginPress(_ button: DKTransitionButton) {
-            if mySwitch.isOn{
-                print("+++++++++++++++")
-                print("inside swtichis ON")
-                userDefault.set(email.text! as String, forKey: "username")
-                userDefault.set(password.text! as String, forKey: "password")
-                
-            }else{
-                print("--------")
-                print("inside swtichis of")
-                userDefault.removeObject(forKey: "username")
-                userDefault.removeObject(forKey: "password")
-            }
-        print(userDefault)
+        loginButton.isUserInteractionEnabled = false
+        if mySwitch.isOn{
+            print("+++++++++++++++")
+            print("inside swtich is ON")
+            userDefault.set(email.text! as String, forKey: "username")
+            userDefault.set(password.text! as String, forKey: "password")
+            
+        }else{
+            print("--------")
+            print("inside swtich is off")
+            userDefault.removeObject(forKey: "username")
+            userDefault.removeObject(forKey: "password")
+        }
         
         if(email.text != "" && password.text != "" )
         {
             Auth.auth().signIn(withEmail: email.text!, password: password.text!) { (user, error) in
                 
-                if let u = user{
+                if user != nil{
                     self.getCoordinates();
                     button.startLoadingAnimation()
                     button.startSwitchAnimation(1, completion: { () -> () in
-                        self.performSegue(withIdentifier: "loginToUsers", sender: self)
+                        if let homeTabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarViewController") as? UITabBarController {
+                            self.navigationController?.pushViewController(homeTabBarViewController, animated: true)
+                        }
                     })
                 }else{
                     print("No user found")
@@ -352,7 +331,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             present(alertBox, animated:true)
         }
     }
-
+    
     
     func setUserDetailsAfterFBLogin(){
         if let lastLocation = self.currentLocation {
@@ -369,7 +348,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                                         "urlImage" : self.FBuserImageURL,
                                         "placemark" : firstLocation?.name] as [String : Any]
                     
- 
+                    
                     self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(userDetails);
                     
                 }
@@ -389,12 +368,12 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
                 if error == nil {
                     let firstLocation = placemarks?[0]
-                   
+                    
                     let coordinates = [ "latitude" : self.lat!,
                                         "longitude" : self.long!,
                                         "placemark" : firstLocation?.name] as [String : Any]
-
-             self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(coordinates)
+                    
+                    self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(coordinates)
                     
                 }
                 else {
@@ -412,5 +391,11 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         lat = coordinate!.latitude
         long = coordinate!.longitude
     }
+    @IBAction func onSignUpPress(_ sender: Any) {
+        if let signUpVC = storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") as? UIViewController {
+            self.navigationController?.pushViewController(signUpVC, animated: true)
+        }
+    }
+    
 }
 
