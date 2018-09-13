@@ -10,5 +10,5 @@ import Foundation
 protocol FeedTableViewCellDelegate : class {
     func feedTableViewCellDidTapComment(_ sender: FeedCell)
     func feedTableViewCellDidTapPost(_ sender: FeedCell)
-//    func feedTableViewCellDidTapLike(_ sender: FeedCell)
+    func feedTableViewCellDidTapLike(_ sender: FeedCell)
 }

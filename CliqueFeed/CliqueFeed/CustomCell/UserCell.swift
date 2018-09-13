@@ -16,7 +16,7 @@ class UserCell : UITableViewCell{
     @IBOutlet weak var followUnfollowBtn: UIButton!
     @IBOutlet weak var view: UIView!
     weak var delegate : UserTableViewCellProtocol?
-    @IBAction func followUnfollowButton(_ sender: UIButton) {
+    @IBAction func followUnfollowButton(_ sender: BounceButton) {
         delegate?.userTableViewCellDidTapFollowUnfollow(sender.tag)
     }
     var userID : String!
@@ -30,9 +30,6 @@ class UserCell : UITableViewCell{
         view.layer.shadowOpacity = 0.6
         view.layer.shadowColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         view.layer.cornerRadius = 10
-        //view.backgroundColor = UIColor.white
-//        view.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
-//        view.layer.borderWidth = 2
         userimage.layer.borderWidth = 2
         userimage.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         
@@ -51,11 +48,4 @@ class UserCell : UITableViewCell{
         
     }
     
-//     func configure(username : String, imageURL : String, userID : String){
-//        self.username.text = username
-//        self.userimage.downloadImage(from: imageURL)
-//        self.userID = userID
-//
-//
-//    }
 }

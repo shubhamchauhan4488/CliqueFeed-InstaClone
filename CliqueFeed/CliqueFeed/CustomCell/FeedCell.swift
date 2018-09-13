@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FaveButton
 
 class FeedCell: UITableViewCell {
     
@@ -17,11 +18,14 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var lastCommentUserIMg: UIImageView!
     @IBOutlet weak var commentText: UITextField!
     @IBOutlet weak var timePosted: UILabel!
-    
+    @IBOutlet weak var likes: UILabel!
+    @IBOutlet weak var likedByYouLabel: UILabel!
+    @IBOutlet weak var feedLikeButton: FaveButton!
     @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var feedView: UIView!
+    
     var delegate : FeedTableViewCellDelegate?
     
-    @IBOutlet weak var feedView: UIView!
     @IBAction func onCommentClick(_ sender: Any) {
         delegate?.feedTableViewCellDidTapComment(self)
     }
@@ -29,6 +33,10 @@ class FeedCell: UITableViewCell {
     @IBAction func onPostClick(_ sender: Any) {
         delegate?.feedTableViewCellDidTapPost(self)
         commentText.text = ""
+    }
+    
+    @IBAction func onLikeClick(_ sender: Any) {
+        delegate?.feedTableViewCellDidTapLike(self)
     }
     
     override func awakeFromNib() {
@@ -39,11 +47,10 @@ class FeedCell: UITableViewCell {
         feedView.layer.shadowOpacity = 0.6
         feedView.layer.shadowColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         feedView.layer.cornerRadius = 20
-        //view.backgroundColor = UIColor.white
-//        feedView.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
-//        feedView.layer.borderWidth = 2
         feedPostUserImg.layer.borderWidth = 2
         feedPostUserImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         
     }
+    
+    
 }

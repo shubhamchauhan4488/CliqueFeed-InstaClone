@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import GoogleSignIn
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate{
@@ -17,7 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate{
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-         FirebaseApp.configure()
+        
+        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
+        IQKeyboardManager.sharedManager().keyboardAppearance = .dark
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
+        //Configuring Firebase
+        FirebaseApp.configure()
         
         //For google Sign IN
         //Step 1 : Getting client id from Firebase
