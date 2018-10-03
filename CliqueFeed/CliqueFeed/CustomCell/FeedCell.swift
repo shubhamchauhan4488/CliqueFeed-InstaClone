@@ -49,8 +49,15 @@ class FeedCell: UITableViewCell {
         feedView.layer.cornerRadius = 20
         feedPostUserImg.layer.borderWidth = 2
         feedPostUserImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+        likedByYouLabel.font = UIFont(name: "Avenir", size: 14)
         
+        if feedLikeButton.isSelected {
+            feedLikeButton.imageView?.image = UIImage(named: "search")
+        }else{
+            feedLikeButton.imageView?.image = UIImage(named: "Like Icon")
+        }
     }
+    
     
     
 }

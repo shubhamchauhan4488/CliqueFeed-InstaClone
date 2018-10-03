@@ -86,11 +86,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 for (ke,userPosts) in postsnap{
                     if let details = userPosts as? Dictionary<String, AnyObject>{
                         let currentUserId = Auth.auth().currentUser?.uid
+                        var isLiked = false
                         if currentUserId == details["uid"] as! String
                         {
-                            let fedd = Feed(feedPostUserImg:  self.user.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: self.user.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.user.imagePath,likes : details["likes"] as! Int, isLiked: true, timeStamp: details["timestamp"] as! Double,id: ke)
+                            if let likedByDict = details["likedBy"] as? Dictionary<String, AnyObject>{
+                                for (_ , likedByUserId) in likedByDict{
+                                    if likedByUserId as? String == Auth.auth().currentUser?.uid{
+                                        isLiked = true
+                                    }
+                                }
+                            }
+                            print("isLiked : ", isLiked)
+                          
+                            let fedd = Feed(feedPostUserImg:  self.user.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: self.user.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.user.imagePath,likes : details["likes"] as! Int, isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke)
                             self.feeds.append(fedd)
-                            //                                  print("Appending new feed" , self.feeds)
+                   
                         }
                     }
                 }
@@ -136,6 +146,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
         cell.likes.text = String(feeds[indexPath.row].likes)
+        if(feeds[indexPath.row].isLiked){
+            //            cell.feedLikeButton.isSelected = true
+            cell.likedByYouLabel.text = "Liked By You and \(feeds[indexPath.row].likes - 1) others"
+            cell.likedByYouLabel.isHidden = false
+        }else{
+            cell.likedByYouLabel.text = "Liked By \(feeds[indexPath.row].likes) people"
+            cell.likedByYouLabel.isHidden = true
+        }
         let date = Date()
         print("%%%%%%%%%%%%%%%----------%%%%%%%%%%%%")
         
