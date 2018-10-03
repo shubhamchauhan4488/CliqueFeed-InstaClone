@@ -25,10 +25,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var counter = 0
     var likesCount = 0
     var refDatabase : DatabaseReference!
-    let faveButton = FaveButton(
-        frame: CGRect(x:200, y:200, width: 44, height: 44),
-        faveIconNormal: UIImage(named: "heart")
-    )
+
     typealias downloadData = () -> ()
     
     @IBOutlet weak var tableView: UITableView!
@@ -36,7 +33,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        faveButton.delegate = self
+        //faveButton.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -107,8 +104,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if let details = userPosts as? Dictionary<String, AnyObject>{
                         print("FEEDUSERS: " ,self.feedUsers)
                         
-                        
-                        
                         for i in self.feedUsers{
                             var isLiked = false
                             if i.uid == Auth.auth().currentUser?.uid{
@@ -154,14 +149,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        faveButton.imageView?.image = UIImage(named : "Comment Icon")
-        cell.feedView.addSubview(faveButton)
+        //cell.feedLikeButton.imageView?.image = UIImage(named : "Comment Icon")
+        //cell.addSubview(faveButton)
      
-        faveButton.translatesAutoresizingMaskIntoConstraints = false
-        faveButton.leadingAnchor.constraint(equalTo: cell.feedView.leadingAnchor,constant : 20).isActive = true
+        //faveButton.translatesAutoresizingMaskIntoConstraints = true
+        //faveButton.leadingAnchor.constraint(equalTo: cell.feedView.leadingAnchor,constant : 20).isActive = true
         //        faveButton.trailingAnchor.constraint(equalTo: cell.feedView.trailingAnchor).isActive = true
-        faveButton.bottomAnchor.constraint(equalTo: cell.separatorView.bottomAnchor,constant: -10).isActive = true
-        faveButton.topAnchor.constraint(equalTo: cell.feedImage.bottomAnchor , constant: 10).isActive = true
+        //faveButton.bottomAnchor.constraint(equalTo: cell.separatorView.bottomAnchor,constant: -10).isActive = true
+        //faveButton.topAnchor.constraint(equalTo: cell.feedImage.bottomAnchor , constant: 10).isActive = true
         //                faveButton.heightAnchor.constraint(equalTo: cell.feedView.heightAnchor,multiplier: 0.45).isActive = true
         
         
@@ -176,9 +171,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.likes.text = String(feeds[indexPath.row].likes)
         if(feeds[indexPath.row].isLiked){
-            cell.feedLikeButton.isSelected = true
+            //            cell.feedLikeButton.isSelected = true
+            cell.likedByYouLabel.text = ",Liked By You and \(feeds[indexPath.row].likes - 1) others"
             cell.likedByYouLabel.isHidden = false
         }else{
+            cell.likedByYouLabel.text = ",Liked By \(feeds[indexPath.row].likes) people"
             cell.likedByYouLabel.isHidden = true
         }
         //Getting the difference between current date and timestamp with the help of Date extension

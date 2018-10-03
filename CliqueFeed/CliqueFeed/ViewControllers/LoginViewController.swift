@@ -188,6 +188,12 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             if err != nil {
                 print("Login Failed : ", err!.localizedDescription)
             }
+            if let res = result {
+                if res.isCancelled{
+                    FBSDKLoginManager().logOut()
+                    print("Login CANCELLED")
+                }
+            }
             self.signInWithFB();
         }
     }
@@ -207,6 +213,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     func signInWithFB(){
         let accessToken = FBSDKAccessToken.current();
         guard let accessTokenString = accessToken?.tokenString else {
+            print("Token not found")
             return
         }
         let credential = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
@@ -262,7 +269,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     override func viewWillAppear(_ animated: Bool) {
         
         view.bringSubview(toFront: loginButton)
-        //        loginButton.isUserInteractionEnabled = true
+        loginButton.isUserInteractionEnabled = true
         googleSignInButton.isUserInteractionEnabled = true
         customFbLoginButton.isUserInteractionEnabled = true
         
@@ -291,14 +298,10 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     @IBAction func onLoginPress(_ button: DKTransitionButton) {
         loginButton.isUserInteractionEnabled = false
         if mySwitch.isOn{
-            print("+++++++++++++++")
-            print("inside swtich is ON")
             userDefault.set(email.text! as String, forKey: "username")
             userDefault.set(password.text! as String, forKey: "password")
             
         }else{
-            print("--------")
-            print("inside swtich is off")
             userDefault.removeObject(forKey: "username")
             userDefault.removeObject(forKey: "password")
         }
