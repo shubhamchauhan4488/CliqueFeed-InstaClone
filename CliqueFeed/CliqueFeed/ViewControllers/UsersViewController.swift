@@ -229,7 +229,7 @@ extension UIImageView{
         let urlRequest = URLRequest(url: URL(string: imgurl)!)
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if(error != nil){
-                print(error!)
+                print("Image could not be downloaded from URL : \(error)")
                 return
             }
             //Whenever u have to update the UI u have to do it in main thread, otherwise it will crash/

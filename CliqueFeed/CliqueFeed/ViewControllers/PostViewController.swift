@@ -137,7 +137,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             //Disabling the Save btn while saving to Firebase
             saveButton.isEnabled = false
-            let imageRef = self.feedStorage.child(userId!).child("\(userId!).jpg")
+            let imageRef = self.feedStorage.child(userId!).child("\(userId! + String(arc4random())).jpg")
             
             //Downgrading the image selected by the user and putting in 'data' variable
             let data = UIImageJPEGRepresentation(self.postImage.image!, 0.5 )
@@ -178,7 +178,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func uploadPostToFirebase(url : URL){
         UIApplication.shared.beginIgnoringInteractionEvents()
         let timeInterval = NSDate().timeIntervalSince1970
-        //        let key = "KDSALNjksdLSJNF27B3DF"
         let randomUserID = "LLSADKNNukabwdd27ekbq"
         let likedBy = ["KDSALNjksdLSJNF27B3DF" : randomUserID]
         //Creating postInfo object and saving to Firebase
