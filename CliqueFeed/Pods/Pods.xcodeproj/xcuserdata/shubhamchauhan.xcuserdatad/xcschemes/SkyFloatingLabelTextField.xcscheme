@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8755BF3BDA977D5C534C1B7E8C4AE7ED"
+               BlueprintIdentifier = "19C5AE3ED72E16E8EF0E41B5A4D692BE"
                BlueprintName = "SkyFloatingLabelTextField"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "SkyFloatingLabelTextField.framework">

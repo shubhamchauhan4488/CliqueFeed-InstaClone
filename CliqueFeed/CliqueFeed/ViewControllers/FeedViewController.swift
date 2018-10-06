@@ -12,9 +12,10 @@ import FirebaseDatabase
 import FirebaseAuth
 import FaveButton
 import ListPlaceholder
+import SwiftPullToRefresh
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
-    
+
     var feeds = [Feed]()
     var postids = [String]()
     var following = [String]()
@@ -25,18 +26,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var counter = 0
     var likesCount = 0
     var refDatabase : DatabaseReference!
-    let faveButton = FaveButton(
-        frame: CGRect(x:200, y:200, width: 44, height: 44),
-        faveIconNormal: UIImage(named: "heart")
-    )
+    
     typealias downloadData = () -> ()
     
     @IBOutlet weak var tableView: UITableView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        faveButton.delegate = self
+        //faveButton.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,15 +48,31 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         
         print("vWA : " ,feeds)
-        
+     
         self.postids = []
         self.following = []
         refDatabase = Database.database().reference()
         
         fetchFeed {
             print("after : " ,self.feeds)
-            self.tableView.remembersLastFocusedIndexPath = true
-            self.tableView.reloadData()
+            self.tableView.remembersLastFocusedIndexPath = false
+                self.tableView.reloadData()
+        }
+        
+        guard
+            let url = Bundle.main.url(forResource: "loader", withExtension: "gif"),
+            let data = try? Data(contentsOf: url) else { return }
+        
+         self.tableView.spr_setGIFHeader(data: data, isBig: false, height: 120) { [weak self] in
+            self?.fetchFeed {
+                print("after : " ,self?.feeds)
+                self?.tableView.remembersLastFocusedIndexPath = false
+                self?.tableView.reloadData()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // change 2 to desired number of seconds
+               self?.tableView?.spr_endRefreshing()
+            }
+            
         }
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -107,8 +121,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if let details = userPosts as? Dictionary<String, AnyObject>{
                         print("FEEDUSERS: " ,self.feedUsers)
                         
-                        
-                        
                         for i in self.feedUsers{
                             var isLiked = false
                             if i.uid == Auth.auth().currentUser?.uid{
@@ -154,14 +166,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        faveButton.imageView?.image = UIImage(named : "Comment Icon")
-        cell.feedView.addSubview(faveButton)
-     
-        faveButton.translatesAutoresizingMaskIntoConstraints = false
-        faveButton.leadingAnchor.constraint(equalTo: cell.feedView.leadingAnchor,constant : 20).isActive = true
+        //cell.feedLikeButton.imageView?.image = UIImage(named : "Comment Icon")
+        //cell.addSubview(faveButton)
+        
+        //faveButton.translatesAutoresizingMaskIntoConstraints = true
+        //faveButton.leadingAnchor.constraint(equalTo: cell.feedView.leadingAnchor,constant : 20).isActive = true
         //        faveButton.trailingAnchor.constraint(equalTo: cell.feedView.trailingAnchor).isActive = true
-        faveButton.bottomAnchor.constraint(equalTo: cell.separatorView.bottomAnchor,constant: -10).isActive = true
-        faveButton.topAnchor.constraint(equalTo: cell.feedImage.bottomAnchor , constant: 10).isActive = true
+        //faveButton.bottomAnchor.constraint(equalTo: cell.separatorView.bottomAnchor,constant: -10).isActive = true
+        //faveButton.topAnchor.constraint(equalTo: cell.feedImage.bottomAnchor , constant: 10).isActive = true
         //                faveButton.heightAnchor.constraint(equalTo: cell.feedView.heightAnchor,multiplier: 0.45).isActive = true
         
         
@@ -176,9 +188,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.likes.text = String(feeds[indexPath.row].likes)
         if(feeds[indexPath.row].isLiked){
-            cell.feedLikeButton.isSelected = true
+            //            cell.feedLikeButton.isSelected = true
+            cell.likedByYouLabel.text = ",Liked By You and \(feeds[indexPath.row].likes - 1) others"
             cell.likedByYouLabel.isHidden = false
         }else{
+            cell.likedByYouLabel.text = ",Liked By \(feeds[indexPath.row].likes) people"
             cell.likedByYouLabel.isHidden = true
         }
         //Getting the difference between current date and timestamp with the help of Date extension
@@ -220,6 +234,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         "timestamp" : timeInterval] as [String : Any]
         refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         counter = counter + 1
+    }
+    
+    func feedTableViewCellDidTapTrash(_ sender: FeedCell) {
+        return 
     }
     
     func feedTableViewCellDidTapLike(_ sender: FeedCell) {

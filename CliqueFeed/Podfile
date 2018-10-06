@@ -19,4 +19,5 @@ target 'CliqueFeed' do
    pod 'GoogleSignIn'
    pod 'IQKeyboardManagerSwift'
    pod 'ListPlaceholder'
+   pod 'SwiftPullToRefresh'
 end

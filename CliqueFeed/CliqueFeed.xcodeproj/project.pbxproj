@@ -23,10 +23,10 @@
 		8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A452205B4FDF0028DB71 /* LoginViewController.swift */; };
 		8F36A456205B4FDF0028DB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F36A454205B4FDF0028DB71 /* Main.storyboard */; };
 		8F36A45B205B4FDF0028DB71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F36A459205B4FDF0028DB71 /* LaunchScreen.storyboard */; };
-		8F36A465205B92030028DB71 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A464205B92030028DB71 /* PostModel.swift */; };
 		8F36A467205C6FD10028DB71 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36A466205C6FD10028DB71 /* SignUpViewController.swift */; };
 		8F36A469205CCBB60028DB71 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F36A468205CCBB50028DB71 /* GoogleService-Info.plist */; };
 		8F53486920836AD7005C7569 /* ListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53486820836AD7005C7569 /* ListLoader.swift */; };
+		8F683A992168388300BE677C /* loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8F683A982168388200BE677C /* loader.gif */; };
 		8F917EDB2140654100816A80 /* BounceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F917EDA2140654100816A80 /* BounceButton.swift */; };
 		8FB91523207C934C003A99AA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB91522207C934C003A99AA /* CommentCell.swift */; };
 		8FEAD54D206F05EE006B9279 /* FeedTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEAD54C206F05EE006B9279 /* FeedTableViewCellDelegate.swift */; };
@@ -55,10 +55,10 @@
 		8F36A455205B4FDF0028DB71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8F36A45A205B4FDF0028DB71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8F36A45C205B4FDF0028DB71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8F36A464205B92030028DB71 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		8F36A466205C6FD10028DB71 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		8F36A468205CCBB50028DB71 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8F53486820836AD7005C7569 /* ListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLoader.swift; sourceTree = "<group>"; };
+		8F683A982168388200BE677C /* loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loader.gif; sourceTree = "<group>"; };
 		8F917EDA2140654100816A80 /* BounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceButton.swift; sourceTree = "<group>"; };
 		8FB91522207C934C003A99AA /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		8FEAD54C206F05EE006B9279 /* FeedTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCellDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 		8F36A444205B4FDF0028DB71 = {
 			isa = PBXGroup;
 			children = (
+				8F683A982168388200BE677C /* loader.gif */,
 				8F2DBF2F2149C85600B18421 /* Assets.xcassets */,
 				8F36A44F205B4FDF0028DB71 /* CliqueFeed */,
 				8F36A44E205B4FDF0028DB71 /* Products */,
@@ -150,7 +151,6 @@
 				8F36A459205B4FDF0028DB71 /* LaunchScreen.storyboard */,
 				8F36A468205CCBB50028DB71 /* GoogleService-Info.plist */,
 				8F36A45C205B4FDF0028DB71 /* Info.plist */,
-				8F36A464205B92030028DB71 /* PostModel.swift */,
 			);
 			path = CliqueFeed;
 			sourceTree = "<group>";
@@ -245,6 +245,7 @@
 				8F36A45B205B4FDF0028DB71 /* LaunchScreen.storyboard in Resources */,
 				8F36A469205CCBB60028DB71 /* GoogleService-Info.plist in Resources */,
 				8F2DBF302149C85600B18421 /* Assets.xcassets in Resources */,
+				8F683A992168388300BE677C /* loader.gif in Resources */,
 				8F36A456205B4FDF0028DB71 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +273,7 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ListPlaceholder/ListPlaceholder.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftPullToRefresh/SwiftPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -290,6 +292,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ListPlaceholder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftPullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -351,7 +354,6 @@
 				8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */,
 				8F314B0920736E86001E4953 /* UserTableViewCellDelegate.swift in Sources */,
 				8F314AFF2071CBF0001E4953 /* Location.swift in Sources */,
-				8F36A465205B92030028DB71 /* PostModel.swift in Sources */,
 				8FEAD54D206F05EE006B9279 /* FeedTableViewCellDelegate.swift in Sources */,
 				8F2DF08120669299003C5834 /* FeedCell.swift in Sources */,
 				8F0F957820636110005F6AE5 /* UserCell.swift in Sources */,
