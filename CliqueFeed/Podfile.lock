@@ -77,6 +77,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - SkyFloatingLabelTextField (3.4.0)
+  - SwiftPullToRefresh (2.2.1)
 
 DEPENDENCIES:
   - AnimatableReload
@@ -92,6 +93,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - ListPlaceholder
   - SkyFloatingLabelTextField (~> 3.0)
+  - SwiftPullToRefresh
 
 SPEC CHECKSUMS:
   AnimatableReload: dcef76a16258b82bf845225012aa8f3b1aa7df6c
@@ -117,7 +119,8 @@ SPEC CHECKSUMS:
   ListPlaceholder: 48227c2f1ff0cd2f75c8e2bb26b5a45a29cf1d4c
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SkyFloatingLabelTextField: 703aa1420b697392b1e7dba25571180dde018477
+  SwiftPullToRefresh: 68a56eae4288064c04571329a704fdc76041c0cb
 
-PODFILE CHECKSUM: da3cfc0e3b8a34777435f8319468778e8a74c8c6
+PODFILE CHECKSUM: 2a9394b823eb2d00712d75e073bc98a660bd94db
 
 COCOAPODS: 1.4.0

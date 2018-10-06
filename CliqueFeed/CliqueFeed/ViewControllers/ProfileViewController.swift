@@ -35,14 +35,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
         profileImg.layer.borderWidth = 2
         profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
-
         metaFeeds = []
         refDatabase = Database.database().reference()
         fetchFeed {
@@ -63,13 +61,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             for(id, value) in usersnap{
                 if let userid = id as? String{
                     if userid == Auth.auth().currentUser?.uid{
-                        print("Cuurent user id:", userid)
+//                        print("Cuurent user id:", userid)
                         self.user = User(name : value["name"] as! String, uid:  userid, imagePath : value["urlImage"] as! String)
                         self.profileImg.downloadImage(from: self.user.imagePath)
                         self.name.text = self.user.name!
                     }
                 }
-                
             }
             completed()
         })
@@ -96,8 +93,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                                     }
                                 }
                             }
-                            print("isLiked : ", isLiked)
-                          
                             let fedd = Feed(feedPostUserImg:  self.user.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: self.user.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.user.imagePath,likes : details["likes"] as! Int, isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke)
                             self.feeds.append(fedd)
                    
@@ -105,13 +100,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     }
                 }
                 
-                print("^^^^^^^^^^^^")
-                print("Feeds : ", self.feeds)
+//                print("^^^^^^^^^^^^")
+//                print("Feeds : ", self.feeds)
                 self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
                 for i in 0..<self.feeds.count{
                     self.postids.append(self.feeds[i].uid)
                 }
-                print(self.postids)
+//                print(self.postids)
             }
             completed()
         })
@@ -121,12 +116,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func sortfeeds(){
         self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
-        print(self.feeds)
         self.postids = []
         for i in 0..<self.feeds.count{
             self.postids.append(self.feeds[i].uid)
         }
-        print(self.postids)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -137,17 +130,27 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return feeds.count
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+           
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        print("Feeds : ", self.feeds)
+//        print("Feeds : ", self.feeds)
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
+        print("IMAGE URL : ",feeds[indexPath.row].feedImage)
         cell.likes.text = String(feeds[indexPath.row].likes)
         if(feeds[indexPath.row].isLiked){
-            //            cell.feedLikeButton.isSelected = true
             cell.likedByYouLabel.text = "Liked By You and \(feeds[indexPath.row].likes - 1) others"
             cell.likedByYouLabel.isHidden = false
         }else{
@@ -155,8 +158,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.likedByYouLabel.isHidden = true
         }
         let date = Date()
-        print("%%%%%%%%%%%%%%%----------%%%%%%%%%%%%")
-        
         let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
         cell.timePosted.text = x
         cell.delegate = self
@@ -171,13 +172,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //Conforming to FeedTableViewCelldelegate
     func feedTableViewCellDidTapComment(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
-        print("Comm", sender, tappedIndexPath)
-        
+
         if let commentViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
             // Pass Data
-            // secondViewController.feed = feeds[tappedIndexPath.row]
             commentViewController.postid = self.postids[tappedIndexPath.row]
-            // Present Second View
             navigationController?.pushViewController(commentViewController, animated: true)
         }
         
@@ -195,6 +193,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         
+    }
+    
+    func feedTableViewCellDidTapTrash(_ sender: FeedCell) {
+        guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+        let index = IndexPath(row: tappedIndexPath.row, section: 0)
+        let alertBox = UIAlertController(title: "Delete Post", message: "Are you sure to delete this Post", preferredStyle:.alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+             self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).removeValue()
+        }
+        alertBox.addAction(okAction)
+        self.present(alertBox, animated:true)
     }
     
     
@@ -223,7 +232,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else{
             print("Zero likes")
         }
-        print("POST IDs :",self.postids)
+//        print("POST IDs :",self.postids)
         self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).child("likedBy").observeSingleEvent(of :.value, with: { (snap) in
             var idFound = false
             //If the user has already liked the image : decrease like on that post by one

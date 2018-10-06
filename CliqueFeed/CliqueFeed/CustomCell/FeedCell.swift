@@ -39,9 +39,12 @@ class FeedCell: UITableViewCell {
         delegate?.feedTableViewCellDidTapLike(self)
     }
     
+    @IBAction func onTrashClick(_ sender: Any) {
+        delegate?.feedTableViewCellDidTapTrash(self)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         feedView.layer.shadowOffset = CGSize(width:0,height: 3.0)
         feedView.layer.shadowRadius = 3.0
         feedView.layer.shadowOpacity = 0.6
@@ -56,8 +59,5 @@ class FeedCell: UITableViewCell {
         }else{
             feedLikeButton.imageView?.image = UIImage(named: "Like Icon")
         }
-    }
-    
-    
-    
+    } 
 }
