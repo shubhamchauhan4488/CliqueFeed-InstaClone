@@ -11,12 +11,17 @@ import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
 import GoogleSignIn
+import MBCircularProgressBar
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
     
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var followersProgressView: MBCircularProgressBarView!
+    
+    @IBOutlet weak var followingProgressView: MBCircularProgressBarView!
+    
     var refDatabase : DatabaseReference!
     var feeds = [Feed]()
     var postids = [String]()
@@ -28,6 +33,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var commentUserImageUrl: String!
     var metaFeeds = [feedIntermediate]()
     var user = User()
+
     typealias fetchUserPosts = () -> ()
     typealias getPostsData = () -> ()
     
@@ -37,9 +43,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         profileImg.layer.borderWidth = 2
         profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+   
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 1.5) {
+            self.followersProgressView.value = CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowers"))
+        }
+        UIView.animate(withDuration: 1.5) {
+            self.followingProgressView.value = CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1 )
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.followingProgressView.value = 0
+        self.followersProgressView.value = 0
+        self.followersProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowers"))
+        self.followingProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1 )
         navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
         metaFeeds = []
         refDatabase = Database.database().reference()
@@ -86,6 +105,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                         var isLiked = false
                         if currentUserId == details["uid"] as! String
                         {
+//                            //Calculating followings :
+//                            if let followings = details["following"] as? Dictionary<String, String>{
+//                               self.noOfFollowings = followings.count
+//                                  print("NO OF FOLLOWINGS", self.noOfFollowings)
+//                            }
+//                            //Calculating followers :
+//                            if let followers = details["followers"] as? Dictionary<String, String>{
+//                                self.noOfFollowers = followers.count
+//                                print("NO OF FOLLOWERS", self.noOfFollowers)
+//                            }
+                            
                             if let likedByDict = details["likedBy"] as? Dictionary<String, AnyObject>{
                                 for (_ , likedByUserId) in likedByDict{
                                     if likedByUserId as? String == Auth.auth().currentUser?.uid{

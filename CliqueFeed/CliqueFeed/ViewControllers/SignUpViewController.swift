@@ -140,7 +140,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                     if let user = user
                     {
                         
-                        let imageRef = self.userStorage.child("\(user.uid).jpg")
+                        let imageRef = self.userStorage.child("\(user.user.uid).jpg")
                         //Downgrading the image selected by the user and putting in 'data' variable
                         let data = UIImageJPEGRepresentation(self.profileImage.image!, 0.5 )
                         

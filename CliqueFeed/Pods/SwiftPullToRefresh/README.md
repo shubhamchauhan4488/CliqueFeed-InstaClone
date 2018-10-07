@@ -10,7 +10,7 @@
 
 # SwiftPullToRefresh
 
-An easy way to implement pull-down-to-refresh and pull-up-to-load-more feature based on UIScrollView extension, written in Swift 4.
+An easy way to implement pull-to-refresh feature based on UIScrollView extension, written in Swift 4.
 
 Provide default style header and footer controls which you can directly use in your project, and also support for customization. GIF is also supported.
 
@@ -110,6 +110,13 @@ scrollView.spr_setTextAutoFooter { [weak self] in
 ```
 
 ![](SwiftPullToRefreshDemo/demo08.gif)
+
+#### Clear header or footer
+
+```swift
+scrollView.spr_clearHeader()
+scrollView.spr_clearFooter()
+```
 
 ## Demo
 

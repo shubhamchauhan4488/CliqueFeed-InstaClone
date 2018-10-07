@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.7089829"
+            timestampString = "560575018.347581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.7090729"
+            timestampString = "560575018.347662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "retrieveData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.70913"
+            timestampString = "560575018.347717"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "retrieveData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.70918"
+            timestampString = "560575018.347767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.70924"
+            timestampString = "560575018.347815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.709291"
+            timestampString = "560575018.347864"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.7093641"
+            timestampString = "560575018.347912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.19336"
+            timestampString = "560575018.347963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.193512"
+            timestampString = "560575018.3480231"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.193666"
+            timestampString = "560575018.348153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "FeedViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.193724"
+            timestampString = "560575018.3482111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,171 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.193818"
+            timestampString = "560575018.348296"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.193903"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "fetchUserPosts(completed:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CliqueFeed.ProfileViewController.fetchUserPosts(completed: () -&gt; ()) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.347679"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "31">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.ProfileViewController.fetchUserPosts(completed: () -&gt; ()) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.349604"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "151">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.19396"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "fetchUserPosts(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194014"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "fetchUserPosts(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194079"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194141"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in CliqueFeed.ProfileViewController.viewWillAppear(Swift.Bool) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.3766"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "61">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; () in CliqueFeed.ProfileViewController.viewWillAppear(Swift.Bool) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.378744"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50"
-                  offsetFromSymbolStart = "25">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194212"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -490,11 +330,107 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194259"
+            timestampString = "560575018.348364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.3484451"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "ProfileViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.348502"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "fetchUserPosts(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.3485579"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.348612"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "ProfileViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.348668"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.348722"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "fetchUserPosts(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -506,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.194303"
+            timestampString = "560575018.348776"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "postLike(indexRow:cell:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.194347"
+            timestampString = "560575018.3488261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1943901"
+            timestampString = "560575018.348875"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1944309"
+            timestampString = "560575018.348923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,11 +506,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.194474"
+            timestampString = "560575018.348972"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.194525"
+            timestampString = "560575018.349021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -598,65 +534,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194576"
+            timestampString = "560575018.349068"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "fetchUserPosts(completed:)"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.194633"
+            timestampString = "560575018.349123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "viewWillAppear(_:)"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CliqueFeed.ProfileViewController.viewWillAppear(Swift.Bool) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.404563"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "512">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in CliqueFeed.ProfileViewController.viewWillAppear(Swift.Bool) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.4067"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "61">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -666,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.7138"
+            timestampString = "560575018.349178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -682,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.713846"
+            timestampString = "560575018.3492531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -698,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.71389"
+            timestampString = "560575018.349299"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "retrieveData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -714,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.713932"
+            timestampString = "560575018.349346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -730,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.713973"
+            timestampString = "560575018.349391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -746,11 +650,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714013"
+            timestampString = "560575018.349437"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "searchBar(_:textDidChange:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -762,11 +666,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714053"
+            timestampString = "560575018.349483"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -778,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714092"
+            timestampString = "560575018.34953"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -794,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714132"
+            timestampString = "560575018.349576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -810,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714172"
+            timestampString = "560575018.3496211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -826,7 +730,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.7142119"
+            timestampString = "560575018.349667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
@@ -842,7 +746,7 @@
                   moduleName = "CliqueFeed"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/UsersViewController.swift"
-                  timestampString = "558489633.445889"
+                  timestampString = "560561433.335246"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "46"
@@ -857,7 +761,7 @@
                   moduleName = "CliqueFeed"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/UsersViewController.swift"
-                  timestampString = "558489633.447695"
+                  timestampString = "560561433.337531"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
@@ -874,11 +778,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.7142529"
+            timestampString = "560575018.349713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "userTableViewCellDidTapFollowUnfollow(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -890,11 +794,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714293"
+            timestampString = "560575018.349758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "retrieveData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -906,23 +810,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714332"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "retrieveData()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
-            timestampString = "560413824.714371"
+            timestampString = "560575018.349805"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -938,7 +826,87 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.195039"
+            timestampString = "560575018.349859"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
+            landmarkName = "feedTableViewCellDidTapLike(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.3499219"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "feedTableViewCellDidTapLike(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.349983"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
+            landmarkName = "feedTableViewCellDidTapLike(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.350041"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
+            landmarkName = "feedTableViewCellDidTapLike(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.350098"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "feedTableViewCellDidTapLike(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.350153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "263"
@@ -950,15 +918,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.1951081"
+            timestampString = "560575018.350216"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -970,11 +938,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.195171"
+            timestampString = "560575018.350283"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -986,125 +954,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.195218"
+            timestampString = "560575018.350345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.1952831"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
-            landmarkName = "feedTableViewCellDidTapLike(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.19534"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "feedTableViewCellDidTapLike(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.195387"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
-            landmarkName = "feedTableViewCellDidTapLike(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.1954319"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "feedTableViewCellDidTapLike(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.1954941"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "feedTableViewCellDidTapLike(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.ProfileViewController.feedTableViewCellDidTapLike(CliqueFeed.FeedCell) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.500616"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "228"
-                  endingLineNumber = "228"
-                  offsetFromSymbolStart = "2476">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.ProfileViewController.feedTableViewCellDidTapLike(CliqueFeed.FeedCell) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
-                  timestampString = "558489633.502483"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "25">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1114,11 +970,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.195539"
+            timestampString = "560575018.350407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "postLike(indexRow:cell:)"
             landmarkType = "7">
             <Locations>
@@ -1162,75 +1018,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.195583"
+            timestampString = "560575018.350471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.195636"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1956789"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1957279"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1957721"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
             <Locations>
@@ -1238,31 +1030,31 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CliqueFeed.FeedViewController.fetchFeed(completed: () -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.FeedViewController.fetchFeed(completed: () -&gt; ()) -&gt; ()"
                   moduleName = "CliqueFeed"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/FeedViewController.swift"
-                  timestampString = "558489633.512727"
+                  timestampString = "560561433.38878"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "102"
-                  endingLineNumber = "102"
-                  offsetFromSymbolStart = "635">
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "2924">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.FeedViewController.fetchFeed(completed: () -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.FeedViewController.fetchFeed(completed: () -&gt; ()) -&gt; ()"
                   moduleName = "CliqueFeed"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/FeedViewController.swift"
-                  timestampString = "558489633.51519"
+                  timestampString = "560561433.391239"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "106"
-                  endingLineNumber = "106"
-                  offsetFromSymbolStart = "151">
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "10412">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1270,15 +1062,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.195822"
+            timestampString = "560575018.350529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1290,11 +1082,75 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.195875"
+            timestampString = "560575018.3505861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.350642"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.350697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.350765"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.350827"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "FeedViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1306,59 +1162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.195927"
+            timestampString = "560575018.3508919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CliqueFeed.FeedViewController.fetchFeed(completed: () -&gt; ()) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/FeedViewController.swift"
-                  timestampString = "558489633.52707"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "33">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in CliqueFeed.FeedViewController.fetchFeed(completed: () -&gt; ()) -&gt; ()"
-                  moduleName = "CliqueFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/FeedViewController.swift"
-                  timestampString = "558489633.529232"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "22">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1959701"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1370,75 +1178,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196012"
+            timestampString = "560575018.350975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1960551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.1960959"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196138"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "postLike(indexRow:cell:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.19618"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1450,23 +1194,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196221"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "fetchFeed(completed:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196262"
+            timestampString = "560575018.351063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "128"
@@ -1478,15 +1206,143 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.351153"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.351245"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CliqueFeed.FeedViewController.viewWillAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "CliqueFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/FeedViewController.swift"
+                  timestampString = "560561433.4309191"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "667">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in CliqueFeed.FeedViewController.viewWillAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "CliqueFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/FeedViewController.swift"
+                  timestampString = "560561433.434064"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "25">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.3513401"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "postLike(indexRow:cell:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.351426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.351511"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
+            timestampString = "560575018.351595"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "fetchFeed(completed:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.196305"
+            timestampString = "560575018.351665"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "onLogoutClick(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1498,7 +1354,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/SignUpViewController.swift"
-            timestampString = "558483590.579662"
+            timestampString = "560575018.351741"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "192"
@@ -1514,7 +1370,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/SignUpViewController.swift"
-            timestampString = "558483590.5797139"
+            timestampString = "560575018.352178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "194"
@@ -1526,31 +1382,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
-            timestampString = "560481957.19639"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196445"
+            timestampString = "560575018.3526421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1562,11 +1402,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196489"
+            timestampString = "560575018.352721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "postDislike(indexRow:key:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1578,11 +1418,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196532"
+            timestampString = "560575018.3527859"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
             landmarkName = "FeedViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1594,11 +1434,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196575"
+            timestampString = "560575018.352845"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "feedTableViewCellDidTapLike(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1610,11 +1450,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196618"
+            timestampString = "560575018.352903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1626,11 +1466,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.19666"
+            timestampString = "560575018.352962"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "fetchFeed(completed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1642,11 +1482,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196703"
+            timestampString = "560575018.35302"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1658,12 +1498,124 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CliqueFeed/ViewControllers/FeedViewController.swift"
-            timestampString = "560481957.196745"
+            timestampString = "560575018.353078"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.353139"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CliqueFeed.ProfileViewController.viewWillAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "CliqueFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
+                  timestampString = "560561433.491291"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "512">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in CliqueFeed.ProfileViewController.viewWillAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "CliqueFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shubhamchauhan/Documents/GitHub/CliqueFeed-InstaClone-/CliqueFeed/CliqueFeed/ViewControllers/ProfileViewController.swift"
+                  timestampString = "560561433.493489"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "61">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
+            timestampString = "560575018.353209"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "retrieveData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/UsersViewController.swift"
+            timestampString = "560575018.353272"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "retrieveData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.35333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CliqueFeed/ViewControllers/ProfileViewController.swift"
+            timestampString = "560575018.353404"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "viewWillAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

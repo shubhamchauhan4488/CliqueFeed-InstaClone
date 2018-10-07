@@ -12,7 +12,7 @@ target 'CliqueFeed' do
    pod 'Firebase/Storage'
    pod 'Fusuma'
    pod 'SkyFloatingLabelTextField', '~> 3.0'
-   pod 'DKLoginButton'
+   pod 'DKLoginButton', '~> 4.0.3'
    pod 'AnimatableReload'
    pod 'FaveButton', '~> 2.0.3'
    pod 'FBSDKLoginKit'
@@ -20,4 +20,5 @@ target 'CliqueFeed' do
    pod 'IQKeyboardManagerSwift'
    pod 'ListPlaceholder'
    pod 'SwiftPullToRefresh'
+   pod 'MBCircularProgressBar'
 end

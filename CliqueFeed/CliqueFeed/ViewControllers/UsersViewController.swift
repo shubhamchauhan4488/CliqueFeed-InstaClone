@@ -57,15 +57,12 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 userToShow.name = name
                                 userToShow.imagePath = imagePath
                                 userToShow.uid = uid
-                                //                                print(userToShow.name)
                                 self.users.append(userToShow)
                             }
                         }else{
-                            print("---------")
-                            print("ENTERED ELSE")
-                            print("Current user :",Auth.auth().currentUser?.uid)
-                            
                             if let followingUsers = value["following"] as? [String:String]{
+                                //Updating Following count in user defaults
+                                UserDefaults.standard.set(followingUsers.count, forKey: "noOfFollowings")
                                 self.followingUserids = []
                                 for(_, user) in followingUsers{
                                     self.followingUserids.append(user)
@@ -73,7 +70,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 }
                             }
                         }
-                        print("_________________+++++++++++++++++++______________")
                         //                        print(self.followingUserids)
                     }
                     
@@ -134,7 +130,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             isSearchActive = true
             let searchItem = searchBar.text!.lowercased()
             filteredUsers = users.filter({$0.name.lowercased().range(of: searchItem) != nil})
-            print("@@@@@@@@@@@@ USERS IS FILTERED @@@@@@@@@@@@@@")
         }
         retrieveData()
     }
@@ -163,8 +158,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 print("IAM INSIDE UN FOLLOW METHOD")
                                 ref.child("users").child(uid!).child("following/\(k)").removeValue()
                                 ref.child("users").child(self.filteredUsers[tag].uid).child("followers/\(k)").removeValue()
-                                //                            self.followingUserids.remove(at: tag)
-                                
                                 let newcell =  self.tableView.cellForRow(at: IndexPath(row: tag, section: 0)) as! UserCell
                                 newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
                                 
@@ -176,7 +169,6 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                 print("IAM INSIDE UN FOLLOW METHOD")
                                 ref.child("users").child(uid!).child("following/\(k)").removeValue()
                                 ref.child("users").child(self.users[tag].uid).child("followers/\(k)").removeValue()
-                                
                                 let newcell =  self.tableView.cellForRow(at: IndexPath(row: tag, section: 0)) as! UserCell
                                 newcell.followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
                                 

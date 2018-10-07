@@ -35,8 +35,8 @@ class GIFHeader: RefreshView {
             imageView.contentMode = .scaleAspectFill
         } else {
             let ratio = animatedImage.size.width / animatedImage.size.height
-            imageView.bounds.size = CGSize(width: ratio * height * 1, height: height * 1)
-            imageView.contentMode = .scaleAspectFill
+            imageView.bounds.size = CGSize(width: ratio * height * 0.67, height: height * 0.67)
+            imageView.contentMode = .scaleAspectFit
         }
     }
 

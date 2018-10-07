@@ -26,6 +26,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var counter = 0
     var likesCount = 0
     var refDatabase : DatabaseReference!
+    var userDefaults = UserDefaults.standard
     
     typealias downloadData = () -> ()
     
@@ -86,9 +87,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             for(_, value) in usersnap{
                 if let userid = value["uid"] as? String{
                     if userid == Auth.auth().currentUser?.uid{
+                        
+                        if let followers = value["followers"] as? [String:String]{
+                            self.userDefaults.set(followers.count, forKey: "noOfFollowers")
+                        }
+                        
                         self.following.append((Auth.auth().currentUser?.uid)!)
                         if let followingUsers = value["following"] as? [String:String]{
                             self.feedUsers = []
+                            self.userDefaults.set(followingUsers.count, forKey: "noOfFollowings")
                             for(_, userid) in followingUsers{
                                 self.following.append(userid)
                                 
