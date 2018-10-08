@@ -27,9 +27,13 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var locManager = CLLocationManager()
     var currentLocation : CLLocation!
     var postInfo = [String : Any]()
+    var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicator.hidesWhenStopped = true
+        indicator.center = view.center
+        view.addSubview(indicator)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,8 +58,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     //Calling instagram-like 3rd party library to add/capture image
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
-        
-        print(image)
+
         self.postImage.image = image
         
         if let lastLocation = self.currentLocation {
@@ -98,9 +101,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         //fusuma.allowMultipleSelection = true // You can select multiple photos from the camera roll. The default value is false.
         self.present(fusuma, animated: true, completion: nil)
     }
-    
-    
-    
+ 
     //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     //
     //        //Getting the image from info and storing in postImage.image
@@ -141,7 +142,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             //Downgrading the image selected by the user and putting in 'data' variable
             let data = UIImageJPEGRepresentation(self.postImage.image!, 0.5 )
-            
+
+            indicator.startAnimating()
             //Putting the image on the 'unique' reference created on Firebase inside Users folder
             let uploadTask = imageRef.putData(data!, metadata: nil, completion: { (metadata, err) in
                 if let err = err {
@@ -153,7 +155,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     if let er = er {
                         print(er.localizedDescription)
                     }
-                    
+                    DispatchQueue.main.async( execute: {
+                         self.indicator.stopAnimating()
+                    })
                     //URL fetch success : Save the post to Firebase
                     if let url = url{
                         self.uploadPostToFirebase(url : url)
@@ -176,7 +180,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func uploadPostToFirebase(url : URL){
-        UIApplication.shared.beginIgnoringInteractionEvents()
+//        UIApplication.shared.beginIgnoringInteractionEvents()
         let timeInterval = NSDate().timeIntervalSince1970
         let randomUserID = "LLSADKNNukabwdd27ekbq"
         let likedBy = ["KDSALNjksdLSJNF27B3DF" : randomUserID]
@@ -199,7 +203,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true)
-        UIApplication.shared.endIgnoringInteractionEvents()
+//        UIApplication.shared.endIgnoringInteractionEvents()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

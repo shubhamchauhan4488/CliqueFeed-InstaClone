@@ -102,7 +102,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                 for(k, v) in usersnap{
                                     if userid == k {
                                         //print("Appending \(v["name"])")
-                                        let user = User(name : v["name"] as! String, uid:  userid, imagePath : v["urlImage"] as! String)
+                                        let user = User(name : v["name"] as! String, email : v["email"] as! String, uid:  userid, imagePath : v["urlImage"] as! String)
                                         //print(user)
                                         self.feedUsers.append(user)
                                         //                                        print("************")
@@ -215,7 +215,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Fixing cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 450
+        return 580
     }
     
     //Conforming to FeedTableViewCelldelegate : On Comment Tap

@@ -232,7 +232,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             }else{
                 print("No user found")
                 let alertBox = UIAlertController(title: "Error", message: err?.localizedDescription, preferredStyle:.alert)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                let okAction = UIAlertAction(title: "OK", style: .default){ (action) in
+                    self.loginButton.isUserInteractionEnabled = true
+                }
                 alertBox.addAction(okAction)
                 self.present(alertBox, animated:true)
             }
@@ -321,7 +323,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                 }else{
                     print("No user found")
                     let alertBox = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle:.alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    let okAction = UIAlertAction(title: "OK", style: .default){ (action) in
+                        self.loginButton.isUserInteractionEnabled = true
+                    }
                     alertBox.addAction(okAction)
                     self.present(alertBox, animated:true)
                 }
@@ -329,7 +333,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         }else{
             let alertBox = UIAlertController(title: "Login Failed", message: "Password/Username didnt match", preferredStyle:.alert)
             
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                self.loginButton.isUserInteractionEnabled = true
+            }
             alertBox.addAction(okAction)
             present(alertBox, animated:true)
         }
@@ -350,8 +356,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                                         "uid" : Auth.auth().currentUser?.uid,
                                         "urlImage" : self.FBuserImageURL,
                                         "placemark" : firstLocation?.name] as [String : Any]
-                    
-                    
                     self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(userDetails);
                     
                 }

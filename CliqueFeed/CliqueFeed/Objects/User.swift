@@ -11,9 +11,11 @@ import UIKit
 class User: NSObject{
     var name : String!
     var uid : String!
+    var email : String!
     var imagePath : String!
-    init(name : String, uid : String, imagePath : String){
+    init(name : String, email : String, uid : String, imagePath : String){
         self.name  = name
+        self.email = email
         self.uid = uid
         self.imagePath = imagePath
     }

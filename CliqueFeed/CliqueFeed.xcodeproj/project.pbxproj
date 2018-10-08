@@ -10,6 +10,7 @@
 		39EABBA8661F46FA98065358 /* Pods_CliqueFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3432318A24E8B0F31AFB0CD6 /* Pods_CliqueFeed.framework */; };
 		8F0F957620636020005F6AE5 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0F957520636020005F6AE5 /* UsersViewController.swift */; };
 		8F0F957820636110005F6AE5 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0F957720636110005F6AE5 /* UserCell.swift */; };
+		8F120D872169BD3E0060DE34 /* EditProfileModalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F120D862169BD3E0060DE34 /* EditProfileModalController.swift */; };
 		8F2024542063675500995FE1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2024532063675500995FE1 /* User.swift */; };
 		8F202474206574BF00995FE1 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F202473206574BF00995FE1 /* FeedViewController.swift */; };
 		8F20247620657A4D00995FE1 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F20247520657A4D00995FE1 /* PostViewController.swift */; };
@@ -40,6 +41,7 @@
 		3432318A24E8B0F31AFB0CD6 /* Pods_CliqueFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CliqueFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0F957520636020005F6AE5 /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		8F0F957720636110005F6AE5 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		8F120D862169BD3E0060DE34 /* EditProfileModalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileModalController.swift; sourceTree = "<group>"; };
 		8F2024532063675500995FE1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8F202473206574BF00995FE1 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		8F20247520657A4D00995FE1 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				8FEAD550206F1829006B9279 /* CommentViewController.swift */,
 				8FEAD5542070ABD3006B9279 /* ProfileViewController.swift */,
 				8F314AFC2070F785001E4953 /* SearchViewController.swift */,
+				8F120D862169BD3E0060DE34 /* EditProfileModalController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				8F917EDB2140654100816A80 /* BounceButton.swift in Sources */,
 				8F53486920836AD7005C7569 /* ListLoader.swift in Sources */,
 				8F36A453205B4FDF0028DB71 /* LoginViewController.swift in Sources */,
+				8F120D872169BD3E0060DE34 /* EditProfileModalController.swift in Sources */,
 				8F314B0920736E86001E4953 /* UserTableViewCellDelegate.swift in Sources */,
 				8F314AFF2071CBF0001E4953 /* Location.swift in Sources */,
 				8FEAD54D206F05EE006B9279 /* FeedTableViewCellDelegate.swift in Sources */,
