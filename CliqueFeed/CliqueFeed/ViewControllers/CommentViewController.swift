@@ -126,7 +126,6 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
         })
         self.refDatabase.removeAllObservers()
     }
-    
 }
 
 extension Date {

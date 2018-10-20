@@ -11,12 +11,17 @@ import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
 import GoogleSignIn
+import MBCircularProgressBar
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
     
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var followersProgressView: MBCircularProgressBarView!
+    
+    @IBOutlet weak var followingProgressView: MBCircularProgressBarView!
+    
     var refDatabase : DatabaseReference!
     var feeds = [Feed]()
     var postids = [String]()
@@ -28,6 +33,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var commentUserImageUrl: String!
     var metaFeeds = [feedIntermediate]()
     var user = User()
+    let date = Date()
+
     typealias fetchUserPosts = () -> ()
     typealias getPostsData = () -> ()
     
@@ -37,9 +44,27 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         profileImg.layer.borderWidth = 2
         profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileImg.isUserInteractionEnabled = true
+        profileImg.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 1.5) {
+            self.followersProgressView.value = CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowers"))
+        }
+        UIView.animate(withDuration: 1.5) {
+            self.followingProgressView.value = CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1 )
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        //Setting initial values for Progressviews
+        self.followingProgressView.value = 0
+        self.followersProgressView.value = 0
+        //Setting max value to present values so that the progress view is always 100%
+        self.followersProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowers"))
+        self.followingProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1 )
         navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
         metaFeeds = []
         refDatabase = Database.database().reference()
@@ -61,10 +86,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             for(id, value) in usersnap{
                 if let userid = id as? String{
                     if userid == Auth.auth().currentUser?.uid{
-//                        print("Cuurent user id:", userid)
-                        self.user = User(name : value["name"] as! String, uid:  userid, imagePath : value["urlImage"] as! String)
+                        self.user = User(name : value["name"] as! String, email : value["email"] as! String, uid:  userid, imagePath : value["urlImage"] as! String)
                         self.profileImg.downloadImage(from: self.user.imagePath)
-                        self.name.text = self.user.name!
+                        self.name.text = self.user.name
                     }
                 }
             }
@@ -113,7 +137,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    
     func sortfeeds(){
         self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
         self.postids = []
@@ -142,13 +165,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-//        print("Feeds : ", self.feeds)
+        cell.delegate = self
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
-        print("IMAGE URL : ",feeds[indexPath.row].feedImage)
+//        print("IMAGE URL : ",feeds[indexPath.row].feedImage)
         cell.likes.text = String(feeds[indexPath.row].likes)
         if(feeds[indexPath.row].isLiked){
             cell.likedByYouLabel.text = "Liked By You and \(feeds[indexPath.row].likes - 1) others"
@@ -157,16 +180,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.likedByYouLabel.text = "Liked By \(feeds[indexPath.row].likes) people"
             cell.likedByYouLabel.isHidden = true
         }
-        let date = Date()
+        
         let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
         cell.timePosted.text = x
-        cell.delegate = self
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 500
+        return 580
     }
     
     //Conforming to FeedTableViewCelldelegate
@@ -202,24 +223,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
              self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).removeValue()
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        alertBox.addAction(cancelAction)
         alertBox.addAction(okAction)
         self.present(alertBox, animated:true)
     }
-    
-    
-    @IBAction func onLogoutClick(_ sender: Any) {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            GIDSignIn.sharedInstance().signOut()
-            
-            //Grabbing the nearrest tabBarController and then its nearest navController then poping
-            tabBarController?.navigationController?.popToRootViewController(animated: true)
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
-    }
-    
+
     func feedTableViewCellDidTapLike(_ sender: FeedCell) {
         
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
@@ -275,4 +284,36 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
     }
 
+    @IBAction func onLogoutClick(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            GIDSignIn.sharedInstance().signOut()
+            
+            //Grabbing the nearrest tabBarController and then its nearest navController then poping
+            tabBarController?.performSegue(withIdentifier: "logoutToLogin", sender: self)
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
+    
+    @objc func imageTapped(){
+        showEditProfileModal()
+    }
+    func showEditProfileModal(){
+        performSegue(withIdentifier: "profileToModal", sender: self)
+//        editProfileModalViewController.isModalInPopover = true
+    //        editProfileModalViewController.modalPresentationStyle = .overCurrentContext
+    //        present(editProfileModalViewController, animated: true, completion: nil)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "profileToModal"{
+        var editProfileModalViewController = segue.destination as! EditProfileModalController
+        editProfileModalViewController.user = self.user
+        }
+    }   
+   
+    
 }

@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate{
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        IQKeyboardManager.sharedManager().enable = true
-        IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
-        IQKeyboardManager.sharedManager().keyboardAppearance = .dark
-        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.overrideKeyboardAppearance = true
+        IQKeyboardManager.shared.keyboardAppearance = .dark
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         //Configuring Firebase
         FirebaseApp.configure()
         

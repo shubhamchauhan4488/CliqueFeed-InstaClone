@@ -27,45 +27,47 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var locManager = CLLocationManager()
     var currentLocation : CLLocation!
     var postInfo = [String : Any]()
+    var indicator = UIActivityIndicatorView()
+    typealias onFirebaseUploadComplete = () -> ()
+    var uploadedImageUrlString = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        commentField.text = ""
-        locationField.text = ""
-        
-        locManager = CLLocationManager()
-        locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyBest
-        locManager.requestWhenInUseAuthorization()
-        locManager.startUpdatingLocation()
+        indicator.hidesWhenStopped = true
+        indicator.center = view.center
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
+        view.addSubview(indicator)
         
         picker.delegate = self
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
         feedStorage = storage.child("feed")
         databaseRef = Database.database().reference()
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(tapGestureRecognizer)
+        //creating location managers in arbitrary dispatch queues (not attached to the main queue) is not supported and will result in          callbacks not being received.
+        locManager = CLLocationManager()
+        locManager.delegate = self
+        locManager.desiredAccuracy = kCLLocationAccuracyBest
+        locManager.requestWhenInUseAuthorization()
+        locManager.startUpdatingLocation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        commentField.text = ""
+        locationField.text = ""
+        postImage.isUserInteractionEnabled = true
         saveButton.isEnabled = true
     }
     
-    //Calling instagram-like 3rd party library to add/capture image
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
-        
-        print(image)
-        self.postImage.image = image
-        
+    func getLocation(){
         if let lastLocation = self.currentLocation {
             let geocoder = CLGeocoder()
-            
             // Look up the location and pass it to the completion handler
             geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
                 if error == nil {
                     let firstLocation = placemarks?[0]
                     self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
+                    self.locManager.stopUpdatingLocation()
                 }
                 else {
                     // An error occurred during geocoding.
@@ -78,6 +80,11 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             alert.addAction(okAction)
             self.present(alert, animated: true)
         }
+    }
+    //Calling instagram-like 3rd party library to add/capture image
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        self.postImage.image = image
+        self.getLocation()
     }
     
     func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
@@ -98,36 +105,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         //fusuma.allowMultipleSelection = true // You can select multiple photos from the camera roll. The default value is false.
         self.present(fusuma, animated: true, completion: nil)
     }
-    
-    
-    
-    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    //
-    //        //Getting the image from info and storing in postImage.image
-    //        if let image = info[UIImagePickerControllerEditedImage] as? UIImage
-    //        {
-    //            self.postImage.image = image
-    //        }
-    //
-    //        if let lastLocation = self.currentLocation {
-    //
-    //            let geocoder = CLGeocoder()
-    //
-    //            // Look up the location and pass it to the completion handler to get the detailed Placemark
-    //            geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
-    //                if error == nil {
-    //                    let firstLocation = placemarks?[0]
-    //                    self.locationField.text = (firstLocation?.name)! + "," + (firstLocation?.locality)! + "," + (firstLocation?.country)!
-    //                }
-    //                else {
-    //                    // An error occurred during geocoding.
-    //                    print("error while geocoding")
-    //                }
-    //            })
-    //        }
-    //        self.dismiss(animated: true, completion: nil)
-    //    }
-    
+
     
     //MARK :- On Save click
     @IBAction func onPost(_ sender: Any) {
@@ -137,11 +115,13 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             //Disabling the Save btn while saving to Firebase
             saveButton.isEnabled = false
+            UIApplication.shared.beginIgnoringInteractionEvents()
             let imageRef = self.feedStorage.child(userId!).child("\(userId! + String(arc4random())).jpg")
             
             //Downgrading the image selected by the user and putting in 'data' variable
             let data = UIImageJPEGRepresentation(self.postImage.image!, 0.5 )
             
+            indicator.startAnimating()
             //Putting the image on the 'unique' reference created on Firebase inside Users folder
             let uploadTask = imageRef.putData(data!, metadata: nil, completion: { (metadata, err) in
                 if let err = err {
@@ -156,16 +136,24 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     
                     //URL fetch success : Save the post to Firebase
                     if let url = url{
-                        self.uploadPostToFirebase(url : url)
+                        self.uploadedImageUrlString = url.absoluteString
+//                        DispatchQueue.main.async( execute: {
+//                            self.indicator.stopAnimating()
+//                        })
+                        self.uploadPostToFirebase{
                         //Reseting everthing to default values to avoid redundant posts
                         self.postImage.image = UIImage(named : "cam")
                         self.commentField.text = ""
                         self.locationField.text = ""
                         self.saveButton.isEnabled = true
+                            self.indicator.stopAnimating()
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                        }
                     }
                 })
             })
             uploadTask.resume()
+         
         }
         else{
             let alert = UIAlertController(title: "Incomplete Info for post", message: "No fileds should be left blank", preferredStyle: .actionSheet)
@@ -175,14 +163,13 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
     
-    func uploadPostToFirebase(url : URL){
-        UIApplication.shared.beginIgnoringInteractionEvents()
+    func uploadPostToFirebase(completion : @escaping onFirebaseUploadComplete){
         let timeInterval = NSDate().timeIntervalSince1970
         let randomUserID = "LLSADKNNukabwdd27ekbq"
         let likedBy = ["KDSALNjksdLSJNF27B3DF" : randomUserID]
         //Creating postInfo object and saving to Firebase
         self.postInfo  = ["uid": self.userId!,
-                          "urlImage": url.absoluteString,
+                          "urlImage": uploadedImageUrlString,
                           "comment" : self.commentField.text!,
                           "comments" : [String](),
                           "latitude" : self.currentLocation.coordinate.latitude,
@@ -199,7 +186,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true)
-        UIApplication.shared.endIgnoringInteractionEvents()
+        completion()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

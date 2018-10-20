@@ -20,7 +20,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var email: SkyFloatingLabelTextField!
     @IBOutlet weak var password: SkyFloatingLabelTextField!
     @IBOutlet weak var confirmPassword: SkyFloatingLabelTextField!
-    
     @IBOutlet weak var nxtBtn: UIButton!
     let picker = UIImagePickerController()
     var userStorage : StorageReference!
@@ -28,7 +27,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         picker.delegate = self
         let storage = Storage.storage().reference(forURL: "gs://cliquefeed-48d9c.appspot.com")
         userStorage = storage.child("users")
@@ -52,8 +50,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             email.errorMessage = ""
         }
     }
-    
-    
     
     @IBAction func onNameTextChanged(_ sender: Any) {
         
@@ -140,7 +136,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                     if let user = user
                     {
                         
-                        let imageRef = self.userStorage.child("\(user.uid).jpg")
+                        let imageRef = self.userStorage.child("\(user.user.uid).jpg")
                         //Downgrading the image selected by the user and putting in 'data' variable
                         let data = UIImageJPEGRepresentation(self.profileImage.image!, 0.5 )
                         
