@@ -33,6 +33,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var commentUserImageUrl: String!
     var metaFeeds = [feedIntermediate]()
     var user = User()
+    let date = Date()
 
     typealias fetchUserPosts = () -> ()
     typealias getPostsData = () -> ()
@@ -87,7 +88,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     if userid == Auth.auth().currentUser?.uid{
                         self.user = User(name : value["name"] as! String, email : value["email"] as! String, uid:  userid, imagePath : value["urlImage"] as! String)
                         self.profileImg.downloadImage(from: self.user.imagePath)
-                        self.name.text = self.user.name!
+                        self.name.text = self.user.name
                     }
                 }
             }
@@ -136,7 +137,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    
     func sortfeeds(){
         self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
         self.postids = []
@@ -165,13 +165,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-//        print("Feeds : ", self.feeds)
+        cell.delegate = self
         cell.feedDescription.text = feeds[indexPath.row].feedDescription
         cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
         cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
         cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
         cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
-        print("IMAGE URL : ",feeds[indexPath.row].feedImage)
+//        print("IMAGE URL : ",feeds[indexPath.row].feedImage)
         cell.likes.text = String(feeds[indexPath.row].likes)
         if(feeds[indexPath.row].isLiked){
             cell.likedByYouLabel.text = "Liked By You and \(feeds[indexPath.row].likes - 1) others"
@@ -180,11 +180,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.likedByYouLabel.text = "Liked By \(feeds[indexPath.row].likes) people"
             cell.likedByYouLabel.isHidden = true
         }
-        let date = Date()
+        
         let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
         cell.timePosted.text = x
-        cell.delegate = self
-        
         return cell
     }
     
@@ -225,6 +223,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
              self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).removeValue()
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        alertBox.addAction(cancelAction)
         alertBox.addAction(okAction)
         self.present(alertBox, animated:true)
     }
@@ -291,7 +291,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             GIDSignIn.sharedInstance().signOut()
             
             //Grabbing the nearrest tabBarController and then its nearest navController then poping
-            tabBarController?.navigationController?.popToRootViewController(animated: true)
+            tabBarController?.performSegue(withIdentifier: "logoutToLogin", sender: self)
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }

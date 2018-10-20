@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B70F775D13956E8E2760A235EFC12A5"
+               BlueprintIdentifier = "24348A9CFC0D714252EF30992636B093"
                BuildableName = "Pods_CliqueFeed.framework"
                BlueprintName = "Pods-CliqueFeed"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6B70F775D13956E8E2760A235EFC12A5"
+            BlueprintIdentifier = "24348A9CFC0D714252EF30992636B093"
             BuildableName = "Pods_CliqueFeed.framework"
             BlueprintName = "Pods-CliqueFeed"
             ReferencedContainer = "container:Pods.xcodeproj">

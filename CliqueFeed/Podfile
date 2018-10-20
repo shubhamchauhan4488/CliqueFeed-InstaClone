@@ -14,11 +14,12 @@ target 'CliqueFeed' do
    pod 'SkyFloatingLabelTextField', '~> 3.0'
    pod 'DKLoginButton', '~> 4.0.3'
    pod 'AnimatableReload'
-   pod 'FaveButton', '~> 2.0.3'
    pod 'FBSDKLoginKit'
    pod 'GoogleSignIn'
    pod 'IQKeyboardManagerSwift'
    pod 'ListPlaceholder'
    pod 'SwiftPullToRefresh'
+   pod 'FaveButton' 
+   pod 'LikeAnimation'
    pod 'MBCircularProgressBar'
 end

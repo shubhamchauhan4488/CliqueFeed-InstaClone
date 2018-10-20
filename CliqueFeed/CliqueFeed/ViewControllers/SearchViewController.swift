@@ -24,7 +24,9 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     var numberOfNearByFriends  = 3
     
     @IBOutlet weak var myMapView: MKMapView!
+    @IBOutlet weak var findFriendsBottomToMapConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var findFriendsTopConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -35,6 +37,8 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
         pins = []
         locs = []
         nearByFriendsDetailsArray = []
+        self.findFriendsBottomToMapConstraint.constant = 800
+        self.findFriendsTopConstraint.constant = 80
         let allAnnotations = self.myMapView.annotations
         self.myMapView.removeAnnotations(allAnnotations)
         myMapView.delegate = self
@@ -42,7 +46,6 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     }
     
     func fetchUsers(){
-        
         refDatabase.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             let usersnap = snapshot.value as! [String : AnyObject]
             for(_, value) in usersnap{
@@ -139,6 +142,12 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func onFindNearbyFriendsPress(_ sender: Any) {
         fetchUsers()
+        UIView.animate(withDuration: 1.0, animations: {
+            self.findFriendsBottomToMapConstraint.constant = 5
+            self.findFriendsTopConstraint.constant = 10
+            
+            self.view.layoutIfNeeded()
+        })
     }
     
 }

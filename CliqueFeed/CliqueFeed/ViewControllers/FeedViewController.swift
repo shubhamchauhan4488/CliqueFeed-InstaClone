@@ -15,7 +15,7 @@ import ListPlaceholder
 import SwiftPullToRefresh
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
-
+    
     var feeds = [Feed]()
     var postids = [String]()
     var following = [String]()
@@ -27,15 +27,19 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var likesCount = 0
     var refDatabase : DatabaseReference!
     var userDefaults = UserDefaults.standard
-    
+    var date = Date()
+    let postViewControllerSelectedIndex = 2
+    let usersViewControllerSelectedIndex = 3
+    var verticalContentOffset  = CGFloat()
+
     typealias downloadData = () -> ()
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //faveButton.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -49,31 +53,53 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         
         print("vWA : " ,feeds)
-     
+        
         self.postids = []
         self.following = []
         refDatabase = Database.database().reference()
-        
+        //indicator Even before anything appears on the screen(WIll be visible in slow net connections)
+        indicator.startAnimating()
         fetchFeed {
             print("after : " ,self.feeds)
-            self.tableView.remembersLastFocusedIndexPath = false
-                self.tableView.reloadData()
+          
+            self.tableView.remembersLastFocusedIndexPath = true
+            self.tableView.reloadData()
+            self.tableView.setContentOffset(CGPoint(x : 0, y : self.verticalContentOffset), animated: false)
+            if self.feeds.count == 0{
+                let alertBox = UIAlertController(title: "No Posts to Display", message: "Follow Someone or Create Your own post", preferredStyle:.alert)
+                let createAction = UIAlertAction(title: "Create", style: .default, handler: { (action) in
+                    if let postViewController = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as? PostViewController {
+                        self.navigationController?.popViewController(animated: true)
+                        self.tabBarController?.selectedIndex = self.postViewControllerSelectedIndex
+                    }
+                })
+                let followAction = UIAlertAction(title: "Follow", style: .default, handler: { (action) in
+                    if let usersViewController = self.storyboard?.instantiateViewController(withIdentifier: "UsersViewController") as? UsersViewController {
+                        self.navigationController?.popViewController(animated: true)
+                        self.tabBarController?.selectedIndex = self.usersViewControllerSelectedIndex
+                    }
+                })
+                alertBox.addAction(createAction)
+                alertBox.addAction(followAction)
+                self.present(alertBox, animated:true)
+            }
+            self.indicator.stopAnimating()
         }
         
         guard
             let url = Bundle.main.url(forResource: "loader", withExtension: "gif"),
             let data = try? Data(contentsOf: url) else { return }
         
-         self.tableView.spr_setGIFHeader(data: data, isBig: false, height: 120) { [weak self] in
+        self.tableView.spr_setGIFHeader(data: data, isBig: false, height: 120) { [weak self] in
             self?.fetchFeed {
                 print("after : " ,self?.feeds)
-                self?.tableView.remembersLastFocusedIndexPath = false
+        
                 self?.tableView.reloadData()
+                //Giving delay so that if data is fetchde quickly, the animation can still complete in 2 sec
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int64(1.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                    self?.tableView?.spr_endRefreshing()
+                }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // change 2 to desired number of seconds
-               self?.tableView?.spr_endRefreshing()
-            }
-            
         }
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -118,7 +144,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.refDatabase.child("posts").observe(.value, with: { (snap) in
             
-            
             //Since we are observing posts, this block will be called whenever we try to access its childs. So we clear feeds array as it will be loaded again from the databse
             self.feeds = []
             self.postids = []
@@ -140,7 +165,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     for (_ , likedByUserId) in likedByDict{
                                         if likedByUserId as? String == Auth.auth().currentUser?.uid{
                                             isLiked = true
-                                            
                                         }
                                     }
                                 }
@@ -160,10 +184,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             print("Before : " ,self.feeds)
             completed()
-        }
-            
-        )
-        
+        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -172,46 +193,36 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        //cell.feedLikeButton.imageView?.image = UIImage(named : "Comment Icon")
-        //cell.addSubview(faveButton)
-        
-        //faveButton.translatesAutoresizingMaskIntoConstraints = true
-        //faveButton.leadingAnchor.constraint(equalTo: cell.feedView.leadingAnchor,constant : 20).isActive = true
-        //        faveButton.trailingAnchor.constraint(equalTo: cell.feedView.trailingAnchor).isActive = true
-        //faveButton.bottomAnchor.constraint(equalTo: cell.separatorView.bottomAnchor,constant: -10).isActive = true
-        //faveButton.topAnchor.constraint(equalTo: cell.feedImage.bottomAnchor , constant: 10).isActive = true
-        //                faveButton.heightAnchor.constraint(equalTo: cell.feedView.heightAnchor,multiplier: 0.45).isActive = true
-        
-        
-        print("configure cell : " ,feeds)
-        
-        cell.feedDescription.text = feeds[indexPath.row].feedDescription
-        cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
-        cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
-        //Image added using extension
-        cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
-        //print(feeds[indexPath.row].feedImage);
-        cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
-        cell.likes.text = String(feeds[indexPath.row].likes)
-        if(feeds[indexPath.row].isLiked){
-            //            cell.feedLikeButton.isSelected = true
-            cell.likedByYouLabel.text = ",Liked By You and \(feeds[indexPath.row].likes - 1) others"
-            cell.likedByYouLabel.isHidden = false
-        }else{
-            cell.likedByYouLabel.text = ",Liked By \(feeds[indexPath.row].likes) people"
-            cell.likedByYouLabel.isHidden = true
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as? FeedCell{
+
+            print("configure cell : " ,feeds)
+            cell.delegate = self
+            cell.feedDescription.text = feeds[indexPath.row].feedDescription
+            cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
+            cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
+            //Image added using extension
+            cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
+            cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
+            cell.likes.text = String(feeds[indexPath.row].likes)
+            if(feeds[indexPath.row].isLiked){
+                cell.likedByYouLabel.text = ",Liked By You and \(feeds[indexPath.row].likes - 1) others"
+                cell.likedByYouLabel.isHidden = false
+                cell.feedLikeButton?.setSelected(selected: true, animated: false)
+            }else{
+                cell.likedByYouLabel.text = ",Liked By \(feeds[indexPath.row].likes) people"
+                cell.likedByYouLabel.isHidden = true
+                cell.feedLikeButton?.setSelected(selected: false, animated: false)
+            }
+            //Getting the difference between current date and timestamp with the help of Date extension
+            //WHY if we place this above getting cell.feedDescription.text it is giving error?
+            let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
+            cell.timePosted.text = x
+            return cell
         }
-        //Getting the difference between current date and timestamp with the help of Date extension
-        //WHY if we place this above getting cell.feedDescription.text it is giving error?
-        let date = Date()
-        let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
-        cell.timePosted.text = x
-        cell.delegate = self
-        return cell
+        else{
+            return UITableViewCell()
+        }
     }
-    
-    
     
     //Fixing cell height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -222,9 +233,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func feedTableViewCellDidTapComment(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         print("Comm", sender, tappedIndexPath)
-        
+        pushCommentViewController(tappedIndexpath : tappedIndexPath)
+    }
+    
+    func pushCommentViewController(tappedIndexpath : IndexPath){
         if let commentViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
-            commentViewController.postid = self.postids[tappedIndexPath.row]
+            commentViewController.postid = self.postids[tappedIndexpath.row]
             // Present Second View
             navigationController?.pushViewController(commentViewController, animated: true)
         }
@@ -241,6 +255,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         "timestamp" : timeInterval] as [String : Any]
         refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         counter = counter + 1
+        
+       pushCommentViewController(tappedIndexpath: tappedIndexPath)
     }
     
     func feedTableViewCellDidTapTrash(_ sender: FeedCell) {
@@ -248,7 +264,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func feedTableViewCellDidTapLike(_ sender: FeedCell) {
-        
+        self.verticalContentOffset = self.tableView.contentOffset.y
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
@@ -259,7 +275,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }else{
             print("Zero likes")
         }
-        
         self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).child("likedBy").observeSingleEvent(of :.value, with: { (snap) in
             var idFound = false
             //If the user has already liked the image : decrease like on that post by one
@@ -273,36 +288,39 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                     }
                 }
                 if(idFound == true){
-                    //                    cell.feedLikeButton.imageView?.image = UIImage(named: "Like Icon")
                     self.postDislike(indexRow : tappedIndexPath.row, key : key)
-                }else{
                     
+                }else{
                     self.postLike(indexRow : tappedIndexPath.row, cell : cell)
                 }
             }
-            self.feeds = []
-            self.fetchFeed {
-                self.tableView.remembersLastFocusedIndexPath = true
-                self.tableView.reloadData()
-            }
+//            self.feeds = []
+//            self.fetchFeed {
+//                self.tableView.remembersLastFocusedIndexPath = true
+//                //                self.tableView.reloadData()
+//            }
         })
     }
     
     func postLike(indexRow : Int, cell : FeedCell){
+        
         self.likesCount = self.likesCount + 1;
         let likes = ["likes" : self.likesCount]
         self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
         let key = self.refDatabase.child("posts").childByAutoId().key
         let likedBy = ["likedBy/\(key)" : Auth.auth().currentUser?.uid]
         self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likedBy)
-        //        cell.feedLikeButton.imageView?.image = UIImage(named: "likeRedImage")
+        cell.feedLikeButton?.setSelected(selected: true, animated: true)
+        
     }
     
     func postDislike(indexRow : Int, key : String){
+        
         self.likesCount = self.likesCount - 1;
         let likes = ["likes" : self.likesCount]
         self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
         self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
+        
     }
 }
 

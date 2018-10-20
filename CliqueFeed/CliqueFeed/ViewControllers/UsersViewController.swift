@@ -21,6 +21,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var followingUserids = [String]()
     var filteredUsers = [User]()
     var isSearchActive : Bool!
+    var isFollowUnfollowTapped = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        isFollowUnfollowTapped = false
         isSearchActive = false
         tableView.setContentOffset(.zero, animated: true)
         retrieveData()
@@ -95,15 +97,21 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as? UserCell{
             
+            if !isFollowUnfollowTapped {
+                cell.layer.transform = CATransform3DMakeScale(0.8,0.8,1)
+                UIView.animate(withDuration: 0.6, animations: {
+                    cell.layer.transform = CATransform3DMakeScale(1,1,1)
+                })
+            }
             cell.delegate = self
             cell.tag = indexPath.row
             cell.followUnfollowBtn.tag = indexPath.row
             if isSearchActive{
                 
-                cell.configure(username: self.filteredUsers[indexPath.row].name, imageURL: filteredUsers[indexPath.row].imagePath!, userID: self.filteredUsers[indexPath.row].uid, isFollowing: followingUserids.contains(filteredUsers[indexPath.row].uid))
+                cell.configure(username: self.filteredUsers[indexPath.row].name, imageURL: filteredUsers[indexPath.row].imagePath, userID: self.filteredUsers[indexPath.row].uid, isFollowing: followingUserids.contains(filteredUsers[indexPath.row].uid))
             }else{
                 
-                cell.configure(username: self.users[indexPath.row].name, imageURL: users[indexPath.row].imagePath!, userID: self.users[indexPath.row].uid, isFollowing: followingUserids.contains(users[indexPath.row].uid))
+                cell.configure(username: self.users[indexPath.row].name, imageURL: users[indexPath.row].imagePath, userID: self.users[indexPath.row].uid, isFollowing: followingUserids.contains(users[indexPath.row].uid))
                 
             }
             return cell
@@ -113,7 +121,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             return UITableViewCell()
         }
     }
-    
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -145,7 +153,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let ref = Database.database().reference()
         let key = ref.child("users").childByAutoId().key
         var isFollower = false
-        
+        isFollowUnfollowTapped = true
         ref.child("users").child(uid!).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with:
             { (snapshot) in
                 
@@ -211,10 +219,20 @@ let imageCache = NSCache<AnyObject, AnyObject>();
 extension UIImageView{
     func downloadImage(from imgurl : String){
         
+        //Putting an activity indicator view untill the image loads on the screen
+        let indicator = UIActivityIndicatorView()
+        indicator.center = CGPoint(x : self.bounds.size.width/2.0,y : self.bounds.size.height/2.0)
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.white
+        indicator.contentMode = .scaleToFill
+        indicator.color = UIColor(red: 255/255, green: 46/255, blue: 147/255, alpha: 1)
+        self.addSubview(indicator)
+        indicator.hidesWhenStopped = true
+        indicator.startAnimating()
         //check cache for the image first
         if let cachedImage = imageCache.object(forKey: imgurl as AnyObject) as? UIImage
         {
             self.image = cachedImage
+            indicator.stopAnimating()
             return;
         }
         
@@ -226,10 +244,10 @@ extension UIImageView{
             }
             //Whenever u have to update the UI u have to do it in main thread, otherwise it will crash/
             DispatchQueue.main.async {
-                
                 if let downloadedImage = UIImage(data : data!){
                     imageCache.setObject(downloadedImage, forKey: imgurl as AnyObject)
                     self.image = downloadedImage
+                    indicator.stopAnimating()
                 }
             }
             }.resume()

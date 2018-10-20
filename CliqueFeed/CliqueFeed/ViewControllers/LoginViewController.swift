@@ -20,7 +20,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var loginButton: DKTransitionButton!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var mySwitch: UISwitch!
     
     let customFbLoginButton = UIButton()
@@ -28,16 +27,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     var locManager : CLLocationManager!
     var currentLocation : CLLocation!
     var databaseRef : DatabaseReference!
-    var lat : Double!
-    var long : Double!
+    var lat = Double()
+    var long = Double()
     var userDefault = UserDefaults.standard
-    var FBUserEmail = ""
-    var FBUserName = ""
-    var FBUserID = ""
-    var FBuserImageURL = ""
-    var googleUserName = ""
-    var googleUserEmail = ""
-    var googleUserImageURL = ""
     var currentUserId = String()
     
     override func viewDidLoad() {
@@ -62,10 +54,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         
-    }
-    
-    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
-        print("Profile" ,signIn.currentUser.profile)
     }
     
     fileprivate func setupFacebookLoginButton(){
@@ -93,6 +81,10 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         view.addConstraints([xCenterConstraint, yCenterConstraint, leadingConstraint1, trailingConstraint1])
         customFbLoginButton.addTarget(self, action: #selector(handleCustomFBLoginClick), for: .touchUpInside)
         
+    }
+    
+    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
+        print("Profile" ,signIn.currentUser.profile)
     }
     
     fileprivate func setupGoogleLoginButton() {
@@ -123,30 +115,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     
     func setUserDetailsAfterGoogleLogin(){
         
-        if let lastLocation = self.currentLocation {
-            let geocoder = CLGeocoder()
-            geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
-                if error == nil {
-                    
-                    let firstLocation = placemarks?[0]
-                    
-                    let userDetails = [ "latitude" : self.lat!,
-                                        "longitude" : self.long!,
-                                        "email" : self.googleUserEmail,
-                                        "name" : self.googleUserName,
-                                        "uid" : Auth.auth().currentUser?.uid,
-                                        "urlImage" : self.googleUserImageURL,
-                                        "placemark" : firstLocation?.name] as [String : Any]
-                    
-                    
-                    self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(userDetails);
-                }
-                else {
-                    // An error occurred during geocoding.
-                    print("error while geocoding")
-                }
-            })
-        }
+        setUserDetailsAfterLogin()
+
     }
     
     //GIDSignInDelegate method
@@ -169,9 +139,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                 print("Failed to create Firebase user with credentials from Google: ", err)
                 return
             }
-            self.googleUserName = googleCurrentUser.profile.name
-            self.googleUserEmail = googleCurrentUser.profile.email
-            self.googleUserImageURL = googleCurrentUser.profile.imageURL(withDimension: 120).absoluteString
+            CurrentUser.sharedInstance.name = googleCurrentUser.profile.name
+            CurrentUser.sharedInstance.email = googleCurrentUser.profile.email
+            CurrentUser.sharedInstance.imagePath = googleCurrentUser.profile.imageURL(withDimension: 120).absoluteString
             self.setUserDetailsAfterGoogleLogin()
             if let homeTabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarViewController") as? UITabBarController {
                 self.navigationController?.pushViewController(homeTabBarViewController, animated: true)
@@ -225,7 +195,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             }
             print("Successfully signed in")
             if user != nil{
-                self.setUserDetailsAfterFBLogin();
+                self.setUserDetailsAfterLogin();
                 if let homeTabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarViewController") as? UITabBarController {
                     self.navigationController?.pushViewController(homeTabBarViewController, animated: true)
                 }
@@ -250,21 +220,17 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
             if  let res = result as? Dictionary<String, Any>{
                 
                 if let name = res["name"] as? String {
-                    self.FBUserName = name
+                    CurrentUser.sharedInstance.name = name
                 }
                 
                 if let id = res["id"] as? String {
-                    self.FBUserID = id
-                    self.FBuserImageURL = "https://graph.facebook.com/\(id)/picture?type=large"
-                    print(self.FBuserImageURL)
+                    CurrentUser.sharedInstance.imagePath = "https://graph.facebook.com/\(id)/picture?type=large"
                 }
                 
                 if let email = res["email"] as? String {
-                    self.FBUserEmail = email
+                    CurrentUser.sharedInstance.email = email
                 }
-                
             }
-            
         }
     }
     
@@ -316,8 +282,11 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                     self.getCoordinates();
                     button.startLoadingAnimation()
                     button.startSwitchAnimation(1, completion: { () -> () in
+                        
+//                        self.performSegue(withIdentifier: "LoginToHome", sender: self)
                         if let homeTabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarViewController") as? UITabBarController {
-                            self.navigationController?.pushViewController(homeTabBarViewController, animated: true)
+                            self.navigationController?.present(homeTabBarViewController, animated: true, completion: nil)
+//      
                         }
                     })
                 }else{
@@ -342,19 +311,19 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     }
     
     
-    func setUserDetailsAfterFBLogin(){
+    func setUserDetailsAfterLogin(){
         if let lastLocation = self.currentLocation {
             let geocoder = CLGeocoder()
             geocoder.reverseGeocodeLocation(lastLocation,completionHandler: { (placemarks, error) in
                 if error == nil {
                     let firstLocation = placemarks?[0]
-                    
-                    let userDetails = [ "latitude" : self.lat!,
-                                        "longitude" : self.long!,
-                                        "email" : self.FBUserEmail,
-                                        "name" : self.FBUserName,
+                  
+                    let userDetails = [ "latitude" : self.lat,
+                                        "longitude" : self.long,
+                                        "email" : CurrentUser.sharedInstance.email,
+                                        "name" : CurrentUser.sharedInstance.name,
                                         "uid" : Auth.auth().currentUser?.uid,
-                                        "urlImage" : self.FBuserImageURL,
+                                        "urlImage" : CurrentUser.sharedInstance.imagePath,
                                         "placemark" : firstLocation?.name] as [String : Any]
                     self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(userDetails);
                     
@@ -368,7 +337,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
     }
     
     func getCoordinates(){
-        print("user exists")
+
         if let lastLocation = self.currentLocation {
             print("lastlocation : ", self.currentLocation)
             let geocoder = CLGeocoder()
@@ -376,8 +345,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
                 if error == nil {
                     let firstLocation = placemarks?[0]
                     
-                    let coordinates = [ "latitude" : self.lat!,
-                                        "longitude" : self.long!,
+                    let coordinates = [ "latitude" : self.lat,
+                                        "longitude" : self.long,
                                         "placemark" : firstLocation?.name] as [String : Any]
                     
                     self.databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(coordinates)
@@ -398,6 +367,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, GIDSignI
         lat = coordinate!.latitude
         long = coordinate!.longitude
     }
+    
     @IBAction func onSignUpPress(_ sender: Any) {
         if let signUpVC = storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") as? UIViewController {
             self.navigationController?.pushViewController(signUpVC, animated: true)

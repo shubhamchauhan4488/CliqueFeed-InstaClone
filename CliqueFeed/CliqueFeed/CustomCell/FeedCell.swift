@@ -8,6 +8,7 @@
 
 import UIKit
 import FaveButton
+import LikeAnimation
 
 class FeedCell: UITableViewCell {
     
@@ -20,14 +21,14 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var timePosted: UILabel!
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var likedByYouLabel: UILabel!
-    @IBOutlet weak var feedLikeButton: FaveButton!
-    @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var feedLikeButton: FaveButton?
     @IBOutlet weak var feedView: UIView!
     
     var delegate : FeedTableViewCellDelegate?
-    
+
     @IBAction func onCommentClick(_ sender: Any) {
         delegate?.feedTableViewCellDidTapComment(self)
+        
     }
     
     @IBAction func onPostClick(_ sender: Any) {
@@ -37,6 +38,19 @@ class FeedCell: UITableViewCell {
     
     @IBAction func onLikeClick(_ sender: Any) {
         delegate?.feedTableViewCellDidTapLike(self)
+
+//        feedLikeButton?.setSelected(selected: true, animated: false)
+//        let likeAnimation = LikeAnimation(frame: CGRect(origin: feedPostUserImg.center, size: CGSize(width: 100, height: 100)))
+//        feedPostUserImg.addSubview(likeAnimation)
+//        feedPostUserImg.bringSubview(toFront: likeAnimation)
+//        likeAnimation.duration = 1.5
+//        likeAnimation.circlesCounter = 1            // One cirlce
+//        likeAnimation.particlesCounter.main = 6     // 6 big particles
+//        likeAnimation.particlesCounter.small = 7
+//        likeAnimation.heartColors.initial = .white
+//        likeAnimation.heartColors.animated = .orange
+//        likeAnimation.particlesColor = .orange
+//        likeAnimation.run()
     }
     
     @IBAction func onTrashClick(_ sender: Any) {
@@ -53,11 +67,6 @@ class FeedCell: UITableViewCell {
         feedPostUserImg.layer.borderWidth = 2
         feedPostUserImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         likedByYouLabel.font = UIFont(name: "Avenir", size: 14)
-        
-        if feedLikeButton.isSelected {
-            feedLikeButton.imageView?.image = UIImage(named: "search")
-        }else{
-            feedLikeButton.imageView?.image = UIImage(named: "Like Icon")
-        }
+
     } 
 }

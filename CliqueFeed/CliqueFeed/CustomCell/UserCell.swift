@@ -16,12 +16,13 @@ class UserCell : UITableViewCell{
     @IBOutlet weak var followUnfollowBtn: UIButton!
     @IBOutlet weak var view: UIView!
     weak var delegate : UserTableViewCellProtocol?
-    @IBAction func followUnfollowButton(_ sender: BounceButton) {
-        delegate?.userTableViewCellDidTapFollowUnfollow(sender.tag)
-    }
     var userID : String!
     var followFlag = false
     
+    @IBAction func followUnfollowButton(_ sender: BounceButton) {
+        delegate?.userTableViewCellDidTapFollowUnfollow(sender.tag)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -32,7 +33,6 @@ class UserCell : UITableViewCell{
         view.layer.cornerRadius = 10
         userimage.layer.borderWidth = 2
         userimage.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
-        
     }
     
     func configure(username : String, imageURL : String, userID : String, isFollowing : Bool){

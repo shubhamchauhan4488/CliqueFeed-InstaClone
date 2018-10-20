@@ -35,7 +35,7 @@ class EditProfileModalController: UIViewController, FusumaDelegate{
         databaseRef = Database.database().reference()
 
         self.profileImage.downloadImage(from: self.user.imagePath)
-        self.name.text = self.user.name!
+        self.name.text = self.user.name
         self.email.text = self.user.email
         self.password.text = ""
         self.confirmPassword.text = ""
