@@ -15,7 +15,8 @@ class Feed: NSObject {
     private var _feedPostUser : String!
     private var _feedDescription : String!
     private var _lastCommentUserImg : String!
-    private var _uid : String!
+    private var _id : String!
+    private var _userID : String!
     private var _timeStamp : Double!
     private var _likes : Int!
     private var _isLiked : Bool!
@@ -62,11 +63,11 @@ class Feed: NSObject {
         }
         return _likes
     }
-    public var uid : String {
-        if _uid == nil {
-            _uid = ""
+    public var id : String {
+        if _id == nil {
+            _id = ""
         }
-        return _uid
+        return _id
     }
     public var isLiked : Bool {
         if _isLiked == nil {
@@ -74,18 +75,25 @@ class Feed: NSObject {
         }
         return _isLiked
     }
+    public var userID : String {
+        if _userID == nil {
+            _userID = ""
+        }
+        return _userID
+    }
     
     
-    init(feedPostUserImg : String, feedImage : String,feedPostUser : String,feedDescription : String,lastCommentUserImg : String,likes : Int, isLiked : Bool, timeStamp : Double, id: String){
+    init(feedPostUserImg : String, feedImage : String,feedPostUser : String,feedDescription : String,lastCommentUserImg : String,likes : Int, isLiked : Bool, timeStamp : Double, id: String, userID : String){
         self._feedPostUserImg = feedPostUserImg
         self._feedImage = feedImage
         self._feedPostUser = feedPostUser
         self._feedDescription = feedDescription
         self._lastCommentUserImg = lastCommentUserImg
         self._timeStamp = timeStamp
-        self._uid = id
+        self._id = id
         self._likes = likes
         self._isLiked = isLiked
+        self._userID = userID
     }
 }
 

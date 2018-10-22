@@ -45,7 +45,6 @@ class UserCell : UITableViewCell{
         else{
             followUnfollowBtn.imageView?.image = UIImage(named : "Follow_icon")
         }
-        
     }
     
 }
