@@ -45,6 +45,31 @@ class FeedCell: UITableViewCell {
         delegate?.feedTableViewCellDidTapTrash(self)
     }
     
+    @IBAction func onAddCommentClick(_ sender: Any) {
+      
+        UIView.animate(withDuration: 0.9,animations: {
+           
+            self.lastCommentUserIMg.layer.transform = CATransform3DMakeScale(1.3, 1.3, 1)
+            self.commentText.layer.borderWidth = 1
+            self.commentText.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
+            self.commentText.layer.transform = CATransform3DMakeScale(0.95, 1.2, 1.1)
+            })
+                {(finished) in
+                if (finished){
+                      self.postBtn.isHidden = false
+                }
+        }
+    }
+    
+    @IBAction func onAddCommentEditingEnd(_ sender: Any) {
+        self.postBtn.isHidden = true
+        UIView.animate(withDuration: 0.9) {
+            self.lastCommentUserIMg.layer.transform = CATransform3DMakeScale(1, 1, 1)
+            self.commentText.layer.borderWidth = 0
+             self.commentText.layer.transform = CATransform3DMakeScale(1, 1, 1)
+        }
+    }
+    
     @objc func imageTapped(){
         delegate?.feedTableViewCellDidTapFeedImage(self)
     }
@@ -55,17 +80,21 @@ class FeedCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        postBtn.isHidden = true
         feedView.layer.shadowOffset = CGSize(width:0,height: 3.0)
         feedView.layer.shadowRadius = 3.0
         feedView.layer.shadowOpacity = 0.6
         feedView.layer.shadowColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         feedView.layer.cornerRadius = 20
+        
         feedPostUserImg.layer.borderWidth = 2
         feedPostUserImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
         likedByYouLabel.font = UIFont(name: "Avenir", size: 14)
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         feedImage.isUserInteractionEnabled = true
         feedImage.addGestureRecognizer(tapGestureRecognizer)
+        
         let userImageTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(feedPostUserImgTapped))
         feedPostUserImg.isUserInteractionEnabled = true
         feedPostUserImg.addGestureRecognizer(userImageTapGestureRecognizer)
@@ -93,9 +122,5 @@ class FeedCell: UITableViewCell {
         self.feedImage.downloadImage(from: feedImageURL)
         self.likes.text = String(likes)
         self.timePosted.text = timePosted
-        
-        if commentText.text == "" {
-            postBtn.isEnabled = false
-        }
     }
 }

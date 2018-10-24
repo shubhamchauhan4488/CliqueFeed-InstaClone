@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var isOtherUser = true
     var isProfileUserIdSet = false
     var currentUserImagePath = String()
-
+    
     typealias fetchUserPosts = () -> ()
     typealias getPostsData = () -> ()
     
@@ -48,39 +48,46 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         profileImg.layer.borderWidth = 2
         profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        profileImg.isUserInteractionEnabled = true
-        profileImg.addGestureRecognizer(tapGestureRecognizer)
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        //ProgressView Animations
         UIView.animate(withDuration: 1.5) {
             self.followersProgressView.value = CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowers"))
         }
         UIView.animate(withDuration: 1.5) {
             self.followingProgressView.value = CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1 )
         }
+        
     }
-  
+    
     override func viewWillAppear(_ animated: Bool) {
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileImg.isUserInteractionEnabled = true
+        profileImg.addGestureRecognizer(tapGestureRecognizer)
         
         if profileUserId == ""{
             profileUserId = (Auth.auth().currentUser?.uid)!
             self.backBtn.isHidden = true
             isOtherUser = false
             profileStackTopConstraint.constant = 15
-             self.tabBarController?.tabBar.isHidden = false
+            self.tabBarController?.tabBar.isHidden = false
         }
+        
+        //Other user's profile page
         if (isProfileUserIdSet){
-            print("profileUserId : ", profileUserId)
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.tabBarController?.tabBar.isHidden = true
+            profileImg.isUserInteractionEnabled = false
         }
-      
+        
         //Setting initial values for Progressviews
         self.followingProgressView.value = 0
         self.followersProgressView.value = 0
-
+        
         navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
         metaFeeds = []
         refDatabase = Database.database().reference()
@@ -95,11 +102,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    //When Other user's profile was displayed, revert to showing the nav bar
     override func viewWillDisappear(_ animated: Bool) {
         if(isProfileUserIdSet){
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         }
-    
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -152,20 +159,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                                     }
                                 }
                             }
-                            let fedd = Feed(feedPostUserImg:  self.user.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: self.user.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.currentUserImagePath,likes : details["likes"] as! Int, isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke, userID : self.profileUserId)
+                            //                            if self.currentUserImagePath == "" {
+                            //                                self.currentUserImagePath = self.user.imagePath
+                            //                            }
+                            let fedd = Feed(feedPostUserImg:  self.user.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: self.user.name, feedDescription: details["comment"] as! String, lastCommentUserImg: CurrentUser.sharedInstance.imagePath,likes : details["likes"] as! Int, isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke, userID : self.profileUserId)
                             self.feeds.append(fedd)
-                   
+                            
                         }
                     }
                 }
                 
-//                print("^^^^^^^^^^^^")
-//                print("Feeds : ", self.feeds)
+                //                print("^^^^^^^^^^^^")
+                //                print("Feeds : ", self.feeds)
                 self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
                 for i in 0..<self.feeds.count{
                     self.postids.append(self.feeds[i].id)
                 }
-//                print(self.postids)
+                //                print(self.postids)
             }
             completed()
         })
@@ -194,7 +204,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-           
+            
         }
     }
     
@@ -202,9 +212,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         cell.delegate = self
         let timePostedString = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
-       
+        
         cell.configure(feedDescription: feeds[indexPath.row].feedDescription, feedPostUserName: feeds[indexPath.row].feedPostUser, feedPostUserImgURL: feeds[indexPath.row].feedPostUserImg, lastCommentUserImgURL: feeds[indexPath.row].lastCommentUserImg, feedImageURL: feeds[indexPath.row].feedImage, likes: feeds[indexPath.row].likes, isLiked: feeds[indexPath.row].isLiked, timePosted : timePostedString, isOtherUser : isOtherUser)
-
+        
         return cell
     }
     
@@ -215,7 +225,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //Conforming to FeedTableViewCelldelegate
     func feedTableViewCellDidTapComment(_ sender: FeedCell) {
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
-
+        
         if let commentViewController = storyboard?.instantiateViewController(withIdentifier: "commentViewController") as? CommentViewController {
             // Pass Data
             commentViewController.postid = self.postids[tappedIndexPath.row]
@@ -230,11 +240,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
         let timeInterval = NSDate().timeIntervalSince1970
-        let comments = ["comment" : cell.commentText.text!,
-                        "uid" : Auth.auth().currentUser?.uid,
-                        "timestamp" : timeInterval] as [String : Any]
+        if (cell.commentText.text != ""){
+            cell.postBtn.isEnabled = true
+            let comments = ["comment" : cell.commentText.text!,
+                            "uid" : Auth.auth().currentUser?.uid,
+                            "timestamp" : timeInterval] as [String : Any]
+            
+            refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
+        }
         
-        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
         
     }
     
@@ -243,14 +257,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let alertBox = UIAlertController(title: "Delete Post", message: "Are you sure to delete this Post", preferredStyle:.alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-             self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).removeValue()
+            self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).removeValue()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         alertBox.addAction(cancelAction)
         alertBox.addAction(okAction)
         self.present(alertBox, animated:true)
     }
-
+    
     func feedTableViewCellDidTapLike(_ sender: FeedCell) {
         
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
@@ -281,7 +295,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.postLike(indexRow : tappedIndexPath.row)
                 }
             }
-          
+            
             self.fetchFeed {
                 self.tableView.remembersLastFocusedIndexPath = true
                 self.tableView.reloadData()
@@ -304,13 +318,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
         self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
     }
-
+    
     @IBAction func onLogoutClick(_ sender: Any) {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
             GIDSignIn.sharedInstance().signOut()
-
+            
             //Grabbing the nearrest tabBarController and then its nearest navController then poping
             tabBarController?.performSegue(withIdentifier: "logoutToLogin", sender: self)
         } catch let signOutError as NSError {
@@ -323,19 +337,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     func showEditProfileModal(){
         performSegue(withIdentifier: "profileToModal", sender: self)
-//        editProfileModalViewController.isModalInPopover = true
-    //        editProfileModalViewController.modalPresentationStyle = .overCurrentContext
-    //        present(editProfileModalViewController, animated: true, completion: nil)
+        //        editProfileModalViewController.isModalInPopover = true
+        //        editProfileModalViewController.modalPresentationStyle = .overCurrentContext
+        //        present(editProfileModalViewController, animated: true, completion: nil)
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "profileToModal"{
-        var editProfileModalViewController = segue.destination as! EditProfileModalController
-        editProfileModalViewController.user = self.user
+            var editProfileModalViewController = segue.destination as! EditProfileModalController
+            editProfileModalViewController.user = self.user
         }
     }   
-   
+    
     @IBAction func onBackClick(_ sender: Any) {
         UserDefaults.standard.set(1, forKey: "noOfFollowings")
         UserDefaults.standard.set(0, forKey: "noOfFollowers")

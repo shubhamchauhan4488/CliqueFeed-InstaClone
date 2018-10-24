@@ -21,8 +21,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var following = [String]()
     var feedUsers = [User]()
     var comments = [String]()
-    var commentUserImageUrl : String!
-    var currentUserImagePath = String()
     var counter = 0
     var likesCount = 0
     var refDatabase : DatabaseReference!
@@ -163,7 +161,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         for i in self.feedUsers{
                             var isLiked = false
                             if i.uid == Auth.auth().currentUser?.uid{
-                                self.currentUserImagePath = i.imagePath
+                                CurrentUser.sharedInstance.imagePath = i.imagePath
                             }
                             if i.uid == details["uid"] as? String
                             {
@@ -176,7 +174,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     }
                                 }
                                
-                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.currentUserImagePath,likes : details["likes"] as! Int,isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke, userID : i.uid)
+                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: CurrentUser.sharedInstance.imagePath,likes : details["likes"] as! Int,isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke, userID : i.uid)
                                 self.feeds.append(fedd)
                             }
                         }
@@ -242,14 +240,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
-        let timeInterval = NSDate().timeIntervalSince1970
-        let comments = ["comment" : cell.commentText.text!,
-                        "uid" : (Auth.auth().currentUser?.uid)!,
-                        "timestamp" : timeInterval] as [String : Any]
-        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
-        counter = counter + 1
+  
+        if (cell.commentText.text?.count != 0){
+            let timeInterval = NSDate().timeIntervalSince1970
+            let comments = ["comment" : cell.commentText.text!,
+                            "uid" : (Auth.auth().currentUser?.uid)!,
+                            "timestamp" : timeInterval] as [String : Any]
+            refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
+            counter = counter + 1
+            
+            pushCommentViewController(tappedIndexpath: tappedIndexPath)
+        }else{
+            let alertBox = UIAlertController(title: "Comment cannot be empty", message: "You need to comment in order to post", preferredStyle:.alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertBox.addAction(okAction)
+            present(alertBox, animated: true, completion: nil)
+        }
         
-       pushCommentViewController(tappedIndexpath: tappedIndexPath)
     }
     
     func feedTableViewCellDidTapTrash(_ sender: FeedCell) {
@@ -290,11 +297,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.postLike(indexRow : tappedIndexPath.row, cell : cell)
                 }
             }
-//            self.feeds = []
-//            self.fetchFeed {
-//                self.tableView.remembersLastFocusedIndexPath = true
-//                //                self.tableView.reloadData()
-//            }
         })
     }
     
@@ -382,8 +384,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let profileViewController = storyboard?.instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController {
             profileViewController.profileUserId = self.feeds[tappedIndexPath.row].userID
             profileViewController.isProfileUserIdSet = true
-            profileViewController.currentUserImagePath = self.currentUserImagePath
-            // Present Second View
             navigationController?.pushViewController(profileViewController, animated: true)
         }
     }
