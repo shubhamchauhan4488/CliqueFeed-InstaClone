@@ -12,4 +12,6 @@ protocol FeedTableViewCellDelegate : class {
     func feedTableViewCellDidTapPost(_ sender: FeedCell)
     func feedTableViewCellDidTapLike(_ sender: FeedCell)
     func feedTableViewCellDidTapTrash(_ sender: FeedCell)
+    func feedTableViewCellDidTapFeedImage(_ sender: FeedCell)
+    func feedTableViewCellDidTapUserImage(_ sender: FeedCell)
 }

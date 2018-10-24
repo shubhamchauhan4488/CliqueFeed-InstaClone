@@ -23,12 +23,16 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     var nearByFriendsDetailsArray : [Location] = []
     var numberOfNearByFriends  = 3
     
+    @IBOutlet weak var findFriendsImg: UIImageView!
+    @IBOutlet weak var findFriendsLabel: UILabel!
     @IBOutlet weak var myMapView: MKMapView!
     @IBOutlet weak var findFriendsBottomToMapConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var findFriendsTopConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.findFriendsBottomToMapConstraint.constant = 800
+        self.findFriendsTopConstraint.constant = 140
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,8 +41,7 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
         pins = []
         locs = []
         nearByFriendsDetailsArray = []
-        self.findFriendsBottomToMapConstraint.constant = 800
-        self.findFriendsTopConstraint.constant = 80
+  
         let allAnnotations = self.myMapView.annotations
         self.myMapView.removeAnnotations(allAnnotations)
         myMapView.delegate = self
@@ -145,7 +148,8 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
         UIView.animate(withDuration: 1.0, animations: {
             self.findFriendsBottomToMapConstraint.constant = 5
             self.findFriendsTopConstraint.constant = 10
-            
+            self.findFriendsLabel.isHidden = true
+            self.findFriendsImg.isHidden = true
             self.view.layoutIfNeeded()
         })
     }

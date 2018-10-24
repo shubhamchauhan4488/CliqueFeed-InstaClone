@@ -15,14 +15,12 @@ import ListPlaceholder
 import SwiftPullToRefresh
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
-    
+
     var feeds = [Feed]()
     var postids = [String]()
     var following = [String]()
     var feedUsers = [User]()
     var comments = [String]()
-    var commentUserImageUrl : String!
-    var currentUserImagePath = String()
     var counter = 0
     var likesCount = 0
     var refDatabase : DatabaseReference!
@@ -31,16 +29,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     let postViewControllerSelectedIndex = 2
     let usersViewControllerSelectedIndex = 3
     var verticalContentOffset  = CGFloat()
+    var isZooming = false
 
     typealias downloadData = () -> ()
     
+    @IBOutlet weak var overlayViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var overlayViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var ImageOverlayView: UIVisualEffectView!
+    @IBOutlet weak var clickedImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet var mainFeedView: UIView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(self.pinch(sender:)))
+        self.clickedImage.addGestureRecognizer(pinch)
         tableView.delegate = self
         tableView.dataSource = self
         let key = "esf32rradasdwd"
@@ -51,7 +56,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.view = mainFeedView
+        self.tabBarController?.tabBar.isHidden = false
         print("vWA : " ,feeds)
         
         self.postids = []
@@ -131,7 +137,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                         let user = User(name : v["name"] as! String, email : v["email"] as! String, uid:  userid, imagePath : v["urlImage"] as! String)
                                         //print(user)
                                         self.feedUsers.append(user)
-                                        //                                        print("************")
                                         print("feedUsers : ",self.feedUsers)
                                     }
                                 }
@@ -156,7 +161,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         for i in self.feedUsers{
                             var isLiked = false
                             if i.uid == Auth.auth().currentUser?.uid{
-                                self.currentUserImagePath = i.imagePath
+                                CurrentUser.sharedInstance.imagePath = i.imagePath
                             }
                             if i.uid == details["uid"] as? String
                             {
@@ -168,8 +173,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                                         }
                                     }
                                 }
-                                print("isLiked : ", isLiked)
-                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: self.currentUserImagePath,likes : details["likes"] as! Int,isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke)
+                               
+                                let fedd = Feed(feedPostUserImg:  i.imagePath, feedImage: details["urlImage"] as! String, feedPostUser: i.name, feedDescription: details["comment"] as! String, lastCommentUserImg: CurrentUser.sharedInstance.imagePath,likes : details["likes"] as! Int,isLiked : isLiked, timeStamp: details["timestamp"] as! Double,id: ke, userID : i.uid)
                                 self.feeds.append(fedd)
                             }
                         }
@@ -178,7 +183,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print("^^^^^^^^^^^^")
                 self.feeds = self.feeds.sorted(by: { $0.timeStamp > $1.timeStamp })
                 for i in 0..<self.feeds.count{
-                    self.postids.append(self.feeds[i].uid)
+                    self.postids.append(self.feeds[i].id)
                 }
                 print(self.postids)
             }
@@ -197,26 +202,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
 
             print("configure cell : " ,feeds)
             cell.delegate = self
-            cell.feedDescription.text = feeds[indexPath.row].feedDescription
-            cell.feedPostUser.text = feeds[indexPath.row].feedPostUser
-            cell.feedPostUserImg.downloadImage(from: feeds[indexPath.row].feedPostUserImg)
-            //Image added using extension
-            cell.feedImage.downloadImage(from: feeds[indexPath.row].feedImage)
-            cell.lastCommentUserIMg.downloadImage(from: feeds[indexPath.row].lastCommentUserImg)
-            cell.likes.text = String(feeds[indexPath.row].likes)
-            if(feeds[indexPath.row].isLiked){
-                cell.likedByYouLabel.text = ",Liked By You and \(feeds[indexPath.row].likes - 1) others"
-                cell.likedByYouLabel.isHidden = false
-                cell.feedLikeButton?.setSelected(selected: true, animated: false)
-            }else{
-                cell.likedByYouLabel.text = ",Liked By \(feeds[indexPath.row].likes) people"
-                cell.likedByYouLabel.isHidden = true
-                cell.feedLikeButton?.setSelected(selected: false, animated: false)
-            }
+
             //Getting the difference between current date and timestamp with the help of Date extension
             //WHY if we place this above getting cell.feedDescription.text it is giving error?
-            let x = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
-            cell.timePosted.text = x
+            let timePostedString = date.offset(from: Date(timeIntervalSince1970: feeds[indexPath.row].timeStamp))
+            cell.configure(feedDescription: feeds[indexPath.row].feedDescription, feedPostUserName: feeds[indexPath.row].feedPostUser, feedPostUserImgURL: feeds[indexPath.row].feedPostUserImg, lastCommentUserImgURL: feeds[indexPath.row].lastCommentUserImg, feedImageURL: feeds[indexPath.row].feedImage, likes: feeds[indexPath.row].likes, isLiked: feeds[indexPath.row].isLiked, timePosted : timePostedString, isOtherUser: true)
+
             return cell
         }
         else{
@@ -249,14 +240,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
-        let timeInterval = NSDate().timeIntervalSince1970
-        let comments = ["comment" : cell.commentText.text!,
-                        "uid" : (Auth.auth().currentUser?.uid)!,
-                        "timestamp" : timeInterval] as [String : Any]
-        refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
-        counter = counter + 1
+  
+        if (cell.commentText.text?.count != 0){
+            let timeInterval = NSDate().timeIntervalSince1970
+            let comments = ["comment" : cell.commentText.text!,
+                            "uid" : (Auth.auth().currentUser?.uid)!,
+                            "timestamp" : timeInterval] as [String : Any]
+            refDatabase.child("postsWithComments").child(self.postids[tappedIndexPath.row]).childByAutoId().updateChildValues(comments)
+            counter = counter + 1
+            
+            pushCommentViewController(tappedIndexpath: tappedIndexPath)
+        }else{
+            let alertBox = UIAlertController(title: "Comment cannot be empty", message: "You need to comment in order to post", preferredStyle:.alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertBox.addAction(okAction)
+            present(alertBox, animated: true, completion: nil)
+        }
         
-       pushCommentViewController(tappedIndexpath: tappedIndexPath)
     }
     
     func feedTableViewCellDidTapTrash(_ sender: FeedCell) {
@@ -275,9 +275,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }else{
             print("Zero likes")
         }
+       
+       print("postIDS", self.postids)
         self.refDatabase.child("posts").child(self.postids[tappedIndexPath.row]).child("likedBy").observeSingleEvent(of :.value, with: { (snap) in
             var idFound = false
             //If the user has already liked the image : decrease like on that post by one
+            print("Snap", snap.value)
             if let likedBysnap = snap.value as? [String : String]{
                 
                 var key = String()
@@ -294,11 +297,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.postLike(indexRow : tappedIndexPath.row, cell : cell)
                 }
             }
-//            self.feeds = []
-//            self.fetchFeed {
-//                self.tableView.remembersLastFocusedIndexPath = true
-//                //                self.tableView.reloadData()
-//            }
         })
     }
     
@@ -322,6 +320,75 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
         
     }
+    
+    func feedTableViewCellDidTapFeedImage(_ sender: FeedCell) {
+        guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+        if feeds[tappedIndexPath.row].feedImage.count != 0 {
+            self.clickedImage.downloadImage(from: feeds[tappedIndexPath.row].feedImage)
+        }else{
+            self.clickedImage.image = UIImage(named : "cam")
+        }
+    
+//        UIView.animate(withDuration: 1.6, animations: {
+//            self.view = self.ImageOverlayView.contentView
+//            self.overlayViewTrailingConstraint.constant = 0
+//            self.overlayViewLeadingConstraint.constant = 0
+//        })
+//        self.view.resignFirstResponder()
+        self.view = self.ImageOverlayView.contentView
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    @IBAction func backPressInImageOverlay(_ sender: Any) {
+                self.view = self.mainFeedView
+            self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    //Pinch to zoom on specific parts of the image
+    @objc func pinch(sender:UIPinchGestureRecognizer) {
+        if sender.state == .began {
+            let currentScale = self.clickedImage.frame.size.width / self.clickedImage.bounds.size.width
+            let newScale = currentScale*sender.scale
+            if newScale > 1 {
+                self.isZooming = true
+            }
+        } else if sender.state == .changed {
+            guard let view = sender.view else {return}
+            let pinchCenter = CGPoint(x: sender.location(in: view).x - view.bounds.midX,
+                                      y: sender.location(in: view).y - view.bounds.midY)
+            let transform = view.transform.translatedBy(x: pinchCenter.x, y: pinchCenter.y)
+                .scaledBy(x: sender.scale, y: sender.scale)
+                .translatedBy(x: -pinchCenter.x, y: -pinchCenter.y)
+            let currentScale = self.clickedImage.frame.size.width / self.clickedImage.bounds.size.width
+            var newScale = currentScale*sender.scale
+            if newScale < 1 {
+                newScale = 1
+                let transform = CGAffineTransform(scaleX: newScale, y: newScale)
+                self.clickedImage.transform = transform
+                sender.scale = 1
+            }else {
+                view.transform = transform
+                sender.scale = 1
+            }
+        } else if sender.state == .ended {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.clickedImage.transform = CGAffineTransform.identity
+            }, completion: { _ in
+                self.isZooming = false
+            })
+        }
+    }
+    
+    func feedTableViewCellDidTapUserImage(_ sender: FeedCell) {
+        guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+        if let profileViewController = storyboard?.instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController {
+            profileViewController.profileUserId = self.feeds[tappedIndexPath.row].userID
+            profileViewController.isProfileUserIdSet = true
+            navigationController?.pushViewController(profileViewController, animated: true)
+        }
+    }
+    
+    
 }
 
 
