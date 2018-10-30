@@ -101,8 +101,6 @@ PODS:
     - GTMSessionFetcher/Core (= 1.2.0)
   - IQKeyboardManagerSwift (6.1.1)
   - leveldb-library (1.20)
-  - LikeAnimation (0.2.0)
-  - ListPlaceholder (1.2)
   - MBCircularProgressBar (0.3.5)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -124,8 +122,6 @@ DEPENDENCIES:
   - Fusuma
   - GoogleSignIn
   - IQKeyboardManagerSwift
-  - LikeAnimation
-  - ListPlaceholder
   - MBCircularProgressBar
   - SkyFloatingLabelTextField (~> 3.0)
   - SwiftPullToRefresh
@@ -154,13 +150,11 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   IQKeyboardManagerSwift: 977affaeb4d6e971975c7790a6850f31d38f1207
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
-  LikeAnimation: 1d67f9124ebd84064729dcdbd9803c2e4e07898a
-  ListPlaceholder: 48227c2f1ff0cd2f75c8e2bb26b5a45a29cf1d4c
   MBCircularProgressBar: 0b795b722a5eb5b0923822f90474e2576a1a7855
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   SwiftPullToRefresh: 05a8f6bd623333befb7e410b3dbb6ec0a3d5028d
 
-PODFILE CHECKSUM: bf2836ccf0f38b39ae9c06c5b91388b9742ffe01
+PODFILE CHECKSUM: c3b833d2b48c7b2edb01590cff7dc1b8b6cea589
 
 COCOAPODS: 1.4.0

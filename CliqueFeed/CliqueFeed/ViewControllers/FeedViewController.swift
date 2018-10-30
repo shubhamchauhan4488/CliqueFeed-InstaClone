@@ -11,7 +11,6 @@ import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
 import FaveButton
-import ListPlaceholder
 import SwiftPullToRefresh
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FeedTableViewCellDelegate {
@@ -30,6 +29,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     let usersViewControllerSelectedIndex = 3
     var verticalContentOffset  = CGFloat()
     var isZooming = false
+    var currentTableViewOffset = CGFloat(0.0)
 
     typealias downloadData = () -> ()
     
@@ -56,9 +56,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        tableView.setContentOffset(.zero, animated: true)
         self.view = mainFeedView
         self.tabBarController?.tabBar.isHidden = false
-        print("vWA : " ,feeds)
+        
         
         self.postids = []
         self.following = []
@@ -264,10 +266,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func feedTableViewCellDidTapLike(_ sender: FeedCell) {
-        self.verticalContentOffset = self.tableView.contentOffset.y
+
+        self.currentTableViewOffset = self.tableView.contentOffset.y
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+      //  print("ROW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", tappedIndexPath.row)
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
-        let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
+        let cell: FeedCell = self.tableView.cellForRow(at: tappedIndexPath) as! FeedCell
         
         //Getting the likes from the UI
         if let like = cell.likes.text {
@@ -292,9 +296,16 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 if(idFound == true){
                     self.postDislike(indexRow : tappedIndexPath.row, key : key)
+                    self.tableView.setContentOffset( .init(x: 0, y: self.currentTableViewOffset) , animated: true)
+                    // self.tableView.reloadData()
+                    //self.tableView.scrollToRow(at: tappedIndexPath, at: .middle, animated: true)
                     
                 }else{
                     self.postLike(indexRow : tappedIndexPath.row, cell : cell)
+                   // self.tableView.contentOffset.y =  self.currentTableViewOffset
+                     // self.tableView.reloadData()
+                   //self.tableView.scrollToRow(at: tappedIndexPath, at: .middle, animated: true)
+                   self.tableView.setContentOffset( .init(x: 0, y: self.currentTableViewOffset) , animated: true)
                 }
             }
         })
@@ -310,6 +321,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likedBy)
         cell.feedLikeButton?.setSelected(selected: true, animated: true)
         
+        
     }
     
     func postDislike(indexRow : Int, key : String){
@@ -318,6 +330,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         let likes = ["likes" : self.likesCount]
         self.refDatabase.child("posts").child(self.postids[indexRow]).updateChildValues(likes)
         self.refDatabase.child("posts").child(self.postids[indexRow]).child("likedBy/\(key)").removeValue()
+        
+        
         
     }
     

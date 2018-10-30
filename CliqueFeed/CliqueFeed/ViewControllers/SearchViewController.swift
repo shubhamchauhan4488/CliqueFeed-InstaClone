@@ -23,7 +23,7 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
     var nearByFriendsDetailsArray : [Location] = []
     var numberOfNearByFriends  = 3
     
-    @IBOutlet weak var findFriendsImg: UIImageView!
+    @IBOutlet weak var findFriendsBtn: UIButton!
     @IBOutlet weak var findFriendsLabel: UILabel!
     @IBOutlet weak var myMapView: MKMapView!
     @IBOutlet weak var findFriendsBottomToMapConstraint: NSLayoutConstraint!
@@ -149,7 +149,7 @@ class SearchViewController: UIViewController, MKMapViewDelegate {
             self.findFriendsBottomToMapConstraint.constant = 5
             self.findFriendsTopConstraint.constant = 10
             self.findFriendsLabel.isHidden = true
-            self.findFriendsImg.isHidden = true
+            self.findFriendsBtn.isHidden = true
             self.view.layoutIfNeeded()
         })
     }

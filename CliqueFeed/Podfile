@@ -17,9 +17,7 @@ target 'CliqueFeed' do
    pod 'FBSDKLoginKit'
    pod 'GoogleSignIn'
    pod 'IQKeyboardManagerSwift'
-   pod 'ListPlaceholder'
    pod 'SwiftPullToRefresh'
-   pod 'FaveButton' 
-   pod 'LikeAnimation'
+   pod 'FaveButton'
    pod 'MBCircularProgressBar'
 end

@@ -8,7 +8,6 @@
 
 import UIKit
 import FaveButton
-import LikeAnimation
 
 class FeedCell: UITableViewCell {
     
