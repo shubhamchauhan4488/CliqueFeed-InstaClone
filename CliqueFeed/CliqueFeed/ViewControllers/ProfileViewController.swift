@@ -38,6 +38,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var isOtherUser = true
     var isProfileUserIdSet = false
     var currentUserImagePath = String()
+    var verticalContentOffset  = CGFloat()
+    var currentTableViewOffset = CGFloat(0.0)
     
     typealias fetchUserPosts = () -> ()
     typealias getPostsData = () -> ()
@@ -48,7 +50,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         profileImg.layer.borderWidth = 2
         profileImg.layer.borderColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8).cgColor
-       
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,6 +66,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         
+        //Setting initial values for Progressviews
+        self.followingProgressView.value = 0
+        self.followersProgressView.value = 0
+
+        tableView.setContentOffset(.zero, animated: true)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         profileImg.isUserInteractionEnabled = true
         profileImg.addGestureRecognizer(tapGestureRecognizer)
@@ -84,10 +90,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             profileImg.isUserInteractionEnabled = false
         }
         
-        //Setting initial values for Progressviews
-        self.followingProgressView.value = 0
-        self.followersProgressView.value = 0
-        
         navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 46.0/255.0, blue: 147.0/255.0, alpha: 0.8)
         metaFeeds = []
         refDatabase = Database.database().reference()
@@ -95,9 +97,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.fetchUserPosts{
                 self.tableView.remembersLastFocusedIndexPath = true
                 self.tableView.reloadData()
+                self.tableView.setContentOffset(CGPoint(x : 0, y : self.verticalContentOffset), animated: false)
+                if self.feeds.count == 0 {
+                    self.tableView.isHidden = true
+                }else{
+                    self.tableView.isHidden = false
+                }
                 //Setting max value to present values so that the progress view is always 100%
                 self.followersProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowers"))
-                self.followingProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1 )
+                self.followingProgressView.maxValue =  CGFloat(UserDefaults.standard.integer(forKey: "noOfFollowings") - 1)
             }
         }
     }
@@ -267,6 +275,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func feedTableViewCellDidTapLike(_ sender: FeedCell) {
         
+        self.currentTableViewOffset = self.tableView.contentOffset.y
         guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
         let index = IndexPath(row: tappedIndexPath.row, section: 0)
         let cell: FeedCell = self.tableView.cellForRow(at: index) as! FeedCell
@@ -291,8 +300,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 if(idFound == true){
                     self.postDislike(indexRow : tappedIndexPath.row, key : key)
+                    self.tableView.setContentOffset( .init(x: 0, y: self.currentTableViewOffset) , animated: true)
                 }else{
                     self.postLike(indexRow : tappedIndexPath.row)
+                    self.tableView.setContentOffset( .init(x: 0, y: self.currentTableViewOffset) , animated: true)
                 }
             }
             
@@ -321,6 +332,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func onLogoutClick(_ sender: Any) {
         let firebaseAuth = Auth.auth()
+        UserDefaults.standard.set(1, forKey: "noOfFollowings")
+        UserDefaults.standard.set(0, forKey: "noOfFollowers")
         do {
             try firebaseAuth.signOut()
             GIDSignIn.sharedInstance().signOut()

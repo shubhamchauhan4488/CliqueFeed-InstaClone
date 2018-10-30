@@ -32,6 +32,7 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
         refDatabase = Database.database().reference()
         ref = Database.database().reference()
         self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         comments = []
         self.fetchCommentDetails()
     }

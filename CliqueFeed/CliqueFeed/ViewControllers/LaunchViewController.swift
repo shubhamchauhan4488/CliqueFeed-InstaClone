@@ -20,27 +20,9 @@ class LaunchViewController: UIViewController {
             self.view.layoutIfNeeded()
         })
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-           
-           
             self.performSegue(withIdentifier: "toLogin", sender: self)
             }
-//             {(finished) in
-//                if (finished){
-//                    self.performSegue(withIdentifier: "toLogin", sender: self)
-//                    //                self.animationImageLeadingConstraint.constant = -300
-//                    //                    self.view.layoutIfNeeded()
-//                }
-//            }
+
         }
-//        UIView.animate(withDuration: 7.1, animations : {
-//            self.animationImageLeadingConstraint.constant = 300
-//            }) {(finished) in
-//                if (finished){
-//                    self.performSegue(withIdentifier: "toLogin", sender: self)
-////                self.animationImageLeadingConstraint.constant = -300
-////                    self.view.layoutIfNeeded()
-//                }
-//            }
-    
 
 }

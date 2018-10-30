@@ -137,17 +137,14 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     //URL fetch success : Save the post to Firebase
                     if let url = url{
                         self.uploadedImageUrlString = url.absoluteString
-//                        DispatchQueue.main.async( execute: {
-//                            self.indicator.stopAnimating()
-//                        })
                         self.uploadPostToFirebase{
                         //Reseting everthing to default values to avoid redundant posts
                         self.postImage.image = UIImage(named : "cam")
                         self.commentField.text = ""
                         self.locationField.text = ""
                         self.saveButton.isEnabled = true
-                            self.indicator.stopAnimating()
-                            UIApplication.shared.endIgnoringInteractionEvents()
+                        self.indicator.stopAnimating()
+                        UIApplication.shared.endIgnoringInteractionEvents()
                         }
                     }
                 })
